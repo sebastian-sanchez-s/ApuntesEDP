@@ -1,0 +1,551 @@
+%! tex root = T1.tex
+\input{preamble}
+
+\begin{document}
+
+\header{1}{}
+
+\fontfamily{lmss}\selectfont
+\noindent\framebox{AVISO} El vector normal lo denoto por \(\n\) en vez de \(\nu\).
+
+% Problema 1
+\begin{Problema}
+	Pruebe que \(u(x) = \dfrac{e^{-\abs{x}}}{ 4\pi \abs{x}} \) satisface, en el
+	sentido de las distribuciones,
+	\begin{displaymath}
+		-\Delta u + u = \delta_{0}
+		\text{ en } \R^3.
+	\end{displaymath}
+\end{Problema}
+
+\begin{Solucion}
+	La igualdad en el sentido de distribuciones significa que:
+	\begin{displaymath}
+		\langle -\Delta f_{u} + f_{u}, \psi \rangle 
+		=
+		\psi(0)
+		\quad
+		\forall \psi \in \mathcal{D}(\R^3),
+	\end{displaymath}
+	donde \(f_{u}\) es la distribución asociada a \(u\).
+	Debemos probar esto (que existe y vale la igualdad).
+
+	En primer lugar, veamos que \(u\in L^{1}_{loc}(\R^3)\). Como \(u\) es
+	continua lejos de cero, en particular es acotada y por lo tanto su integral
+	es finita en cualquier compacto. Así que en realidad basta ver que la 
+	integral es finita cerca de cero. Consideremos \(B_{1}\) la bola unitaria
+	abierta. Luego,
+	\begin{displaymath}
+		\int_{B_{1}} \abs{u(x)} dx
+		\le
+		\int_{B_{1}} \frac{1}{4\pi \abs{x}^{1}} dx.
+	\end{displaymath}
+	Recordamos que \(f(x) = 1/\abs{x}^{\alpha}\) tiene integral finita sobre la
+	bola unitaria si y solo si \(\alpha < n\). En este caso \(\alpha = 1\) y
+	\(n=3\), así que la integral es finita. Con esto tenemos que \(u\) es
+	localmente integrable en \(\R^3\).
+
+	Dado que \(u\) es la localmente integrable, existe una distribución
+	\(f_{u}\) asociada. Más aún, existen \(\partial_{x_i} f_{u}\) distribuciones
+	asociadas para cada \(i=1,\dots, n\) definidas como
+	\begin{displaymath}
+		\langle \partial_{x_i} f_{u}, \psi \rangle 
+		=
+		- \langle f_{u}, \partial_{x_i} \psi \rangle 
+		\quad\forall \psi \in \mathcal{D}(\R^3).
+	\end{displaymath}
+	Se sigue que \(\Delta f_{u}\) satisface,
+	\begin{displaymath}
+		\langle -\Delta f_{u}, \psi \rangle
+		=
+		- \langle f_{u},  \Delta \psi \rangle.
+	\end{displaymath}
+	Y de hecho, \((-\Delta f_{u} + f_{u})\) también es una 
+	distribución definida como,
+	\begin{displaymath}
+		\langle -\Delta f_{u} + f_{u}, \psi \rangle 
+		\coloneqq
+		\langle f_u, -\Delta \psi + \psi \rangle.
+	\end{displaymath}
+	En efecto, si \(K\) es un compacto y \(\psi\in \mathcal{D}\) es tal que
+	\(\supp \psi \subset K\), entonces:
+	\begin{displaymath}
+		\abs{\langle -\Delta f_{u} + f_{u}, \psi \rangle}
+		\le
+		\int_{K} \abs{(-\Delta \psi + \psi) u} 
+		\le
+		\sup_{K} \abs{-\Delta \psi + \psi}
+		\underbrace{\int_{K} \abs{u}}_{ < \infty}.
+	\end{displaymath}
+	Nótese que la distribución es de orden 2 con constante \(\int_{K} \abs{u}\).
+
+	Ahora debemos probar que \(-\Delta f_{u} + f_{u}\) opera como \(\delta_0\).
+	Es decir, debemos probar que
+	\begin{displaymath}
+		\langle -\Delta f_{u} + f_{u}, \psi \rangle 
+		=
+		\int_{\R^n} (-\Delta \psi + \psi) u 
+		=
+		\psi(0)
+		=
+		\langle \delta_0, \psi \rangle.
+	\end{displaymath}
+	Vamos a ello. Sea \(1 > \epsilon > 0\) un real positivo menor uno y 
+	\(B \coloneqq B(0, \epsilon)\) la bola centrada en el origen de radio
+	\(\epsilon\). Luego,
+	\begin{displaymath}
+		\int_{\R^{n}} (-\Delta \psi + \psi) u
+		=
+		\underbrace{
+			\int_{B} (-\Delta \psi + \psi) u
+		}_{I_1}
+		+
+		\underbrace{
+			\int_{\R^{n}\setminus B} (-\Delta \psi + \psi) u
+		}_{I_2}.
+	\end{displaymath}
+	Primero lidiemos con \(I_1\).
+	\begin{alignat*}{2}
+		\norm{I_1}
+		&\le
+		\norm{-\Delta\psi + \psi}_{\infty}
+		\abs{
+			\int_{B} u
+		}
+		\\&\le
+		\norm{-\Delta\psi + \psi}_{\infty}
+		\abs{
+			\int_{0}^{\pi}
+			\int_{0}^{2\pi}
+			\int_{0}^{\epsilon}
+				u(r, t_1, t_2)
+				r^2
+				\, dr \, dt_1 \, dt_{2} 
+		}.
+	\end{alignat*}
+	Luego,
+	\begin{alignat*}{3}
+		\norm{I_1}
+		&\le
+		\norm{-\Delta\psi + \psi}_{\infty}
+		\abs{
+			2\pi^2
+			\int_{0}^{\epsilon}
+				\frac{e^{-r}}{4\pi r} r^2 \, dr
+		}
+		\\&=
+		\norm{-\Delta\psi + \psi}_{\infty}
+		\abs{
+			\frac{\pi}{2}
+			\int_{0}^{\epsilon}
+				e^{-r} r \, dr
+		}
+		\\&=
+		\frac{\pi}{2} 
+		\norm{-\Delta\psi + \psi}_{\infty}
+		\big(
+			e^{-\epsilon} (\epsilon + 1)
+			-
+			1
+		\big).
+	\end{alignat*}
+	Cuando \(\epsilon \to 0\) la expresión se va a \(0\).
+
+	Ahora veamos \(I_2\). Consideremos \(R \gg 1\) tal que \(\supp \psi \subset
+	B(0,R) \eqqcolon B_{R}\). Luego,
+	\begin{alignat*}{2}
+		I_2
+		&=
+		\int_{B_{R}\setminus B} (-\Delta \psi + \psi) u
+		\\&=
+		\int_{B_{R}\setminus B} -u\Delta \psi 
+		+ 
+		\int_{B_{R}\setminus B} u \psi
+		\\&=
+		\int_{B_{R}\setminus B} 
+			-\Delta u \psi
+		+
+		\int_{\partial B_{R}\setminus B} 
+			\psi \partial_{\n} u 
+			-
+			u \partial_{\n} \psi 
+		+
+		\int_{B_{R}\setminus B}
+			u \psi.
+	\end{alignat*}
+	Notando que \(-\Delta u + u = 0\) nos queda
+	\begin{displaymath}
+		I_2 
+		= 
+		\underbrace{
+		\int_{\partial B_{R}\setminus B} 
+			\psi \partial_{\n} u 
+		}_{J_2}
+		- 
+		\underbrace{
+		\int_{\partial B_{R}\setminus B} 
+			u \partial_{\n} \psi 
+		}_{J_1}.
+	\end{displaymath}
+
+	Comenzamos por \(J_1\). 
+	\begin{displaymath}
+		\abs{J_1}
+		\le
+		\norm{\partial_{\n} \psi}_{\infty} 
+		\abs{ \int_{\partial B_{R} \setminus B} u}.	
+	\end{displaymath}
+	Ya vimos que la integral sobre la bola se va a cero si \(\epsilon \to 0\),
+	en particular lo hace su borde. Además, el borde
+	exterior es donde \(\psi\) se anula, así que \(J_1 \to 0\)
+
+	Para \(J_2\). Primero notamos el borde exterior es donde \(\psi\) se anula,
+	así que solo quedamos con el borde interior. Ahora 
+	debemos observar que \(\n(x) = - x/\abs{x}\) y \(\partial_{x_i}
+	u(x) = -\frac{e^{-\abs{x}} (\abs{x} + 1)}{4 \pi \abs{x}^2}
+	\frac{x_i}{\abs{x}}\), así que
+	\begin{displaymath}
+		\partial_{\n} u
+		=
+		\nabla u \cdot \n
+		=
+		\sum_{i=1}^{3} 
+			\frac{e^{-\abs{x}} (\abs{x} + 1)}{4 \pi \abs{x}^2}
+			\frac{x_{i}^2}{\abs{x}^2}
+		=
+		\frac{e^{-\abs{x}} (\abs{x} + 1)}{4\pi \abs{x}^2}.
+	\end{displaymath}
+	Luego, 
+	\begin{alignat*}{3}
+		J_2
+		&=
+		\int_{\partial B}
+			\frac{e^{-\abs{x}} (\abs{x} + 1)}{4\pi \abs{x}^2}
+			\psi(x)
+			\, dS(x)
+		\\&=
+		\frac{e^{-\epsilon} (\epsilon + 1)}{4\pi \epsilon^2}
+		\int_{\partial B}
+			\psi
+		\\&=
+		e^{-\epsilon} (\epsilon + 1)
+		\fint_{\partial B}
+			\psi
+		\\&
+		\xrightarrow{\epsilon \to 0} \psi(0).
+	\end{alignat*}
+	En conclusión, tenemos que 
+	\begin{displaymath}
+		\langle -\Delta f_{u} + f_{u}, \psi \rangle 
+		=
+		\psi(0).
+	\end{displaymath}
+	Que es lo que queriamos probar.
+\end{Solucion}
+
+% Problema 2
+\begin{Problema}
+	Sea \(u\) una función armónica en un conjunto \(\Omega\) abierto y conexo en
+	\(\R^n\). Sean \(a \le b \le c\), con \(b^2 = ac\) y suponga que
+	\(\overline{B(x_0, c)} \subset \Omega\). Demuestre que 
+	\begin{displaymath}
+		\int_{\abs{w} = 1} 
+			u(x_0 + a w) u(x_0 + cw)
+			\, dw
+		=
+		\int_{\abs{w} = 1}
+			u(x_0 + bw)^2
+			\, dw.
+	\end{displaymath}
+	Deduzca de lo anterior que si \(u\) es constante en algún subconjunto
+	abierto de \(\Omega\), entonces \(u\) es constante en \(\Omega\).
+
+	\noindent\textbf{Sugerencia:} Considere \(a\) como un parámetro.
+\end{Problema}
+
+\begin{Solucion}
+	Consideremos \(f(a) = \int_{\abs{w}=1} u(x_0 + aw) u(x_0 + \frac{b^2}{a}w)
+	dw\). De esta forma si \(f\) es una función constante tendremos lo pedido.
+	En específico, probaremos que \(f' = 0\).
+
+	Como \(u\in L^{1}\big(\overline{B(x_0, c)}\big)\) y es de hecho \(\mathcal{C}^2\) 
+	por ser armónica.
+	En particular, se cumple el TCD, así que podemos intercambiar límites entre
+	la derivadas y la integral. Especificamente, se tiene que:
+	\begin{align*}
+		f'(a)
+		&=
+		\int_{\abs{w} = 1}
+		(\nabla u(x_0 + aw)\cdot w) u(x_0 + \frac{b^2}{a} w)
+		-
+		(\nabla u(x_0 + \frac{b^2}{a} w) \cdot w) \frac{b^2}{a^2} u(x_0 + aw)
+		\, dw
+		\\&=
+		\underbrace{
+		\int_{\abs{w} = 1}
+			u(x_0 + \frac{b^2}{a} w)
+			(\nabla u(x_0 + aw)\cdot w)
+		\, dw
+		}_{I_1}
+		-
+		\underbrace{
+		\int_{\abs{w} = 1}
+			\frac{b^2}{a^2} u(x_0 + aw)
+			(\nabla u(x_0 + \frac{b^2}{a} w) \cdot w)
+		\, dw
+		}_{I_2}.
+	\end{align*}
+	Considerando la región de integración como la bola unitaria vemos que
+	\(w\) juega el papel del vector normal exterior, sin embargo, en \(I_1\) por
+	ejemplo \(\nabla u(x_0 + aw)\cdot w\) no es la derivada normal, pues falta un 
+	factor \(a\). Lo análogo pasa para \(I_2\), en este caso falta el factor 
+	\(b^2/a\).
+	Agregando dichos factores, podemos aplicar una identidad de Green.
+	\begin{align*}
+		I_1
+		&=
+		\frac{1}{a} 
+		\int_{\abs{w} < 1}
+			\nabla u(x_0 + \frac{b^2}{a} w)
+			\cdot
+			\nabla u(x_0 + a w)
+			+
+			u(x_0 + \frac{b^2}{a} w)
+			\Delta u(x_0 + aw) 
+		\, dw
+		\\&=
+		\frac{1}{a} 
+		\int_{\abs{w} < 1}
+			\nabla u(x_0 + \frac{b^2}{a} w)
+			\cdot
+			\nabla u(x_0 + a w)
+		\, dw
+		\\
+		I_2 
+		&=
+		\frac{1}{a} 
+		\int_{\abs{w} < 1}
+			\nabla u(x_0 + \frac{b^2}{a} w)
+			\cdot
+			\nabla u(x_0 + a w)
+			+
+			u(x_0 + aw) 
+			\Delta u(x_0 + \frac{b^2}{a} w)
+		\, dw
+		\\&=
+		\frac{1}{a} 
+		\int_{\abs{w} < 1}
+			\nabla u(x_0 + \frac{b^2}{a} w)
+			\cdot
+			\nabla u(x_0 + a w)
+		\, dw.
+	\end{align*}
+	Luego,
+	\begin{displaymath}
+		f'(a)
+		=
+		I_1 - I_2
+		=
+		0.
+	\end{displaymath}
+	Como \(a\) era un real positivo arbitrario, concluimos que \(f\) es constante
+	(en los positivos) y por lo tanto
+	\begin{displaymath}
+		f(a) 
+		=
+		\int_{\abs{w} = 1}
+			u(x_0 + aw)
+			u(x_0 + cw)
+			\,dw
+		=
+		\int_{\abs{w} = 1}
+			u(x_0 + bw)^2
+			\,dw
+		=
+		f(b).
+	\end{displaymath}
+
+	\begin{wrapfigure}{r}{.3\textwidth}
+		\hspace{2em}
+		\begin{tikzpicture}[scale=0.8]
+			\coordinate (x1) at (0,0);
+			\coordinate (x2) at (-160:0.8);
+			\draw (x1) circle(2) node[fill=white] {\(x_1\)};
+			\draw (x1) -- (45:2) node[right] {\(r_1\)};
+			\draw (x1) circle(1);
+			\draw (x1) -- (-45:1) node[right] {\(r_1'\)};
+			\draw[dashed] (x2) circle(.7) node {\(x_2\)};
+			\draw (x2) -- +(280:.7) node[below] {\(r_2\)};
+		\end{tikzpicture}
+	\end{wrapfigure}
+	Para ver lo segundo, denotemos por \(A\) a una componente conexa de
+	\(\Omega\) donde
+	la función \(u\) se anula. Probaremos que \(A\) es todo \(\Omega\) 
+	mostrando que es \(A\) es cerrado. En efecto, si no lo fuera,
+	existiría un punto límite
+	\(x_1 \in \partial A\) tal que \(x_1 \not\in A\). Sea \(r_1 > 0\) algún real
+	positivo. Consideremos la bola de radio \(r_1' <
+	r_1/2\) centrada en \(x_1\) y sea \(x_2 \in A\cap B(x_1, r_1')\). Se sigue que 
+	para \(r_2 < r_1'\) se cumple que \(B(x_2, r_2) \subset A \cap B(x_1, r_1)\). 
+	Por la igualdad anterior, tendremos que
+	\begin{displaymath}
+		\int_{\abs{w} = 1}
+		u(x_1 + r_2 w) u(x_1 + r_1' w)
+		=
+		\int_{\abs{w} = 1}
+		u^2 (x_1 + \sqrt{r_1' r_2} w).
+	\end{displaymath}
+	La integral de la izquierda da cero, puesto que la bola de radio \(r_2\)
+	está completamente contenida en \(A\). Se sigue que \(u\) se anula
+	sobre \(\partial B(x_2, \sqrt{r_1' r_2})\). Si tomamos \(r_2 \to r_1'\), por
+	continuidad tendremos que 
+	\begin{displaymath}
+		\int_{\abs{w} = 1}
+		u^2 (x_1 + r_1' w)
+		= 0.
+	\end{displaymath}
+	De lo que se sigue que \(u = 0\) en \(\partial B(x_2, r_1')\) y por lo tanto
+	\(x_1 \in A\) (contradicción). Se concluye así que \(A\) es abierto y 
+	cerrado a la vez en un
+	conjunto conexo, por lo que \(A = \Omega\).
+\end{Solucion}
+
+% Problema 3
+\begin{Problema}
+	Sea \(\R^{n}_{+} = \left\{ x\in \R^{n} \mid x_n > 0\right\}\). Suponga que
+	\(u \in \mathcal{C}^{2}(\overline{\R^{n}_{+}})\) es armónica en
+	\(\R^{n}_{+}\) y tal que \(u = 0\) sobre \(\partial \R^{n}_{+} = \left\{
+		x\in \R^n \mid x_n = 0\right\}\). Demuestre que la función
+	\begin{displaymath}
+		v(x)
+		\coloneqq
+		\begin{cases}
+			u(x) &,\text{Si } x_n \ge 0\\
+			-u(x_1, \dots, x_{n-1}, -x_n) &,\text{Si } x_n < 0
+		\end{cases}
+	\end{displaymath}
+	es de clase \(\mathcal{C}^{2}\) y armónica en \(\R^n\).
+\end{Problema}
+
+\begin{Solucion}
+	\begin{wrapfigure}{r}{.3\textwidth}
+		\vspace{-2em}\hspace{2em}
+		\begin{tikzpicture}[scale=4]
+			\draw[->, thin] (-.1,0) -- (1,0) node[right] {\(x'\)};	
+			\draw[->, thin] (0,-.25) -- (0,.5) node[above] {\(x_n\)};	
+
+			\draw[<-, red, thick] (.25,0) arc(180:0:.25) 
+				node[midway,above] {\(\partial B(x_0, r)^{+}\)};
+			\draw[->, blue, thick] (.25,0) arc(180:360:.25)
+				node[midway,below] {\(\partial B(x_0, r)^{-}\)};
+		\end{tikzpicture}
+	\end{wrapfigure}
+	Primero notemos que \(v\) es armónica en \(\R^n\setminus\R^{n}_{0}
+	\) donde \(\R^n_{0} = \left\{(x', x) \in \R^{n-1}\times 0\right\}\), 
+	por lo que para probar el resultado basta ver que es armónica en 
+	\(\R^{n}_{0}\). Como \(u\in\mathcal{C}^2\) hasta la frontera, es claro 
+	que \(v\) es continua (de hecho, \(\mathcal{C}^2\)) en \(\R^{n}\). 
+	Veremos que \(v\) cumple la propiedad de la media y con eso 
+	concluiremos que es armónica.
+
+	Sea \(x_0 \in \R^{n}_{0}\) y \(r>0\) arbitrario. Luego, 
+	\begin{displaymath}
+		\int_{\partial B(x_0, r)}
+			v(y) \, dS(y)
+		=
+		\int_{\partial B(x_0, r)^{+}}
+			v(y) \, dS(y)
+		+
+		\int_{\partial B(x_0, r)^{-}}
+			v(y) \, dS(y)
+	\end{displaymath}
+	donde \(\partial B(x_0, r)^{\pm}\) es el borde superior/inferior de la bola.
+	Notando que 
+	\begin{displaymath}
+		\int_{\partial B(x_0, r)^{-}}
+			v(y) \, dS(y)
+		=
+		\int_{\partial B(x_0, r)^{+}}
+			-u(y) \, dS(y),
+	\end{displaymath}
+	vemos que la integral sobre el borde de la bola se anula. 
+	Es decir, para cualquier bola con centro en \(\R^{n}_{0}\) se 
+	cumple que la integral sobre el borde da cero. 
+	En particular vale para las integrales promedio, por lo tanto, vale la
+	propiedad de la media, pues
+	\begin{displaymath}
+		0 
+		= 
+		v(x_0) 
+		=
+		\fint_{\partial B(x_0, r)} v(y) \, dS(y)
+		,\quad
+		\forall x_0 \in \R^{n}_{0}
+		\quad
+		\forall r > 0\footnote{Mientras sigan en el dominio.}
+	\end{displaymath}
+	Por lo tanto, \(v\) es armónica en \(\R^n\) y de paso
+	\(\mathcal{C}^{2}\).
+\end{Solucion}
+
+% Problema 4
+\begin{Problema}
+	Sea \(u\) una función armónica en un conjunto \(\Omega\) de \(\R^n\) abierto
+	y conexo. Suponga que \(\partial \Omega\) posee una porción abierta
+	\(\Gamma\) (en la topología relativa) de clase \(\mathcal{C}^1\), tal que
+	\(u = \partial_{\n} u = 0\) en \(\Gamma\). Demuestre que \(u\) es
+	idénticamente nula en \(\Omega\). 
+\end{Problema}
+\begin{Solucion}
+	\begin{wrapfigure}{l}{0.3\textwidth}
+		\centering
+		\begin{tikzpicture}[scale=3]
+			\draw[->, thin] (-.1,0) -- (1,0) node[right] {\(x'\)};	
+			\draw[->, thin] (0,-.1) -- (0,1) node[above] {\(x_n\)};	
+			\draw (-.1,.2) -- (1,.75)
+				node[below] {\(\partial\Omega\)};
+			\draw[very thick, red] 
+				(.25, .375) -- (.75,.625)
+				node[xshift=-1.4cm, yshift=-1cm] {\(\Gamma\)};
+			\draw[very thick, red] 
+				(.34, .42) [rotate=26.56] arc(180:0:.2)
+				node[midway, right] {\(B_r^{+}\)};
+		\end{tikzpicture}
+	\end{wrapfigure}
+	Sea \(x_0 \in \Gamma\). Para \(0 < r < R \coloneqq \textrm{dist}(x, \partial\Omega
+	\setminus \Gamma)\), consideremos la
+	región \(B_r \coloneqq B(x_0, r) \cap \Omega\). Luego, por la primera
+	fórmula de Green tenemos que
+	\begin{displaymath}
+		\int_{B_r} \Delta u(y) \, dy
+		=
+		\int_{\partial B_r} \partial_{\n} u(y) \, dS(y).
+	\end{displaymath}
+	Como \(u\) es armónica en \(\Omega\), la integral de la izquierda es nula.
+	Por otro lado, la frontera de \(B_r\) se puede descomponer en la porción que
+	toca a \(\Gamma\) y la que está contenida en \(\Omega\). La primera es nula
+	por hipótesis. Si denotamos a \(\partial B_r^{+}\) la región del borde que no
+	es \(\Gamma\), nos queda
+	\begin{displaymath}\label{cero}
+		\int_{\partial B_r^{+}} \partial_{\n} u(y) \, dS(y) = 0.
+		\tag{\(\dag\)}
+	\end{displaymath}
+	Si ahora usamos la tercera fórmula de Green, obtenemos que
+	\begin{displaymath}
+		\int_{B_r} \abs{\nabla u}^2 \, dy
+		=
+		\int_{\partial B_r^{+}} u \partial_{\n} u \, dS(y)
+		\le
+		\sup_{B_r} \norm{u}
+		\int_{\partial B_r^{+}} \partial_{\n} u \, dS(y)
+		= 0,
+	\end{displaymath}
+	de donde deducimos que \(\nabla u = 0\) en \(B_r\). Ahora, tenemos una 
+	función constante y armónica en un abierto \(B_r\) que es conexo y acotado, 
+	así que aplica el principio del máximo. En particular tenemos que \(u = 0\)
+	en \(B_{r}\) (pues debe ser menor al máximo y mayor al mínimo, que es cero).
+	De esta forma, por el Problema 2 concluimos que \(u\equiv 0\) en \(\Omega\)
+	(pues es cero en una abierto contenido y \(\Omega\) es conexo).
+\end{Solucion}
+
+\end{document}

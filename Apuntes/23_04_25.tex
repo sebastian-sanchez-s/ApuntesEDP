@@ -1,0 +1,264 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 25 de abril, 2023}
+
+\begin{Definicion}[Solución Fundamental]
+	La solución fundamental para la ecuación del
+	calor~\eqref{eq:calor} es la función:
+	\begin{equation}\label{Phi:calor}
+		\Phi(t,x)
+		=
+		\begin{caligned}
+			\frac{1}{(\sqrt{4\pi t})^{n}} e^{-\abs{x}^2/4t}
+			&&,\quad t > 0 \\
+			0 &&,\quad t < 0
+		\end{caligned}.
+	\end{equation}
+\end{Definicion}
+
+¿Qué tipo de condición inicial satisface \(\Phi\)? Tenemos las
+siguientes observaciones:
+\begin{enumerate}[itemsep=2pt, topsep=5pt, leftmargin=.3\textwidth]
+	\item Si \(x\ne 0\), entonces \(\Phi(t,x) \to 0\) cuando
+		\(t\downarrow 0\).
+	\item Si \(x = 0\), entonces \(\Phi(t,x) \to \infty\) cuando
+		\(t\downarrow 0\).
+\end{enumerate}
+Esto sugiere que ``la energía" en un comienzo está concentrada en el
+origen. Ahora veamos que la elección de coeficientes para la solución
+fundamental no fue al azar, sino que está hecha de tal forma que
+\begin{displaymath}
+	\int_{\R^n} \Phi(t,x) \, dx = 1
+\end{displaymath}
+En efecto, un cálculo directo nos muestra que
+\begin{align*}
+	\frac{1}{(4\pi t)^{n/2}} \int_{\R^n} e^{-\abs{x}^2/4t} \, dx
+	&\overset{y=x/\sqrt{4t}}{=}
+	\frac{1}{\pi^{n/2}} 
+	\int_{\R^n} e^{-\abs{y}^2} \, dy
+	=
+	\frac{1}{\pi^{n/2}} 
+	\prod_{i=1}^{n} 
+	\underbrace{\int_{\R} e^{-y_{i}^2} \, dy_{i}}_{\sqrt{\pi}}
+	=
+	1.
+\end{align*}
+
+En particular, tenemos que
+\begin{displaymath}
+	\lim_{t\downarrow 0}
+	\int_{\R^n} \Phi(t,x) \, dx = 1.
+\end{displaymath}
+Vamos a probar, que en el sentido de las distribuciones, 
+se tiene que
+\begin{displaymath}
+	\Phi(0,x) = \delta_{x=0}.
+\end{displaymath}
+Vamos a ello. Como \(\Phi(t,x) \in L^{1}(\R^n)\) para todo \(t>0\),
+para cada \(t\) existe una distribución asociada \(u_{\Phi}^{t}\) dada
+por
+\begin{displaymath}
+	\langle u_{\Phi}^{t}, \psi \rangle
+	\coloneqq
+	\int_{\R^n} \Phi(t,x) \psi(x) \, dx
+	\qquad
+	\psi \in \CC^{\infty}_{C}(\R^n).
+\end{displaymath}
+Así que la igualdad en el sentido de la distribuciones quiere decir
+que
+\begin{displaymath}
+	\begin{array}{ccc}
+	\Phi(0,x) &=& \delta_{x=0}\\
+	\rotatebox{90}{=} && \rotatebox{90}{=}\\
+	\lim_{t \downarrow 0}\, 
+	\langle u_{\Phi}^{t}, \psi \rangle
+	&&
+	\langle \delta_{x=0}, \psi \rangle
+	\\
+	\rotatebox{90}{=} && \rotatebox{90}{=}\\
+	\lim_{t \downarrow 0}
+	\int_{\R^n} \Phi(t,x) \psi(x) \, dx
+	&=&
+	\psi(0)
+	\end{array}
+\end{displaymath}
+
+Como \(\Phi\) integra uno, tenemos que
+\begin{displaymath}
+	\psi(0)
+	=
+	\int_{\R^n} \Phi(t,x) \psi(0) \, dx
+	\qquad
+	\forall t > 0.
+\end{displaymath}
+Luego,
+\begin{displaymath}
+	\int_{\R^n} \Phi(t,x) \psi(x) \, dx - \psi(0)
+	=
+	\int_{\R^n} \Phi(t,x) \left( \psi(x) - \psi(0) \right) \, dx
+\end{displaymath}
+Vamos a usar la regularidad de \(\psi\) para mostrar que la
+diferencia se va a cero. Sea \(\epsilon > 0\). Luego existe un 
+\(\sigma_0 = \sigma_0(\epsilon) > 0\) tal que 
+\begin{displaymath}
+	\abs{ \psi(x) - \psi(0) } < \epsilon/2
+	\qquad
+	\forall x\in B(0,\sigma_0) \eqqcolon B.
+\end{displaymath}
+Luego, 
+\begin{displaymath}
+	\underbrace{
+		\abs{\int_{\R^n} \Phi(t,x) \left( \psi(x) - \psi(0) \right) \, dx}
+	}_{I}
+	\le
+	\underbrace{
+		\int_{B} \Phi(t,x) (\psi(x) - \psi(0)) \, dx
+	}_{I_1}
+	+
+	\underbrace{
+		\int_{\R^n \setminus B} \Phi(t,x) (\psi(x) - \psi(0)) \, dx
+	}_{I_2}
+\end{displaymath}
+
+Claramente \(\abs{I_1} \le \epsilon/2\). Para acotar \(I_2\) notamos
+que
+\begin{displaymath}
+	\abs{I_2}
+	\le
+	2 \norm{\psi}_{L^{\infty}}
+	\int_{\R^n \setminus B} \Phi(t,x) \, dx
+	\le
+	2 \norm{\psi}_{L^{\infty}}
+	\frac{1}{(4 t \pi)^{n/2}}
+	\int_{\R^n \setminus \overline{B}} e^{-\abs{x}^2/4t} \, dx
+\end{displaymath}
+Notemos que \(e^{-\abs{x}^2/4t} = e^{-\abs{x}^2 / 8t} e^{-\abs{x}^2 /
+8t} \le e^{-\sigma_0^2 / 8t} e^{-\abs{x}^2 / 8t}\). Se sigue que
+\begin{displaymath}
+	\abs{I_{2}}
+	\le
+	C 
+	\underbrace{\frac{e^{-\sigma_0^2 / 4t}}{t^{n/2}}}_{(t\downarrow 0) \to 0}
+	\underbrace{\int_{\R^n} e^{-\abs{x}^2 / 8t} \, dx}_{\le \infty}.
+\end{displaymath}
+En particular, si \(t_0\) es suficientemente pequeño podemos decir que
+\(\abs{I_2} < \epsilon/2\). De esta forma,
+\begin{displaymath}
+	\abs{I} < \epsilon.
+\end{displaymath}
+
+\begin{Teorema}
+	La solución fundamental satisface
+	\begin{displaymath}
+	\begin{caligned}
+		\Phi_{t}(t,x) - \Delta_{x} \Phi(t,x) &= 0
+		&&, (t,x) \in \R^{+}\times\R^n\\
+		\lim_{t\downarrow 0} \Phi(t,x) &= \delta_{x=0}.
+	\end{caligned}
+	\end{displaymath}
+	En el sentido de las distribuciones.
+\end{Teorema}
+
+\textbf{Problemas de condición inicial} Consideremos el problema
+\begin{displaymath}
+	\begin{caligned}
+		u_{t} - \Delta_{x} u &= 0
+		&&, \R^{+} \times \R^n \\
+		u &= g &&, \left\{ 0 \right\}\times \R^n
+	\end{caligned}
+\end{displaymath}
+donde \(g\) es una función dada.
+
+\begin{Teorema}
+	Supongamos que \(g\in \CC(\R^{n}) \cap L^{\infty}(\R^n)\). La
+	función definida por
+	\begin{displaymath}
+		u(t,x)
+		=
+		\Phi(t,x) \ast_{x} g
+		=
+		\int_{\R^n} \Phi(t,x-y) g(y) \, dy,
+	\end{displaymath}
+	satisface
+	\begin{enumerate}[topsep=2pt, itemsep=2pt, leftmargin=0.3\textwidth]
+		\item \(u\in \CC^{\infty}(\R^{+} \times \R^n)\);
+		\item \(u_t - \Delta_{x} u = 0\) en \(\R^{+} \times \R^n\);
+		\item \(\lim_{t\downarrow 0, x\to x_0} u(t,x) = g(x_0)\) para
+			todo \(x_0 \in \R^n\).
+	\end{enumerate}
+\end{Teorema}
+\begin{Demostracion}
+	1. (ejercicio) 
+
+	Para el punto 2. notamos que por TCD (seguramente)
+	\begin{displaymath}
+		u_{t} - \Delta_{x} u 
+		= 
+		\int_{\R^n} \Phi_{t}(t,x-y) g(y) \, dy
+		-
+		\int_{\R^n} \Delta_{x} \Phi(t,x-y) \, g(y) \, dy
+		=
+		\int_{\R^n} (\Phi_{t}(t,x-y) - \Delta_{x} \Phi(t,x-y)) g(y) \, dy
+		=
+		0.
+	\end{displaymath}
+
+	Para el punto 3., fijando \(x_0\) notamos que
+	\begin{displaymath}
+		g(x_0) = \int_{\R^n} \Phi(t,x) g(x_0) \, dx
+	\end{displaymath}
+	para todo \(t > 0\). Sea \(\epsilon > 0\) y tomemos \(\sigma_0 =
+	\sigma_0(\epsilon)\) tal que
+	\begin{displaymath}
+		\abs{g(y) - g(x_0)} < \epsilon/2
+		\qquad
+		\forall y\in B(x_0, \sigma_0) \eqqcolon B.
+	\end{displaymath}
+	Luego, si \(x \in B(x_0, \sigma_0/2)\) tenemos que
+	\begin{align*}
+		\abs{u(t,x) - g(x_0)}
+		&\le
+		\abs{\int_{\R^n} \Phi(t,x-y) (g(y) - g(x_0)) \, dy}
+		\\&\le
+		\underbrace{
+			\int_{B} \Phi(t,x-y) \abs{g(y) - g(x_0)} \, dy
+		}_{I_1}
+		+
+		\underbrace{
+		\int_{\R^n \setminus B} \Phi(t,x-y) \abs{g(y) - g(x_0)} \, dy
+		}_{I_2}
+	\end{align*}
+	Acotar \(\abs{I_1} < \epsilon/2\) es directo usando la regularidad de
+	\(g\) y que \(\Phi\) integra uno. Por otro lado, para acotar \(I_2\)
+	notemos que si \(\abs{x - x_0} < \sigma_0 / 2\), entonces para
+	\(\abs{y-x_0} > \sigma_0\) se tiene que \(\abs{y-x_0} \le 2
+	\abs{y-x}\). Así que 
+	\begin{align*}
+		\abs{I_2}
+		&\le
+		2 \norm{g}_{L^{\infty}}
+		\int_{\R^n \setminus B} \Phi(t,x-y) \, dy
+		\\&\le
+		\frac{C}{t^{n/2}} 
+		\int_{\R^n \setminus B} e^{-\abs{y-x_0}^2/16t} \, dy
+	\end{align*}
+	Haciendo el cambio de variables \(z = \frac{y-x_0}{\sqrt{t}}\)
+	tenemos que
+	\begin{displaymath}	
+		\frac{C}{t^{n/2}} 
+		\int_{\R^n \setminus B} e^{-\abs{y-x_0}^2/16t} \, dy
+		\le
+		C \int_{\R^n \setminus B(0, \sigma_0/\sqrt{t})}
+		e^{-\abs{z}^2 / 16t} \, dz
+		\le 
+		\epsilon / 2
+	\end{displaymath}
+	Tomando \(0 < t < t_0\) para algún \(t_0\) suficientemente
+	pequeño.
+\end{Demostracion}
+
+
+\end{document}

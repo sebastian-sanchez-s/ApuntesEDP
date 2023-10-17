@@ -1,0 +1,36 @@
+%! tex root = A1.tex
+\input{preamble}
+
+\begin{document}
+
+\header{1}
+
+\begin{Problema}
+	Sea \(\Omega \subset \R^n\) abierto no vacío y \(f\in L^{1}_{\loc}(\Omega)\)
+	tal que 
+	\begin{displaymath}
+		\int_{\Omega} f\psi = 0
+		\quad \forall \psi \in \mathcal{C}_{c}(\Omega).
+	\end{displaymath}
+	Demuestre que \(f = 0\) ctp.
+\end{Problema}
+\begin{Solucion}
+	Primero supongamos que \(f\) es no negativa. Sea \(\psi\) como en el
+	enunciado y sea \(K\) un compacto tal que \(\supp \psi \subset K\).
+	Sea \((\psi_n)_n\) una sucesión de funciones \(\mathcal{C}_{c}(\Omega)\) tal
+	que \(\psi_n \ge 0\) y \(\psi_n(x) \to 1\) para todo \(x\in K\). Como \(1\in
+	L^1_{\loc}(\Omega)\) aplica el TCD y tenemos que
+	\begin{displaymath}
+		0
+		=
+		\lim_{n\to \infty}
+		\int_{K} f\psi_n
+		=
+		\int_{K} f
+	\end{displaymath}
+	Como \(f\) es positiva, concluimos que \(f=0\) ctp en \(K\) y como el
+	compacto era arbitrario, \(f=0\) ctp en \(\Omega\). Para el caso general,
+	basta considerar \(f = f^{+} - f^{-}\).
+\end{Solucion}
+
+\end{document}

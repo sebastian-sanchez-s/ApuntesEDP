@@ -1,0 +1,53 @@
+%! tex root = A10.tex
+\input{preamble}
+
+\begin{document}
+
+\header{10}
+
+\begin{Problema}
+	Sea \(\Omega \subset \R^n\) un dominio acotado. Muestre que 
+	\(W^{k+1,p}\) es denso en \(W^{k,p}\).
+\end{Problema}
+\begin{Solucion}
+	Dado que \(\Omega\) es acotado, tenemos que \(\CC^{\infty}
+	\subset W^{m, p}\) para cualquier \(m\). Por otro lado,
+	sabemos que \(W^{k+1,p} \subset W^{k,p}\) y que por el teorema
+	de aproximación por funciones suaves se tiene que
+	\(\CC^{\infty}\) es denso en \(W^{m,p}\). En resumen:
+	\begin{displaymath}
+		\CC^{\infty}
+		\subset
+		W^{k+1, p}
+		\subset 
+		W^{k,p}
+		\Rightarrow
+		\underbrace{ 
+			\overline{\CC^{\infty}}
+		}_{=W^{k,p}}
+		\subset
+		\overline{W^{k+1, p}}
+		\subset 
+		W^{k,p},
+	\end{displaymath}	
+	donde la clausura la tomamos en \(W^{k,p}\).
+\end{Solucion}
+
+\begin{Problema}
+	Sea \(\Omega = [0,2\pi)\).
+
+	\noindent(1) Encuentre una base ortonormal para
+	\(H^{k}(\Omega)\). ¿Qué relación puede establecer con una base
+	de \(L^{2}(\Omega)\)?. 
+
+	\noindent(2) Use lo anterior para deducir que el operador lineal
+	de inclusión \(H^{k}(\Omega) \hookrightarrow L^{2}(\Omega)\) es
+	compacto.
+\end{Problema}
+\begin{Solucion}
+	\noindent(1) Sabemos que \(\left\{ \sqrt{2\pi}^{-1} e^{i\,nx}
+	\right\}_{n\in\N}\) es base ortonormal de \(L^2\). Usaremos esta
+	para construir una base de \(H^k\).
+\end{Solucion}
+
+\end{document}

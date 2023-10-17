@@ -1,0 +1,117 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 08 de junio, 2023}
+
+\subsubsection{Desigualdades de Sobolev Generales}
+
+\subsubsection{Caso \(p=n\)}
+
+\begin{Definicion}[Compactamente Contenido]
+	Sean \(X\), \(Y\) espacios de Banach tal que \(X\subset Y\).
+	Diremos que \(X\) está compactamente contenido en \(Y\) y lo
+	denotamos por \(X\subset\subset Y\) si
+	\begin{enumerate}[itemsep=3pt, topsep=2pt]
+		\item \(\norm{u}_{Y} \le C \norm{u}_{X}\).
+		\item Toda sucesión acotada en \(X\) es precompacta en \(Y\).
+		Vale decir, si \((u_{k})_{k\in\N} \subset X\) es tal que
+		\(\sup_{K} \norm{u_k}_{X} < \infty\), entonces existe una
+		subsucesión \((u_{k_{j}})_{j\in\N}\) convergente a \(u\in Y\).
+	\end{enumerate}
+\end{Definicion}
+
+\begin{Teorema}[Reilich-Kondrachov]
+	Sea \(\Omega\subset\R^n\) abierto y acotado con frontera de clase
+	\(\CC^{1}\). Sea \(1\le p < n\), entonces
+	\begin{displaymath}
+		W^{1,p}(\Omega) \subset\joinrel\subset L^{q}(\Omega)
+		\qquad
+		\text{ para } 1 \le q < p^{\ast}.
+	\end{displaymath}
+\end{Teorema}
+\begin{Demostracion}
+\end{Demostracion}
+
+Dado que \(p^{\ast} > p\) y que \(p^{\ast} \to \infty\) cuando \(p \to
+n\), tenemos que
+\begin{displaymath}
+	W^{1,p}(\Omega) \subset\joinrel\subset L^{p}(\Omega)
+	\quad\forall 1\le p \le \infty
+\end{displaymath}
+donde para \(n < p \le \infty\) se usa la Desigualdad de Morrey y el
+Teorema de Arzela-Ascoli.
+
+\begin{Teorema}[Desigualdad de Poincaré]
+	Sea \(\Omega\subset\R^n\) abierto, acotado y conexo con frontera
+	\(\CC^{1}\) y \(1\le p \le \infty\). Entonces existe \(C =
+	C(n,p,\Omega)\) tal que
+	\begin{displaymath}
+		\norm{u - (u)_{\Omega}}_{L^{p}(\Omega)}
+		\le
+		C \norm{Du}_{L^{p}(\Omega)}
+		\qquad
+		\forall u\in W^{1,p}(\Omega),
+	\end{displaymath}
+	donde \((u)_{\Omega} = \fint_{\Omega} u\).
+\end{Teorema}
+\begin{Demostracion}
+	Vamos por contradicción. Supongamos que la desigualdad no vale.
+	Entonces para cada \(k\in\N\) existe una función \(u_k \in
+	W^{1,p}\) tal que 
+	\begin{displaymath}
+		\norm{u - (u)_{\Omega}}_{L^{p}(\Omega)}
+		>
+		k \norm{Du}_{L^{p}(\Omega)}
+	\end{displaymath}
+	Definamos \(v_k = (u_k - (u_k)_{\Omega}) / \norm{u_k -
+	(u_{k})_{\Omega}}_{L^{2}(\Omega)}\). 
+	Notar que \(\norm{v_k}_{L^{2}(\Omega)} = 1\) y que \((v_k)_{\Omega} = 0\).
+	Se sigue que
+	\begin{equation}\label{0806:dato1}
+		\norm{Dv_k}_{L^{p}(\Omega)}
+		<
+		\frac{1}{k}
+		\quad\forall k\in\N.
+		\tag{\(\dag\)}
+	\end{equation}   
+	Dado que la sucesión \(v_k\) es acotada y \(W^{1,p}(\Omega)
+	\subset\joinrel\subset L^{p}(\Omega)\), existe una subsucesión
+	\((v_{k_j})_{j\in\N}\) que es convergente a \(v\in
+	L^{p}(\Omega)\). Luego, para \(\phi\in\CC^{\infty}_{C}(\Omega)\)
+	\begin{displaymath}
+		\int_{\Omega} v \partial_{x_i} \psi
+		=
+		\lim_{k_j \to \infty}
+		\int_{\Omega} v_{k_j} \partial_{x_i} \psi
+		=
+		\lim_{k_j \to \infty}
+		- \int_{\Omega} \partial_{x_i} v_{k_j} \psi
+		=
+		0,
+	\end{displaymath}
+	donde la última igualdad es por~\eqref{0806:dato1}. De esta forma,
+	\(v\) tiene como derivada débil \(Dv = 0\) c.t.p. en \(\Omega\) y
+	por lo tanto \(v\in W^{1,p}(\Omega)\). Como \(\Omega\) es conexo,
+	concluimos que \(v\) debe ser constante. Dado que \((v)_{\Omega} =
+	\lim_{k_j\to \infty} (v_{k_j})_{\Omega} = 0\), concluimos que \(v
+	= 0\) c.t.p. en \(\Omega\). Esto contradice que
+	\(\norm{v}_{L^{2}(\Omega)} = \lim_{k_j \to \infty}
+	\norm{v_{k_{j}}}_{L^{2}(\Omega)} =  1\).
+\end{Demostracion}
+
+\begin{Corolario}[Desigualdad de Poincaré para una Bola]
+	Sea \(1 \le p \le \infty\). Entonces existe una constante \(C =
+	C(n,p) > 0\) tal que 
+	\begin{displaymath}
+		\norm{u - (u)_{x,r}}_{L^{p}(B(x,r))}
+		\le
+		C r \norm{D u}_{L^{p}(B(x,r))},	
+	\end{displaymath}
+	para toda bola \(B(x,r) \subset \R^n\) y para toda función \(u\in
+	W^{1,p}(B(x,r))\), donde \((u)_{x,r} = \fint_{B(x,r)} u\).
+\end{Corolario}
+
+
+\end{document}

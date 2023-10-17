@@ -1,0 +1,448 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 13 de junio, 2023}
+
+\section{Operadores Elípticos de Segundo Orden}
+
+Comenzamos a estudiar el problema con condición de borde
+\begin{equation}\label{1306:eq1}
+\begin{caligned}
+	Lu &= f &&, \text{ en } \Omega\\
+	u &= 0 &&, \text{ en }\partial\Omega
+\end{caligned}
+\end{equation}
+donde \(\Omega\subset\R^n\) es abierto y acotado, \(u\colon
+\overline{\Omega} \to \R\) es  la función incógnita, \(f\colon \Omega
+\to \R\) es dada y \(L\) denota un operador diferencial de segundo
+orden que tiene una de las siguientes formas:
+\begin{align}
+	\label{1306:FD}
+	Lu 
+	&= 
+	- \sum_{i,j}^{n} (a^{ij}(x) u_{x_i})_{x_j} 
+	+ \sum_{i=1}^{n} b^{i}(x) u_{x_i}
+	+ c(x) u
+	\\
+	\label{1306:FND}
+	Lu
+	&=
+	- \sum_{i,j}^{n} a^{ij}(x) u_{x_i\, x_j}
+	+ \sum_{i=1}^{n} b^{i}(x) u_{x_i}
+	+ c(x) u
+\end{align}
+Si \(L\) es de la forma~\eqref{1306:FD}, diremos que está en forma de
+divergencia. En el otro caso~\eqref{1306:FND} diremos que está en
+forma de no-divergencia. En ambos casos, las funciones coeficientes
+(\(a^{ij}, b^{i}, c\)) satisfacen que:
+\begin{enumerate}
+	\item
+	están en \(L^{\infty}(\Omega)\).
+
+	\item
+	\(a^{ij} = a^{ji}\).
+
+	\item
+	existe \(\Theta > 0\) tal que
+	\begin{displaymath}
+		\sum_{i,j}^{n} a^{ij}(x) \xi_{i} \xi_{j}
+		\ge
+		\Theta \abs{\xi}^{2}
+		\quad
+		\text{c.t.p. en } \Omega,
+		\forall \xi\in\R^n
+	\end{displaymath}
+\end{enumerate}
+Si \(L\) satisface las propiedades listadas arribas, diremos que es
+uniformemente elíptico.
+
+\subsection{Soluciones Débiles}
+
+Vamos a estudiar el problema~\eqref{1306:eq1} en el caso que \(L\)
+está en forma de divergencia~\eqref{1306:FD} y \(f\in L^{2}(\Omega)\).
+Momentáneamente supongamos que \(u\in\CC^{\infty}_{C}(\Omega)\). Al
+multiplicar por una función test e integrar por partes tendremos que
+\begin{equation}\label{1306:eq2}
+	\sum_{i,j}^{n}
+	\int_{\Omega} a^{ij} u_{x_i} v_{x_j}
+	+
+	\sum_{i=1}^{n}
+	\int_{\Omega} b^{i} u_{x_i} v
+	+
+	\int_{\Omega} cvu
+	=
+	\int_{\Omega} fv
+	\quad\forall v\in \CC^{\infty}_{C}(\Omega).
+\end{equation} 
+Más aún, el resultado sigue valiendo para \(v\in H^{1}_{0}(\Omega)\),
+pues podemos aproximar por funciones suaves con soporte compacto.
+
+Por otro lado, la ecuación~\eqref{1306:eq2} hace sentido incluso para
+\(u\in H^{1}(\Omega)\). No obstante, nos restringiremos a trabajar
+sobre \(H^{1}_{0}(\Omega)\) pues necesitamos que se satisfaga la
+condición de borde.
+
+\begin{Definicion}[Forma Bilineal Asociada a \(L\)]
+	La forma bilineal (lineal en ambas entradas) asociada al operador
+	lineal diferencial \(L\) en forma de divergencia~\eqref{1306:FD} 
+	está definida por
+	\begin{displaymath}\label{1306:starB}
+		B(u,v) 
+		\coloneqq
+		\sum_{i,j}^{n}
+		\int_{\Omega} a^{ij} u_{x_i} v_{x_j}
+		+
+		\sum_{i=1}^{n}
+		\int_{\Omega} b^{i} u_{x_i} v
+		+
+		\int_{\Omega} cvu,
+		\quad u,v \in H^{1}_{0}(\Omega).
+		\tag{\(\star_B\)}
+	\end{displaymath}
+\end{Definicion}
+
+\begin{Definicion}[Solución Débil, \(f\in L^{2}(\Omega)\)]
+	Diremos que \(u\in H^{1}_{0}(\Omega)\) es una solución débil
+	de~\eqref{1306:eq1} para \(f\in L^{2}(\Omega)\) si 
+	\begin{displaymath}
+		B(u,v) = \langle f,v \rangle_{L^{2}(\Omega)}
+		\quad\forall v \in H^{1}_{0}(\Omega),
+	\end{displaymath}
+	donde el lado derecho es el producto interno en \(L^{2}(\Omega)\).
+	Esto se conoce como la formulación variacional
+	de~\eqref{1306:eq1}.
+\end{Definicion}
+
+\begin{Definicion}[Solución Débil, \(f\in H^{-1}(\Omega)\)]
+	Diremos que \(u\in H^{1}_{0}(\Omega)\) es una solución débil
+	de~\eqref{1306:eq1} para \(f\in H^{-1}(\Omega)\) si 
+	\begin{displaymath}
+		B(u,v) = 
+		\langle f,v \rangle_{H^{-1}(\Omega)\times H^{1}_{0}(\Omega)}
+		\quad\forall v \in H^{1}_{0}(\Omega),
+	\end{displaymath}
+	donde el lado derecho es el producto dualidad entre \(H^{-1}\times
+	H^{1}_{0}\).
+\end{Definicion}
+
+El concepto de solución débil para condiciones de borde no nulas se
+puede transformar en uno con condiciones de borde nulas de la
+siguiente manera: supongamos que tenemos el problema
+\begin{displaymath}
+\begin{caligned}
+	Lu &= f &&, \Omega\\
+	u &= g &&, \partial\Omega,
+\end{caligned}
+\end{displaymath}
+donde \(f\in H^{-1}(\Omega)\), \(g \in T(H^{1}(\Omega))\) y \(\Omega\)
+tiene ahora frontera \(\CC^{1}\). Poniendo \(u' = u - w\), donde
+\(T(w) = g\) reduce el problema a 
+\begin{displaymath}
+\begin{caligned}
+	Lu' &= f' &&, \Omega\\
+	u' &= 0 &&, \partial\Omega,
+\end{caligned}
+\end{displaymath}
+donde \(f' = f - Lw \in H^{-1}(\Omega)\).
+
+\subsection{Existencia de Soluciones Débiles}
+
+En esta parte \(H\) denotará un espacio de Hilbert, con producto
+interno \(\langle \cdot, \cdot \rangle\) y norma \(\norm{\cdot}\).
+\(H'\) denota el dual de \(H\) y \(\langle \cdot,\cdot \rangle_{\times}\)
+denota el producto dual entre \(H'\) y \(H\).
+
+\begin{Teorema}[Lax-Milgram]
+	Sea \(B\colon H\times H \to \R\) una forma bilineal tal que
+	existen constantes \(\alpha,\beta > 0\) que satisfacen
+	\begin{alignat*}{2}
+		\label{1306:B1}
+		\abs{B(u,v)} &\le \alpha \norm{u} \norm{v}
+		&&\quad\forall u,v\in H
+		\tag{B.1}
+		\\
+		\label{1306:B2}
+		\beta \norm{u}^{2} &\le B(u,u)
+		&&\quad\forall u\in H
+		\tag{B.2}
+	\end{alignat*}
+	entonces para \(f\in H'\) existe un único \(u\in H\) tal que
+	\begin{displaymath}
+		B(u,v) = \langle f,v \rangle_{\times}.
+	\end{displaymath}
+
+	La condición~\eqref{1306:B1} hace referencia a la continuidad del
+	operador \(B\), mientras que la condición~\eqref{1306:B2} se le
+	conoce como coercividad.
+\end{Teorema}
+\begin{Demostracion}
+	La demostración la haremos por pasos.
+
+	\framebox{Paso 1:} 
+	Fijemos \(u\in H\). Luego, el mapa \(v\mapsto
+	B(u,v)\) es continuo por~\eqref{1306:B1}. Así, el teorema de
+	representación de Riesz implica la existencia de un único \(w =
+	w(u) \in H\) tal que 
+	\begin{displaymath}
+		B(u,v) = \langle w, v \rangle
+		\quad\forall v \in H.
+	\end{displaymath}
+	Denotemos
+	por \(A\) al operador que a cada \(u\in H\) le asigna \(w(u) \in
+	H\). Nótese que 
+	\begin{displaymath}
+		B(u,v) = \langle Au, v \rangle
+		\quad\forall v\in H.
+	\end{displaymath}
+
+	\framebox{Paso 2:}
+	Primero veamos \(A\) efectivamente define un operador lineal. 
+	Para ver que \(A0 = 0\), notemos \(B(0,v) = B(\lambda \cdot 0, v)
+	= \lambda B(0,v)\) para cualquier \(\lambda\in \R^{\times}\). En
+	consecuencia, se sigue que \(B(0,v) = 0 = \langle 0, v \rangle\). Por
+	lo tanto \(A0 = 0\). Sean ahora \(u, u'\in H\) y \(\lambda, \mu
+	\in \R^{\times}\). Entonces
+	\begin{align*}
+		B(\lambda u + \mu u', v)
+		&=
+		\lambda B(u,v) + \mu B(u', v)	
+		\\&=
+		\lambda \langle w(u),v \rangle + \mu \langle w(u'),v \rangle
+		\\&=
+		\langle \lambda w(u) + \mu w(u'), v \rangle
+		\\&=
+		\langle w(\lambda u + \mu u'), v \rangle.
+	\end{align*}
+	Por lo tanto, \(A(u+u') = w(\lambda u + \mu u') = \lambda u + \mu
+	u'\).
+
+	Por otro lado, comprobamos que \(A\) es acotado (y por lo tanto
+	continuo)
+	\begin{displaymath}
+		\langle Au, Au \rangle
+		=
+		\norm{Au}^{2}
+		=
+		B(u, Au)
+		\overset{\eqref{1306:B1}}{\le}
+		\alpha \norm{u} \norm{Au}
+		\Rightarrow
+		\norm{Au} \le \alpha \norm{u}.
+	\end{displaymath}
+
+	\framebox{Paso 3:}
+	Usando~\eqref{1306:B2} y Cauchy-Schwarz nos da que
+	\begin{displaymath}
+		\beta \norm{u}^{2}
+		\le
+		B(u,u)
+		=
+		\langle Au, u \rangle
+		\le
+		\norm{Au}\, \norm{u}
+		\Rightarrow
+		\beta \norm{u} \le \norm{Au}.
+	\end{displaymath}
+	Se sigue que \(A\) es inyectiva y tiene rango cerrado. En efecto,
+	como \(A0 = 0\) tenemos que \(\norm{A0} \le \norm{u} \beta\) y por
+	lo tanto \(u = 0\) (con esto tenemos inyectividad, y en particular
+	podemos hablar de la inversa). Por otro lado, si \((u_k)_{k\in\N}\) define 
+	una sucesión en \(T(H) \subset H\) convergente a \(u\in H\) tenemos que
+	\begin{displaymath}
+		\beta \norm{A^{-1}(u_k - u_m)} 
+		\le 
+		\norm{u_k - u_m} \to 0.
+	\end{displaymath}
+	Así que \((A^{-1}u_k)_{k\in\N}\) es una sucesión de Cauchy en \(H\) y
+	por lo tanto converge a \(A^{-1} u\). En particular \(u \in
+	A(H)\).
+
+	\framebox{Paso 4:}
+	Ahora probaremos que \(A(H) = H\). Supongamos buscando una 
+	contradicción que \(H\setminus A(H) \ne \varnothing\). Dado que
+	\(A(H)\) es cerrado, tiene un complemento ortogonal y \(H = A(H)
+	\oplus A^{\perp}(H)\). Sea entonces \(w\in A^{\perp}(H)\),
+	entonces \(\langle Au, w \rangle = 0\) para cualquier \(u\in H\). 
+	Por~\eqref{1306:B2} tenemos que
+	\begin{displaymath}
+		\beta \norm{w}^{2} \le B(w,w) = \langle Aw, w \rangle = 0.
+	\end{displaymath}
+	Se sigue que \(w = 0\). Pero \(w\in A(H)\). Contradicción.
+
+	\framebox{Paso 5:} Recordamos que por el Teorema de Representación
+	de Riesz, que si \(f\in H'\) existe un único \(w_0\in H\) tal que
+	\(\langle f,v \rangle_{\times} = \langle w_0, v \rangle\) para
+	todo \(v\in H\).
+
+	Ahora bien, tenemos que \(A\) es un operador lineal biyectivo (un
+	endomorfismo), así que existe \(u_0 \in H\) tal que \(Au_0 =
+	w_0\). Se sigue que
+	\begin{displaymath}
+		B(u_0, v) 
+		= \langle Au_0, v \rangle
+		= \langle w_0, v \rangle
+		= \langle f, v \rangle_{\times}.
+	\end{displaymath}
+
+	\framebox{Paso 6:} En los pasos anteriores mostramos la existencia
+	de la representación. Queda ver que es única.
+\end{Demostracion}
+
+Obsérvese que si \(B\) es una forma bilineal simétrica (i.e. \(B(u,v)
+= B(v,u)\)), entonces define un producto interno. Por el teorema de
+representación de Riesz, el resultado del teorema anterior se sigue de
+manera directa.
+
+\begin{Proposicion}
+	Existen constantes \(\alpha,\beta,\gamma \le 0\) tal que
+	la forma bilineal en~\eqref{1306:starB} satisface:
+	\begin{alignat}{6}
+		\label{1306:starB:B1}
+		\abs{B(u,v)}
+		&\le
+		\alpha 
+		\norm{u}_{H^{1}_{0}(\Omega)}
+		\norm{v}_{H^{1}_{0}(\Omega)}
+		&&\quad \forall u,v\in H^{1}_{0}(\Omega).
+		\tag{\(\star_{B}\).B1}
+		\\
+		\label{1306:starB:B2}
+		\beta \norm{u}^{2}_{H^{1}_{0}(\Omega)}
+		&\le
+		B(u,u) + \gamma \norm{u}^{2}_{L^{2}(\Omega)}
+		&&\quad \forall u \in H^{1}_{0}(\Omega).
+		\tag{\(\star_{B}\).B2}
+	\end{alignat}
+\end{Proposicion}
+\begin{Demostracion}
+	Para ver la condición de continuidad~\eqref{1306:starB:B1}
+	basta acotar todo brutalmente
+	\begin{align*}
+		\abs{B(u,v)}
+		&\le
+		\sum_{i,j}^{n} 
+			\norm{a^{ij}}_{L^{\infty}(\Omega)} 
+			\int_{\Omega} \abs{u_{x_i} v_{x_j}}
+		+
+		\sum_{i=1}^{n}
+			\norm{b^{i}}_{L^{\infty}(\Omega)}
+			\int_{\Omega} \abs{u_{x_j} v}
+		+
+		\norm{c}_{L^{\infty}(\Omega)} 
+		\int_{\Omega} \abs{v}\abs{u}
+		\\&\le
+		\sum_{i,j}^{n} 
+			\norm{a^{ij}}_{L^{\infty}(\Omega)} 
+			\int_{\Omega} \abs{Du} \abs{D v}
+		+
+		\sum_{i=1}^{n}
+			\norm{b^{i}}_{L^{\infty}(\Omega)}
+			\int_{\Omega} \abs{Du} \abs{v}
+		+
+		\norm{c}_{L^{\infty}(\Omega)} 
+		\int_{\Omega} \abs{v}\abs{u}
+		\\&\le
+		\alpha 
+		\norm{u}_{H^{1}_{0}(\Omega)}
+		\norm{v}_{H^{1}_{0}(\Omega)}.
+	\end{align*}
+	donde \(\alpha\) tiene que ser mayor o igual a 
+	\begin{displaymath}
+		\max
+		\left(
+		\sum_{i,j}^{n} \norm{a^{ij}}_{L^{\infty}(\Omega)}
+		,
+		\sum_{i=1}^{n} \norm{b^{i}}_{L^{\infty}(\Omega)}
+		,
+		\norm{c}_{L^{\infty}(\Omega)}
+		\right).
+	\end{displaymath}
+
+	Ahora vamos a mostrar la pseudo-coercividad~\eqref{1306:starB:B2}. Usando que
+	el operador es uniformemente elíptico tenemos que existe \(\Theta >
+	0\) tal que
+	\begin{displaymath}
+		\Theta \abs{\nabla u}^{2}
+		\le
+		\sum_{i,j}^{n} a^{ij}(x) u_{x_i} u_{x_j}
+	\end{displaymath}
+	integrando tenemos que
+	\begin{align*}
+		\Theta \int_{\Omega} \abs{\nabla u}^{2}
+		&\le	
+		\sum_{i,j}^{n} \int_{\Omega} a^{ij}(x) u_{x_i} u_{x_j}
+		\\&=
+		B(u,u) 
+		- \sum_{i=1}^{n} \int_{\Omega} b^{i}(x) u_{x_i} u
+		- \int_{\Omega} c \abs{u}^{2}
+		\\&\le
+		B(u,u)
+		+ 
+		\sum_{i=1}^{n} 
+			\norm{b^i}_{L^{\infty}(\Omega)}
+			\int_{\Omega} \abs{\nabla u} \abs{u}
+		+
+		\norm{c}_{L^{\infty}(\Omega)}
+		\int_{\Omega} \abs{u}^2.
+	\end{align*}
+
+	Por otro lado, recordando que \(ab \le \frac{a^2}{2} +
+	\frac{b^2}{2}\) tenemos que
+	\(ab \le \epsilon \frac{a^2}{2} + \frac{b^2}{4\epsilon}\) para
+	cualquier \(\epsilon > 0\). Usando la
+	desigualdad de Cauchy-Schwarz con esta idea nos da que
+	\begin{displaymath}
+		\int_{\Omega} \abs{\nabla u} \abs{u}
+		\le
+		\epsilon \int_{\Omega} \abs{\nabla u}^2
+		+
+		\frac{1}{4\epsilon}
+		\int_{\Omega} \abs{u}^{2}
+		\quad\forall \epsilon > 0.
+	\end{displaymath}
+	En particular, podemos tomar \(\epsilon\) suficientemente pequeño
+	para que 
+	\begin{displaymath}
+		\epsilon \sum_{i=1}^{n} \norm{b^{i}}_{L^{\infty}(\Omega)}
+		<
+		\frac{\Theta}{2},
+	\end{displaymath}
+	de esta forma se cumple que
+	\begin{displaymath}
+		\frac{\Theta}{2}
+		\int_{\Omega} \abs{\nabla u}^{2}
+		\le
+		B(u,u) + C \int_{\Omega} \abs{u}^2,
+	\end{displaymath}
+	donde \(C \ge \max(\norm{c}_{L^{\infty}(\Omega)}, 1/4\epsilon)\).
+	Usando la desigualdad de Poincaré en \(H^{1}_{0}(\Omega)\): 
+	\begin{displaymath}
+		\norm{u}_{H^{1}_{0}(\Omega)}
+		\le
+		C'
+		\norm{\nabla u}_{L^{2}(\Omega)},
+	\end{displaymath}
+	concluimos que
+	\begin{displaymath}
+		\frac{\Theta}{2C'} \norm{u}_{H^{1}_{0}(\Omega)}
+		\le
+		B(u,u) + C \norm{u}^{2}_{L^{2}(\Omega)}.
+	\end{displaymath}
+\end{Demostracion}
+
+\begin{Teorema}[Primer Teorema de Existencia para Soluciones Débiles]
+	Hay un número \(\gamma \ge 0\) tal que \(\forall \mu \ge \gamma\) y
+	\(\forall f\in L^{2}(\Omega)\) existe una solución débil \(u\in
+	H^{1}_{0}(\Omega)\) del problema
+	\begin{displaymath}
+	\begin{caligned}
+		Lu + \mu u &= f &&, \text{ en } \Omega\\
+		u &= 0 &&, \text{ en } \partial\Omega.
+	\end{caligned}
+	\end{displaymath}
+\end{Teorema}
+\begin{Demostracion}
+\end{Demostracion}
+\end{document}

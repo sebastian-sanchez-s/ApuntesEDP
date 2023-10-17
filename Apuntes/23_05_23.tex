@@ -1,0 +1,243 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 23 de mayo, 2023}
+
+Fijemos \(1\le p \le \infty\) y \(k\in \Z^{+}\). 
+\begin{Definicion}[Espacio de Sobolev]
+	El espacio de Sobolev \(W^{k,p}(\Omega)\) consiste de todas las
+	funciones escalares \(k\)-veces debilmente diferenciables con derivadas
+	\(p\)-integrables. En símbolos,
+	\begin{displaymath}
+		W^{k,p}(\Omega)
+		\coloneqq
+		\left\{ 
+			u\colon \Omega \to \R
+			\text{ tal que }
+			\forall \abs{\alpha} \le k\quad
+			D^{\alpha} u \text{ existe } \land\,
+			D^{\alpha} u \in L^{p}(\Omega)
+	   	\right\}
+	\end{displaymath}
+\end{Definicion}
+
+Denotamos \(H^{k} = W^{k,2}\). 
+
+\begin{Definicion}[Norma en \(W^{k,p}\)]
+	Si \(u\in W^{k,p}(\Omega)\), definimos su norma por
+	\begin{displaymath}
+		\norm{u}_{W^{k,p}(\Omega)}
+		=
+		\begin{cases}
+			\left( 
+				\sum_{\abs{\alpha} \le k}\, 
+				\norm{D^{\alpha} u}_{L^{p}(\Omega)}^{p}
+			\right)^{1/p}
+			& \text{ Si } 1\le p < \infty
+			\\
+			\sum_{\abs{\alpha}\le k}\,
+				\norm{D^{\alpha} u}_{L^{\infty}(\Omega)}
+			& \text{ Si } p = \infty.
+		\end{cases}
+	\end{displaymath}
+\end{Definicion}
+
+La convergencia la definimos de manera usual. Es decir, una sucesión
+de funciones \((u_{m})_m\) en \(W^{k,p}(\Omega)\) converge a una
+función \(u\in W^{k,p}(\Omega)\) si \(\norm{u_m - u}_{W^{k,p}(\Omega)} \to 0\).
+
+De manera análoga a los espacios \(L^{p}_{\loc}\), definimos
+\(W^{k,p}_{\loc}\) y decimos que una sucesión converge si lo hace en
+compactos.
+
+\begin{Teorema}
+	Los espacios de Sobolev son espacios de Banach.
+\end{Teorema}
+
+\begin{Ejemplo}
+\begin{enumerate}[itemsep=2pt,topsep=3pt]
+	\item 
+	Sea \(\Omega = B(0,1) \subset \R^n\) y \(\alpha > 0\).
+	Estudiaremos las derivadas débiles de 
+	\begin{displaymath}
+		u(x) = \frac{1}{\abs{x}^{\alpha}}
+		\qquad x\ne 0
+	\end{displaymath}
+	y deduciremos para qué valores de \(\alpha\) está en algún espacio
+	de Sobolev.
+
+	Dado que
+	\begin{displaymath}
+		\partial_{x_i} u(x)
+		=
+		- \alpha \abs{x}^{-\alpha - 1} \frac{x_i}{\abs{x}}
+		=
+		-\alpha \frac{x_i}{\abs{x}^{\alpha+2}}.
+	\end{displaymath}
+	Se tiene que
+	\begin{displaymath}
+		D u =
+		\begin{bmatrix}
+			\partial_{x_1} u &\cdots &\partial_{x_n} u
+		\end{bmatrix}
+		\implies
+		\abs{Du} = \frac{\abs{\alpha}}{\abs{x}^{\alpha+1}}.
+	\end{displaymath}
+	Se sigue que \(\abs{Du}\) está en \(L^{1}(\Omega)\) si
+	\(\alpha + 1 < n\).
+
+	Consideremos \(\phi \in \CC^{\infty}_{C}(\Omega)\) y \(\epsilon >
+	0\). Notese que
+	\begin{displaymath}
+		\int_{\Omega \setminus \overline{B(0,\epsilon)}}
+			u \phi_{x_i}
+		=
+		- \int_{\Omega\setminus\overline{B(0,\epsilon)}}
+			u_{x_i} \phi
+		+
+		\int_{\partial B(0,\epsilon)}
+			u \phi \n_{i}.
+	\end{displaymath}
+	Dado que  
+	\begin{align*}
+		\abs{
+		\int_{\partial B(0,\epsilon)}
+			u \phi \n_{i}
+		} 
+		&\le
+		\norm{\phi}_{L^{\infty}(\Omega)}
+		\int_{\partial B(0,\epsilon)}
+			\epsilon^{-\alpha}
+		\\&\le
+		\norm{\phi}_{L^{\infty}(\Omega)}
+		n \alpha(n) \epsilon^{n-1}
+		\epsilon^{-\alpha}
+		\to 0
+	\end{align*}
+	se tiene que (cuando \(\epsilon \to 0\))
+	\begin{displaymath}
+		\int_{\Omega} u \phi_{x_i}
+		=
+		- \int_{\Omega} u_{x_i} \phi
+	\end{displaymath}
+	y por lo tanto \(u\in W^{1,1}(\Omega)\) si \(\alpha+1 < n\).
+
+	En general, si \((\alpha+1)p < n\) se tiene que \(\abs{Du} \in
+	L^{p}(\Omega)\) y \(u\in W^{1,p}(\Omega)\).
+
+	\item 
+	Sea \(\Omega = B(0,1) \subset \R^n\) y \(\left\{ r_k \right\}_{k\in\N}\)
+	un subconjunto denso y numerable de \(\Omega\). La función
+	definida por
+	\begin{displaymath}
+		u(x) = 
+		\sum_{k\ge 1} 
+			\frac{1}{2^{k}} 
+			\frac{1}{\abs{x-r_k}^{\alpha}}
+	\end{displaymath}
+	está en \(W^{1,p}(\Omega)\) para \((\alpha+1)p < n\) (usando el
+	argumento del ejemplo anterior). Sin embargo, \(u\) no
+	es acotada en todo abierto de \(\Omega\) y por lo tanto \(u\not\in
+	L^{1}_{\loc}(\Omega)\).
+\end{enumerate}
+\end{Ejemplo}
+
+\begin{Proposicion}[Propiedades de Derivadas Débiles]
+	En los siguientes incisos se entiende que
+	\(u,v\in W^{k,p}(\Omega)\) y que \(\abs{\alpha} \le k\). 
+	\begin{enumerate}[itemsep=2pt,topsep=3pt]
+		\item
+		Sean \(\beta\) un multi-índice tal que \(\abs{\alpha} +
+		\abs{\beta} \le k\). Entonces
+		\begin{displaymath}
+			D^{\alpha} u \in W^{k-\abs{\alpha}, p}(\Omega)
+			\quad\land\quad
+			D^{\beta} (D^{\alpha} u)
+			=
+			D^{\alpha} (D^{\beta} u)
+			=
+			D^{\alpha + \beta} u.
+		\end{displaymath}
+
+		\item
+		Si \(\lambda, \mu\in \R\), se tiene que
+		\begin{displaymath}
+			\lambda u + \mu v \in W^{k,p}(\Omega)
+			\quad\land\quad
+			D^{\alpha}(\lambda u + \mu v)
+			=
+			\lambda D^{\alpha} u + \mu D^{\alpha} v
+		\end{displaymath}
+
+		\item
+		Si \(\Theta\subset \Omega\) es abierto, entonces \(u\in
+		W^{k,p}(\Theta)\).
+
+		\item
+		Si \(\zeta \in \CC^{\infty}_{C}(\Omega)\), entonces \(\zeta u
+		\in W^{k,p}(\Omega)\) y
+		\begin{displaymath}
+			D^{\alpha}(\zeta u)
+			=
+			\sum_{\abs{\beta} \le \abs{\alpha}}
+				{\alpha \choose \beta}
+				D^{\beta} \zeta
+				\,
+				D^{\alpha - \beta} u
+		\end{displaymath}
+	\end{enumerate}
+\end{Proposicion}
+
+Denotamos por \(W_{0}^{k,p}(\Omega)\) a la clausura de
+\(\CC^{\infty}_{C}(\Omega)\) en \(W^{k,p}(\Omega)\). De esta forma,
+toda función en \(W_{0}^{k,p}(\Omega)\) se puede aproximar por
+funciones continuas y con soporte compacto. En símbolos:
+\begin{displaymath}
+	u\in W_{0}^{k,p}(\Omega)
+	\iff
+	(\exists\, (u_m)_{m\in\N}\in \CC^{\infty}_{C}(\Omega))
+	\mid
+	u_m \to u \in W^{k,p}(\Omega).
+\end{displaymath}
+Intuitivamente, las funciones en \(W_{0}^{k,p}(\Omega)\) son tales que
+``\(D^{\alpha} u = 0\) en \(\partial\Omega\)" para \(\abs{\alpha} \le
+k-1\).
+
+\subsection{Teoremas de Aproximación}
+
+\begin{Teorema}[Aproximación Interior por Funciones Suaves]
+	Sea \(u\in W^{k,p}(\Omega)\) con \(1 \le p < \infty\). La función
+	\begin{displaymath}
+		u_{\epsilon} = \eta_{\epsilon}\ast u
+	\end{displaymath}
+	sobre \(\Omega_{\epsilon} = \left\{ x\in\Omega\mid
+	\textrm{dist}(x,\partial\Omega) > \epsilon \right\}\) satisface:
+	\begin{enumerate}[leftmargin=.3\textwidth, topsep=5pt, itemsep=2pt]
+		\item
+		\(u_{\epsilon} \in \CC^{\infty}(\Omega_{\epsilon)}\) para todo
+		\(\epsilon > 0\).
+
+		\item
+		\(u_{\epsilon} \to u\) en \(W^{k,p}_{\loc}(\Omega)\) cuando
+		\(\epsilon \to 0\).
+	\end{enumerate}
+\end{Teorema}
+
+\begin{Teorema}[Aproximación Global por Funciones Suaves en \(\Omega\)]
+	Supongamos que \(\Omega\) es acotado. Sea \(u\in W^{k,p}(\Omega)\)
+	con \(1 \le p < \infty\). Entonces existe una sucesión de
+	funciones \((u_m)_{m\in\N} \in \CC^{\infty}(\Omega)\cap
+	W^{k,p}(\Omega)\) tal que \(u_m \to u \in W^{k,p}(\Omega)\).
+\end{Teorema}
+
+\begin{Teorema}[Aproximación Global por Funciones Suaves en \(\overline{\Omega}\)]
+	Supongamos que \(\Omega\) es acotado y \(\partial\Omega\) es de
+	clase \(\CC^{1}\). Sea \(u\in W^{k,p}(\Omega)\) con \(1\le p <
+	\infty\). Existe una sucesión \((u_m)_{m\in\N} \in
+	\CC^{\infty}(\overline\Omega)\) tal que \(u_m \to u\) en
+	\(W^{1,p}(\Omega)\).
+\end{Teorema}
+
+\end{document}

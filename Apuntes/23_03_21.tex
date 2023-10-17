@@ -1,0 +1,217 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 21 de Marzo, 2023}
+
+\begin{Teorema}[Caracterización de Funciones Armónicas]
+	Si \(u\in\CC^{2}(\Omega)\) satisface la propiedad de la media, entonces es
+	armónica.
+\end{Teorema}
+\begin{Demostracion}
+	
+\end{Demostracion}
+
+\begin{Teorema}[Principio del Máximo]
+	Sea \(\Omega\) un subconjunto de \(\R^n\) abierto y acotado. Si \(u\in
+	\CC^{2}(\Omega) \cap \CC(\overline{\Omega})\) es una función armónica,
+	entonces
+	\begin{enumerate}[topsep=0pt,itemsep=0pt]
+		\item El máximo de la función se alcanza en la frontera.
+			\begin{displaymath}
+				\max_{\overline\Omega} u 
+				= 
+				\max_{\partial\Omega} u.
+			\end{displaymath}
+		\item Si además \(\Omega\) es conexo y el máximo se alcanza dentro de
+			\(\Omega\), entonces \(u\) es constante.
+			\begin{displaymath}
+				\exists x \in \Omega 
+				\mid
+				u(x) = \max_{\overline\Omega} u
+				\implies
+				u(x) = c
+				\qquad c\in \R.
+			\end{displaymath}
+	\end{enumerate}
+	El primer punto es el principio débil y el segundo el fuerte. Nótese que el
+	segundo vale incluso si \(\Omega\) no es acotado.
+\end{Teorema}
+\begin{Demostracion}
+	Primero veamos que el principio fuerte implica el débil. En efecto, si no
+	fuera así, se tendría que \(\max_{\overline\Omega} u > \max_{\partial
+	\Omega} u\). Es decir, existiría un \(x_0\in \Omega\) tal que \(u(x_0) =
+	\max_{\overline\Omega}\). Consideremos \(\Omega_0\) la componente conexa que
+	contiene a \(x_0\). Luego, por el principio del máximo fuerte 
+	\begin{displaymath}
+		\max_{\overline \Omega} u
+		=
+		\max_{\overline \Omega_0} u
+		=
+		\max_{\partial \Omega_0} u
+		\le 
+		\max_{\partial \Omega} u,
+	\end{displaymath}
+	donde la última igualdad se debe a que la frontera es conexa.
+	Tenemos una contradicción, por lo tanto el Ppio fuerte implica el débil.
+
+	Ahora queda probar el Ppio fuerte. Sea \(x_0\in \Omega\) tal que \(u(x_0) =
+	\max_{\overline\Omega} u \eqqcolon M\). Consideremos el conjunto
+	\begin{displaymath}
+		A 
+		\coloneqq
+		\left\{
+			x\in \Omega
+			\mid
+			u(x) = M
+		\right\}.
+	\end{displaymath}
+	Vamos a probar que \(A = \Omega\) mostrando que es abierto y cerrado
+	(relativamente a \(\Omega\)).
+
+	\noindent \underline{\(A\) cerrado:} Basta notar que \(A = u^{-1}(M)\) y
+	\(u\) es continua, así que \(A\) es cerrado.
+
+	\noindent \underline{\(A\) abierto:} Sea \(x \in A\). Como \(u\) es
+	armónica, satisface la propiedad de la media. Se sigue que
+	\begin{displaymath}
+		M
+		=
+		u(x)
+		=
+		\fint_{B(x,r)} u(y) \, dy,
+		\quad
+		\forall r > 0 \mid \overline{B(x,r)} \subset \Omega.
+	\end{displaymath}
+	Luego,
+	\begin{displaymath}
+		\fint_{B(x,r)} (M - u(y)) \, dy
+		=
+		0
+	\end{displaymath}
+	Por lo tanto \(u(y) = M\) para todo \(y \in B(x,r)\). Se sigue que \(B(x,r)
+	\subset A\) y por lo tanto \(A\) es abierto.
+\end{Demostracion}
+
+\begin{Corolario}[Unicidad en Poisson para dominios acotados con datos de borde]
+	Si \(\Omega \subset \R^n\) abierto y acotado, entonces existe a lo más una
+	solución \(u\in \CC^2(\Omega) \cap \CC(\Omega)\) del problema
+	\begin{displaymath}
+		\begin{array}{rrc}
+			-\Delta u &= f 
+			&, \text{ en } \Omega
+			\\
+			u &= g
+			&, \text{ en } \partial\Omega
+		\end{array},
+	\end{displaymath}
+	donde \(f\) y \(g\) son funciones continuas en \(\Omega\) y
+	\(\partial\Omega\) respectivamente.
+\end{Corolario}
+\begin{Demostracion}
+	Supongamos que \(u_1, u_2\) son dos soluciones, entonces \(v = u_1 - u_2\)
+	es armónica en \(\Omega\) y \(v = 0\) en \(\partial \Omega\). Por el 
+	Ppio del máximo, \(v = 0\) en \(\Omega\). 
+\end{Demostracion}
+
+\begin{Ejemplo}
+\begin{enumerate}
+	\item En \(\Omega = \R^n \setminus \overline{B(0,1)}\), el problema
+	\begin{alignat*}{2}
+		\Delta u &= 0
+		&, \text{ en }\Omega
+		\\
+		u &= 0
+		&, \text{ en } \partial\Omega,
+	\end{alignat*}
+	No tiene solución única. En efecto, \(u=0\) y 
+	\begin{displaymath}
+		u(x)
+		=
+		\begin{cases}
+			\log 1/\abs{x} &, n=2\\
+			1/\abs{x}^{n-2} - 1, n \ge 3
+		\end{cases},
+	\end{displaymath}
+	son dos soluciones.
+
+	\item En \(\Omega = \R^n_{+} \coloneqq \left\{(x', x_n) \in \R^{n-1}\times
+	\R_{+}\right\}\), el problema
+	\begin{alignat*}{2}
+		\Delta u &= 0
+		&, \text{ en }\Omega
+		\\
+		u &= 0
+		&, \text{ en } \partial\Omega,
+	\end{alignat*}
+	tampoco tiene solución única, pues \(u=0\) y \(u=x_n\) son solución.
+\end{enumerate}
+\end{Ejemplo}
+
+\begin{Teorema}[de Liouville]
+	Si \(u\colon \R^n \to \R\) es una función armónica y acotada, entonces es
+	constante.
+\end{Teorema}
+\begin{Demostracion}
+	Asumimos que \(u \in \CC^{\infty}(\R^n)\). Obsérvese que las derivadas
+	parciales de \(u\) son armónicas, pues
+	\begin{displaymath}
+		\Delta (\partial_{x_i} u)
+		=
+		\partial_{x_i} \Delta u
+		= 0.
+	\end{displaymath}
+	Veremos que las derivadas son nulas y por lo tanto \(u\) será constante.
+
+	Aplicando la propiedad de la media a cada derivada parcial y usando el
+	Teorema de la Divergencia, tenemos que
+	\begin{displaymath}
+		\partial_{x_i} u(x_0)
+		=
+		\fint_{B(x_0, r)} \partial_{x_i} u(x)\, dx
+		=
+		\frac{1}{\alpha(n) r^{n}} 
+		\int_{\partial B(x_0, r)} u(x) \n^{i}(x)\, dx.
+	\end{displaymath}
+	Y entonces
+	\begin{displaymath}
+		\abs{\partial_{x_i} u(x_0)}
+		\le
+		\norm{u}_{L^{\infty}}
+		\frac
+			{\abs{\partial B(x_0, r)}}
+			{\alpha(n) r^n}
+		\le
+		\norm{u}_{L^{\infty}}
+		\frac{n}{r}.
+	\end{displaymath}
+	Tomando \(r \to \infty\) se concluye que \(\partial_{x_i} u(x) = 0\) para
+	todo \(i = 1,\dots, n\) y para todo \(x\in \R^n\). Por lo tanto \(u\) es
+	constante.
+\end{Demostracion}
+
+\begin{Corolario}
+	Para \(n\ge 3\) y \(f\in \CC^{2}_{C}(\R^n)\), se tiene que toda solución
+	acotada \(u\) del problema
+	\begin{displaymath}
+		-\Delta u = f,
+	\end{displaymath}
+	es de la forma \(u(x) = \Phi \ast f(x) + C\).
+\end{Corolario}
+\begin{Demostracion}
+	Sabemos que \(\Phi \ast f\) es solución del problema. Dado que
+	\begin{displaymath}
+		\abs{\Phi \ast f(x)}
+		\le
+		\norm{f}_{K}
+		\int_{K} \Phi(x-y) \, dy
+		< \infty
+		\quad
+		\supp f \subset K \text{ compacto},
+	\end{displaymath}
+	se tiene que es acotada. Luego, si \(u\) es otra solución acotada, la
+	función \(v = \Phi\ast f - u\) es armónica en \(\R^n\) y acotada.
+	Por Liouville, es constante. Es decir, \(u = \Phi \ast f + C\) con \(C\in \R\).
+\end{Demostracion}
+\end{document}

@@ -1,0 +1,71 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 01 de junio, 2023}
+
+\subsubsection{Caso \(n < p \le \infty\): Desigualdad de Morrey}
+
+Terminado el caso \(1\le p < n\), comenzaremos a analizar el caso
+\(n < p < \infty\). Específicamente, mostraremos que si
+\(W^{1,p}(\Omega)\) entonces \(u\) es Hölder continua (salvo quizá,
+conjuntos de medida nula). Recordar que una función \(u\) es
+\(\alpha\)-Hölder continua si \(\norm{u(x)-u(y)} \le
+C \norm{x-y}^{\alpha}\). El ínfimo de los \(C\) es el
+\textit{coeficiente de Hölder}. El espacio de las funciones
+\(\alpha\)-Hölder continuas con \(k\)-ésima derivada
+\(\alpha\)-Hölder continua se denota por \(\CC^{k,\alpha}\).
+
+\begin{Teorema}[Desigualdad de Morrey]
+	Sea \(n < p < \infty\). Entonces existe una constante \(C = C(p,n)
+	> 0\) tal que
+	\begin{displaymath}
+		\norm{u}_{\CC^{0,\gamma}(\R^n)}
+		\le
+		C
+		\norm{u}_{W^{1,p}(\R^n)},
+		\qquad\forall u \in \CC^{1}(\R^n)
+	\end{displaymath}
+	donde \(\gamma = 1 - (n/p)\) y 
+	\begin{displaymath}
+		\norm{u}_{\CC^{0, \gamma}(\R^n)}
+		=
+		\norm{u}_{L^{\infty}(\R^n)}	
+		+
+		\left[ u \right]_{\CC^{0,\gamma}(\R^n)},
+	\end{displaymath}
+	con 
+	\begin{displaymath}
+		\left[ u \right]_{\CC^{0,\gamma}(\R^n)}
+		\coloneqq
+		\sup_{x\ne y}
+		\left\{
+			\frac
+			{\abs{u(x) - u(y)}}
+			{\abs{x - y}^{\gamma}}
+		\right\}.
+	\end{displaymath}
+\end{Teorema}
+
+\begin{Definicion}[Versión]
+	Diremos que \(u^{\ast}\) es una versión de \(u\) en \(\Omega\) si
+	\(u = u^{\ast}\) c.t.p. en \(\Omega\).
+\end{Definicion}
+
+\begin{Teorema}[Estimaciones en \(W^{1,p}\), \(n < p \le \infty\)]
+	Sea \(\Omega\subset\R^n\) un abierto acotado con frontera
+	\(\CC^{1}\). Sea \(n < p \le \infty\) y \(u\in W^{1,p}(\Omega)\).
+	Entonces \(u\) tiene una versión
+	\(u^{\ast}\in\CC^{0,\gamma}(\overline\Omega)\), donde \(\gamma = 1
+	-n/p\) con
+	\begin{displaymath}
+		\norm{u^{\ast}}_{C^{0,\gamma}(\overline\Omega)}
+		\le
+		\norm{u}_{W^{1,p}(\Omega)},
+		\qquad
+		C = C(p,n,\Omega) > 0.
+	\end{displaymath}
+\end{Teorema}
+
+\end{document}

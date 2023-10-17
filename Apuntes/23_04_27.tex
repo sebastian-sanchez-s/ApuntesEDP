@@ -1,0 +1,94 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 27 de abril, 2023}
+
+\subsection{Ecuación del Calor No Homogénea}
+
+Ahora tratamos con el problema
+\begin{displaymath}
+\begin{caligned}\label{NH}
+	u_{t} - \Delta u &= f, && \text{ en } \R^{+}\times\R,\\
+	u &= g, && \text{ en } \left\{ 0 \right\}\times \R^n
+\end{caligned}\tag{NH}
+\end{displaymath}
+
+Para resolver esto usaremos un método que es común en EDO. La idea
+consiste en resolver el problema homogéneo y desde ahí construir una
+solución del problema no homogéneo. A esta idea se le conoce como el
+\textit{principio de Duhamel}.
+
+Recordemos que en EDO, para resolver problema de la forma 
+\begin{displaymath}
+\begin{caligned}
+	v_{t} + v &= f 
+	&&, t > 0\\
+	v &= g 
+	&&, t = 0,
+\end{caligned}
+\end{displaymath}
+podíamos aplicar la técnica del propagador como se muestra a
+continuación
+\begin{align*}
+	v'(t) \, e^{t}  + v(t) \, e^{t} &= f(t)\, e^{t} \\
+	(v(t) \, e^{t})' &= f(t)\, e^{t} \\
+	\Rightarrow
+	v &= e^{-t}\, g(t) + \int f(s)\, e^{s-t} \, ds.
+\end{align*}
+donde el propagador lo podemos interpretar como el operador \(S(t)[F]
+= e^{-t}\, F\). De esta forma, podemos ver que \(v\) se compone de la
+solución del problema homogéneo (\(S(t)[g]\)) y una solución
+particular del problema (\(\int S(t-s)[f]\)) no homogéneo. 
+
+Volviendo al problema~\eqref{NH}, si las soluciones del problema
+homogéneo son de la forma \(u_{h}(t,x) = S(t)[g(x)]\) para algún
+propagador. ¿Será que \(u_{h}(t,x) + \int S(t-s)[f(s,x)]\) es solución
+del problema no homogéneo?. Simbólicamente, tendríamos que
+\begin{align*}
+	u_t - \Delta_{x} u 
+	&=
+	[\partial_{t} - \Delta_{x}] S(t)[g(x)]
+	+
+	[\partial_{t} - \Delta_{x}] \int_{0}^{t} S(t-s)[f(s,x)]\, ds
+	\\&=
+	0 + S(t-t)[f(t, x)] + 
+	\int_{0}^{t} [\partial_t - \Delta_x] S(t-s)[f(s,x)]\, ds
+	\\&=
+	f(t,x)
+\end{align*}
+Ahora, recordemos que 
+\begin{displaymath}
+	u_h(t,x)
+	=
+	\int_{\R^n} \Phi(t, x-y) g(y) \, dy
+\end{displaymath}
+y esto se ve exactamente como un propagador, así que un candidato a
+solución particular es
+\begin{displaymath}
+	u_{p}(t,x)
+	=
+	\int_{0}^{t}
+	\int_{\R^n} \Phi(t-s, x-y) f(s,y) \, dy\, ds.
+\end{displaymath}
+El siguiente teorema dice que, en efecto, este procedimiento da una
+solución de~\eqref{NH}.
+
+\begin{Teorema}
+	Sea \(f\in \CC^{(1,2)}(\R_{\ge 0} \times \R^n)\) con soporte
+	compacto. Definamos \(u = u_{p}\) como arriba. Entonces,
+	\begin{enumerate}[topsep=5pt,itemsep=2pt]
+		\item \(u\in \CC^{(1,2)}(\R_{+}\times\R^n)\),
+		\item \(u_{t} - \Delta_{x} u = f(t,x)\) para todo \((t,x) \in
+		\R_{+}\times \R^n\),
+		\item Para cualquier \(x_0 \in \R^n\), se tiene que
+		\begin{displaymath}
+			\lim_{x\to x_0,\, t\downarrow 0} u(t,x) = 0.
+		\end{displaymath}
+	\end{enumerate}
+\end{Teorema}
+\begin{Demostracion}
+\end{Demostracion}
+
+\end{document}

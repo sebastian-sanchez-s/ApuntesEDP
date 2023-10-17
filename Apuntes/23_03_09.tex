@@ -1,0 +1,103 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 09 de Marzo, 2023}
+
+\section{Preliminares: Teoría de medida}
+
+Para un conjunto \(X\), decimos que una colección de subconjuntos \(M\) de 
+\(X\) es una sigma álgebra si contiene a \(X\) y es cerrado bajo complementos
+y uniones numerables. En símbolos:
+\begin{displaymath}
+	X\in M
+	;\quad
+	A\in M \implies A^c \in M
+	;\quad
+	A_1, A_2, \dots, M \implies \bigcup_{n\ge 1} A_n \in M.
+\end{displaymath}
+
+El par \((X, M)\) se dice \textit{espacio medible} y 
+los elementos de \(M\) son los \textit{conjuntos medibles}.
+
+Los espacios topológicos tienen una sigma álgebra inducida por sus abiertos (la
+sigma álgebra más pequeña que contiene a todos los abiertos),
+llamada \textit{\(\sigma\)-álgebra de Borel} y denotada por \(\BB(X)\).
+Para \(X,Y\) espacios topológicos con sus respectivas sigma álgebras, 
+decimos que \(f\colon X \to Y\)
+es una \textit{función medible} si \(f^{-1}(A)\) es un conjunto medible
+para todo \(A\) abierto.
+
+Decimos que \(m\colon X \to \R_{\ge 0}\) es una
+\textit{función de medida} si el vacío tiene medida cero y la medida de una 
+unión (numerable) disjunta de conjuntos medibles es la suma de la medida de 
+los conjuntos. En símbolos:
+\begin{displaymath}
+	m(\varnothing) = 0
+	\text{ y }
+	m\left(\bigcup_{n\ge 1} A_i\right) = \sum_{n\ge 1} m(A_i)
+	\text{ con } A_1, A_2, \dots \text{ disjuntos.}
+\end{displaymath}
+A la tripleta \((X,M,m)\) se le dice \textit{espacio de medida}.
+
+Casi siempre trabajaremos en \(\R^n\) y la medida estándar para esta será la
+medida de Lebesgue. Esta le asigna a los intervalos su largo (en \(\R\)) y se
+extiende a \(\R^n\) como la medida que le asigna a los \(n\)-cubos su volumen.
+
+Decimos que un conjunto es despreciable si tiene medida nula. Cuando una
+propiedad se cumple salvo un conjunto de medida nula, decimos que la propiedad
+se cumple casi en todas partes o \(m\)-ctp.
+
+Una \textit{función indicatriz} \(\chi_{A}\colon X \to [0, 1]\) se define por 
+\begin{displaymath}
+	\chi_{A}(x) = 
+	\begin{cases}
+		1, x\in A\\
+		0, x\not\in A
+	\end{cases}.
+\end{displaymath}
+
+Una \textit{función simple} es una combinación lineal finita de funciones
+indicatrices:
+\begin{displaymath}
+	s = \sum_{n=1}^{N} a_n \chi_{A_n}(x)
+	,\quad A_n \in M, a_n \in \R_{\ge 0}.
+\end{displaymath}
+
+Definimos la integral de una función simple como
+\begin{displaymath}
+	\int s \d{m}
+	=
+	\sum_{n=1}^{N} a_n m( A_n ).
+\end{displaymath}
+
+Para una función positiva \(f\) la integral se define por
+\begin{displaymath}
+	\int f \d{m}
+	=
+	\sup_{s\le f} \int s \d{m},
+\end{displaymath}
+donde el supremo se toma sobre todas las funciones simples menores a \(f\).
+
+Para una función con signo \(f\) definimos \(f^{+} = \max\left\{0, f\right\}\) y
+\(f^{-} = \max\left\{0, -f\right\}\), de esta forma, \(f = f^{+} - f^{-}\) y 
+la integral de \(f\) es 
+\begin{displaymath}
+	\int f \d{m} = \int f^{+} \d{m} - \int f^{-} \d{m}.
+\end{displaymath}
+Obsérvese que \(\abs{f} = f^{+} + f^{-}\). Decimos que una función es integrable
+si \(\int \abs{f} < \infty\).
+
+Al conjunto de funciones integrables lo denotamos por \(L^{1}\) y en general el
+conjunto \(L^{p}\) se define como
+\begin{displaymath}
+	L^{p} \coloneqq 
+	\left\{
+		f \colon X\to \R
+		\mid
+		\Big(\int \abs{f}^{p} \d{m} \Big)^{1/p} < \infty
+	\right\}.
+\end{displaymath}
+
+\end{document}

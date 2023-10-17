@@ -1,0 +1,124 @@
+\documentclass[11pt]{article}
+
+% Page set up
+\usepackage[margin=3cm]{geometry}
+
+% Document font and symbols
+%\usepackage{mathptmx} % Times New Roman
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{esint}
+
+% Language formatting
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, es-noshorthands]{babel}
+
+% Graph and Drawings
+\usepackage{tikz,tikz-cd,float}
+\usepackage{wrapfig}
+\usetikzlibrary{babel}
+\usepackage{pgfplots}
+\usepackage[framemethod=default]{mdframed}
+\usepackage{framed}
+
+% Tools
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{etoolbox,mathtools}
+\usepackage[shortlabels]{enumitem}
+
+% Mdframed template
+\mdfsetup{innertopmargin=5pt,%
+	frametitlealignment=\raggedright,%
+	frametitlefont=\texttt,%
+	linewidth=2pt,%
+	topline=false,rightline=false, bottomline=false,%
+	frametitleaboveskip=\dimexpr-1\ht\strutbox\relax,}
+
+% Problem Env
+\newcounter{ProblemCounter}
+\newenvironment{Problema}[1][]{%
+	\vspace{1em}
+	\refstepcounter{ProblemCounter}%
+	\noindent\hspace{-12ex}{\texttt{PROBLEMA~\theProblemCounter}~}
+	%\begin{tikzpicture}
+	%	\draw[thick] (0,0) -- (\linewidth, 0)
+	%	node[midway, fill=white] 
+	%	{\texttt{PROBLEMA~\theProblemCounter}};
+	%\end{tikzpicture}
+	\fontfamily{ptm}\selectfont
+	}{
+	\ \newline
+	%\begin{tikzpicture}
+	%	\draw[thick] (0,0) -- (\linewidth, 0);
+	%\end{tikzpicture}
+	%\vspace{1ex}
+	}
+
+% Solution Env
+\newenvironment{Solucion}[1][]
+{%
+	\vspace{1ex}
+	\noindent\hspace{-10ex}{{\ttfamily SOLUCIÓN}~}
+}%
+{%
+	%\hfill\(\blacksquare\)
+}
+
+% -- Aligned Cases
+\newenvironment{caligned}
+	{\begin{cases} \begin{aligned}}
+	{\end{aligned} \end{cases}}
+
+% Resize abs and norm
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\|}{\|}
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother
+
+% Shortcuts
+\def\V{\mathbb{V}}
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+\def\CC{\mathcal{C}}
+\def\F{\mathbb{F}}
+\def\FF{\mathcal{F}}
+\def\A{\mathbb{A}}
+\def\n{\hat{\textbf{n}}}
+\def\loc{\textrm{loc}}
+\def\supp{\textrm{supp}\,}
+
+\newcommand{\header}[2]
+{
+\begin{minipage}{.15\textwidth}
+	\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{LogoUC}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}{.75\textwidth}
+	\vspace{2em}
+	{\scshape
+	Pontificia Universidad Católica de Chile\\
+	Facultad de Matemáticas\\
+	Docente: Carlos Román\\
+	Ayudante: Santiago González
+	}
+\end{minipage}
+
+\medskip
+
+\begin{center}
+	{\textbf{MAT2505 - Ecuaciones Diferenciales Parciales}} \\[1ex]
+	{{\large Tarea #1 - Sebastián Sánchez}}
+\end{center}
+
+\medskip
+}

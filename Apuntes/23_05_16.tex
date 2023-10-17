@@ -1,0 +1,273 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 16 de mayo, 2023}
+
+\begin{Definicion}[Cilindro Circular Parabólico]
+	Sea \((t,x) \in \R^{+}\times\R^n\) y \(r > 0\). El cilindro
+	circular parabólico (cerrado) de radio \(r\) y altura \(r^2\) con techo
+	centrado en \((t,x)\) es 
+	\begin{displaymath}
+		C(t,x;r)
+		\coloneqq
+		\left\{ 
+			(s,y) \in \R^{+}\times\R^n \colon
+			\abs{x-y} \le r^2
+			\land
+			t-r^2 \le s \le t
+	   	\right\}.
+	\end{displaymath}
+\end{Definicion}
+
+\begin{Teorema}[Regularidad de la Ecuación del Calor]
+	Sea \(u\in \CC^{(1,2)}(U_{T})\) una solución de la ecuación
+	del calor en \(U_T\), entonces \(u\in \CC^{\infty}(U_T)\).
+\end{Teorema}
+\begin{Demostracion}
+	Fijemos \((x_0, t_0) \in U_{T}\). Sea \(C_1 = C(x_0,t_0;r)\) el
+	cilindro de radio \(r\) y altura \(r^2\) contenido en \(U_T\). 
+
+	Sean \(C_2\) y \(C_3\) los cilindros contenidos en \(C_1\) que
+	comparten el mismo techo de radio \(0.75r\) y \(0.5r\), respectivamente.
+	Sea \(\psi \in \CC^{\infty}_{C}([0,t_0]\times\R^n)\) tal que
+	(1) \(0 \le \psi \le 1\); (2) \(\psi = 1\) en \(C_2\) y (3) \(\psi
+	= 0\) fuera de \(C_1\).
+
+	Consideremos \(v^{\epsilon} = \psi\cdot (\eta_{\epsilon} \ast u) =
+	\psi u^{\epsilon}\). Notar que
+	\(v^{\epsilon}\) está definido sobre todo \([0,t_0]\times\R^n\).
+	Por otro lado, 
+	\begin{displaymath}
+		v^{\epsilon}_{t}
+		=
+		\psi_{t} u^{\epsilon}
+		+
+		\psi u^{\epsilon}_{t}
+	\end{displaymath}
+	y
+	\begin{align*}
+		\nabla v^{\epsilon}
+		=
+		\nabla \psi \, u^{\epsilon}
+		+
+		\nabla u^{\epsilon} \, \psi
+		\Rightarrow
+		\Delta v^{\epsilon}
+		=
+		\Delta \psi\, u^{\epsilon}
+		+
+		2 \nabla \psi \, \nabla u^{\epsilon}
+		+
+		\Delta u^{\epsilon} \, \psi
+	\end{align*}
+	Así que \(v^{\epsilon}\) resuelve
+	\begin{displaymath}
+	\begin{caligned}
+		v^{\epsilon}_{t} - \Delta u^{\epsilon}
+		&=
+		\psi_{t} u^{\epsilon}
+		-
+		2 \nabla \psi\, \nabla u^{\epsilon}
+		-
+		\Delta \psi\, u^{\epsilon}
+		= \tilde{f}
+		&, \text{ en } (0,t_0)\times\R^n
+		\\
+		v &= 0 
+		&, \text{ en } \left\{ t=0 \right\}\times\R^n
+	\end{caligned}
+	\end{displaymath}
+	Por la unicidad del problema de Cauchy se tiene que
+	\begin{displaymath}
+		v^{\epsilon}(t,x)
+		=
+		\int_{0}^{t}
+		\int_{\R^n}
+			\Phi(t - s, x - y)
+			\tilde{f}(s,y)
+		\, dy\, ds	
+		\qquad
+		(t,x) \in (0,t_0)\times\R^n
+	\end{displaymath}
+
+	Sea \((x,t) \in C_3\). Aquí \(\psi = 1\), por lo tanto
+	\(v^{\epsilon} = u^{\epsilon}\). Se sigue que
+	\begin{align*}
+		u^{\epsilon}(t,x)
+		&=
+		\int_{0}^{t}
+		\int_{\R^n}
+			\Phi(t - s, x - y)
+			\tilde{f}(s,y)
+		\, dy\, ds	
+		\\&=
+		\int_{0}^{t}
+		\int_{\R^n}
+			\Phi(t - s, x - y)
+			\left(
+			(\psi_{t} - \Delta \psi)
+			\, u^{\epsilon}
+			-
+			2 \nabla \psi\, \nabla u^{\epsilon}
+			\right)
+		\, dy \, ds 
+		\\&=
+		\int_{C_1}
+			\Phi(t - s, x - y)
+			\left(
+			(\psi_{t} - \Delta \psi)
+			\, u^{\epsilon}
+			-
+			2 \nabla \psi\, \nabla u^{\epsilon}
+			\right)
+		\, dy \, ds.
+	\end{align*}
+	Haciendo integración por partes en el segundo sumando tenemos
+	\begin{displaymath}
+		\int_{C_1}	
+			\Phi(t - s, x - y)
+			2 \nabla \psi\, \nabla u^{\epsilon}
+		\, dy\, ds
+		=
+		-2
+		\int_{C_1}	
+		\left(
+			\Phi(t - s, x - y)
+			\Delta \psi
+			+
+			\nabla \Phi(t - s, x - y)
+			\nabla \psi
+		\right) u^{\epsilon}
+		\, dy\, ds.
+	\end{displaymath}
+	Volviendo a la expresión anterior
+	\begin{displaymath}
+		u^{\epsilon}(t,x)
+		=
+		\int_{C_1}
+		\left(
+			\Phi(t - s, x - y)
+			(\psi_{t} + \Delta \psi)
+			+
+			2
+			\nabla \Phi(t - s, x - y)
+			\nabla \psi
+		\right) \, u^{\epsilon}
+		\, dy \, ds.
+	\end{displaymath}
+	Dado que \(\psi \equiv 1\) en \(C_2\), tenemos que
+	\begin{align*}
+		u^{\epsilon}(t,x)
+		&=
+		\int_{C_1 \setminus C_2}
+		\left(
+			\Phi(t - s, x - y)
+			(\psi_{t} + \Delta \psi)
+			+
+			2
+			\nabla \Phi(t - s, x - y)
+			\nabla \psi
+		\right) \, u^{\epsilon}(s,y)
+		\, dy \, ds
+		\\&\eqqcolon
+		\int_{C_1 \setminus C_2}
+			\mathcal{K}(t,s,x,y)
+			u^{\epsilon}(s,y)
+		\, dy \, ds
+	\end{align*}
+	Dado que \(\kappa \in \CC^{\infty}\) en \(C_3\), tenemos que
+	\(u^{\epsilon} \in \CC^{\infty}(C_3)\). Finalmente, dado que
+	\(u\in \CC^{2}\), se tiene que \(u^{\epsilon} \to u\) cuando
+	\(\epsilon \to 0\) de manera uniforme. De esta forma, concluimos
+	que \(u\in \CC^{\infty}\).
+\end{Demostracion}
+
+\begin{Teorema}
+	Existen constantes \(C_{k,\ell}\) con \(k,\ell = 0,1,2,\dots\) tal
+	que 
+	\begin{displaymath}
+		\max_{C(t,x;r/2)} 
+		\abs{D_{x}^{\alpha} D^{\ell}_{t} u}
+		\le
+		\frac{C_{k,\ell}}{r^{k+2\ell+n+2}} 
+		\norm{u}_{L^1(C(t,x;r))}
+		\qquad
+		\abs{\alpha} = k
+	\end{displaymath}
+	para todo cilindro \(C(t,x;r/2) \subset C(t,x;r) \subset U_T\) 
+	y toda solución \(u\) de la ecuación del calor en \(U_T\).
+\end{Teorema}
+\begin{Demostracion}
+	Sin pérdida de generalidad digamos que \((t,x) = (0,0)\). Primero
+	probaremos el resultado para \(r=1\). Llamemos \(C_1\) y \(C_2\)
+	a los cilindros de radio \(1\) y \(1/2\), respectivamente. Por la
+	demostración anterior, sabemos que para \((t,x) \in C_2\) tenemos
+	la representación:
+	\begin{displaymath}
+		u(t,x)
+		=
+		\int_{C_1}
+			\mathcal{K}(t,s,x,y)
+			u(s,y)
+		\, dy\, ds.
+	\end{displaymath}
+	Fijemos \(k\) y \(\ell\). Sea \(\abs{\alpha} = k\). Se sigue que
+	\begin{align*}
+		\abs{D^{\alpha}_{x} D^{\ell}_{t} u(t,x)}
+		&\le
+		\int_{C_1}
+			\abs{D^{\alpha}_{x} D^{\ell}_{t}\, \mathcal{K}(t,s,x,y)}
+			\abs{u(s,y)}
+		\, dy\, ds
+		\\&\le	
+		C_{k,\ell} 
+		\norm{u}_{L^{1}(C(1))}
+		\qquad
+		\forall (t,x) \in C(0,0;1/2).
+	\end{align*}
+	Para el resultado general, sea \(r > 0\) y definamos
+	\begin{displaymath}
+		v(t,x) = v(r^2 t, rx)
+		\qquad
+		(t,x) \in C(1).
+	\end{displaymath}
+	Es claro que \(v\) es solución de la ecuación del calor. Por otro
+	lado,
+	\begin{displaymath}
+		D^{\alpha}_{x} D^{\ell}_{t} v(t,x)
+		=
+		r^{2\ell + k} 
+		D^{\alpha}_{x} D^{\ell}_{t} u(r^2 t, r x)
+	\end{displaymath}
+	y
+	\begin{align*}
+		\norm{v}_{L^{1}(C_1)}
+		&=
+		\int_{0}^{1} 
+		\int_{B(0,1)}
+			\abs{u(r^2 t, r x)}
+		\, dx\, dt
+		\\&=
+		\int_{0}^{r^2} 
+		\int_{B(0,r)}
+			\abs{u(s, y)}
+			r^{n+2}
+		\, dy\, ds
+		\\&=
+		\frac{1}{r^{n+2}}
+		\norm{u}_{L^{1}(C(0,0;r)}.
+	\end{align*}
+	Aplicando el primer resultado nos queda
+	\begin{displaymath}
+		\abs{D^{\alpha}_{x} D^{\ell}_{t} u(s,y)}
+		\le
+		\frac{C_{k,\ell}}{r^{2\ell + k + n + 2}} 
+		\norm{u}_{L^{1}(C(0,0;r)}
+		\qquad
+		\forall (s,y) \in C(0,0;r/2).
+	\end{displaymath}
+\end{Demostracion}
+
+\end{document}

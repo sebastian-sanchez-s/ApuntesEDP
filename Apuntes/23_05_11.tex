@@ -1,0 +1,161 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 11 de mayo, 2023}
+
+Ahora veremos algunas consecuencias del principio del máximo.
+\begin{enumerate}[topsep=3pt,itemsep=2pt]
+	\item Velocidad infinita de propagación: Sea \(U\) es abierto
+	conexo y acotado. Si \(u\in\CC^{(1,2)}(U_T)\cap\CC(\overline{U_T})\)
+	satisface
+	\begin{displaymath}
+	\begin{caligned}
+		u_t - \Delta_x u &= 0 &&, \text{ en } U_T\\
+		u &= 0 &&, \text{ en } [0,T]\times\partial U\\
+		u &= g &&, \text{ en } \lbrace 0\rbrace\times U
+	\end{caligned}
+	\end{displaymath}
+	donde \(g\ge 0\), entonces \(u\) es estrictamente positiva en
+	\(U_T\) si \(g\) es estrictamente positiva en alguna parte de
+	\(U\).
+
+	\item Unicidad en dominios acotados: Sea \(g\in \CC(\Gamma_{T})\)
+	y \(f\in \CC(U_{T})\). Entonces existe a lo más una solución del
+	problema
+	\begin{displaymath}\label{110523:0}
+	\begin{caligned}
+		u_t - \Delta_x u &= f &&, \text{ en } U_T\\
+		u &= g &&, \text{ en } \Gamma_T
+	\end{caligned}\tag{0}
+	\end{displaymath}
+
+	\item Principio del máximo para el problema de Cauchy: Supongamos
+	que \(u\in \CC^{(1,2)}((0,T]\times\R^n) \cap
+	\CC([0,T]\times\R^n)\) satisface
+	\begin{displaymath}
+	\begin{caligned}
+		u_t - \Delta_x u &= 0 &&, \text{ en } (0,T)\times\R^n\\
+		u &= g &&, \text{ en } \lbrace 0 \rbrace \times \R^n
+	\end{caligned}
+	\end{displaymath}
+	y satisface la estimación de crecimiento
+	\begin{displaymath}
+		u(t,x) \leq A\, e^{\alpha\abs{x}^2}
+	\end{displaymath}
+	donde \(A,\alpha > 0\) son constantes. Entonces,
+	\begin{displaymath}
+		\sup_{[0,T]\times\R^n} u
+		=
+		\sup_{\R^n} g.
+	\end{displaymath}
+\end{enumerate}
+
+\subsection{Métodos de Energía}
+
+\begin{Teorema}[Unicidad hacia atrás]
+	Si \(u_1, u_2 \in \CC^{(1,2)}(\overline{U_{T}})\) son soluciones
+	de \eqref{110523:0} y \(u_1(T,x) = u_2(T,x)\) para todo \(x\in U\)
+   	entonces \(u_1 = u_2\) en \(U_{T}\).
+\end{Teorema}
+\begin{Demostracion}
+	Sea \(w = u_1 - u_2\). Luego, \(w\) resuelve la ecuación del calor
+	homogénea con condiciones de borde nulas. Vale decir,
+	\begin{displaymath}
+	\begin{caligned}
+		w_t - \Delta_{x} w &= 0 &, \text{ en } U_{T}\\
+		w &= 0 &, \text{ en } \Gamma_{T}
+	\end{caligned}
+	\end{displaymath}
+	Definamos el funcional de energía
+	\begin{displaymath}
+		e(t) = \int_{U} w^{2}(t,x) \, dx
+		\quad\text{ para } 0 \le t \le T.
+	\end{displaymath}
+	De la demostración anterior tenemos que 
+	\begin{displaymath}
+		\dot{e}(t) = -2 \int_{U} \abs{\nabla_{x} w}^2 \, dx.
+	\end{displaymath}
+	Se sigue que
+	\begin{displaymath}
+		\ddot{e}(t) 
+		= 
+		-2 \int_{U} \partial_{t}(\abs{\nabla_{x} w}^2) \, dx
+		=
+		-2 
+		\int_{U} 
+		2 \abs{\nabla_{x} w} 
+		\frac{\nabla_{x} w \cdot \nabla_{x} w_{t}}{\abs{\nabla_{x} w}}\, dx
+		=
+		-4 \int_{U} \nabla_{x} w \cdot \nabla w_{t} \, dx.
+	\end{displaymath}
+	Haciendo integración por partes tenemos que
+	\begin{displaymath}
+		\ddot{e}(t) 
+		=
+		4 \int_{U} \Delta_{x} w\, w_{t} \, dx
+		=
+		4 \int_{U} (\Delta_{x} w)^2  \, dx,
+	\end{displaymath}
+	donde usamos que \(w_t\) se anula en \(\partial U\) y que resuelve
+	la ecuación del calor homogénea. Por otro lado, dado que \(w\) se
+	anula en \(\partial U\), tenemos que 
+	\begin{displaymath}
+		\int_{U} (\nabla_{x} w)^2  \, dx
+		=
+		- \int_{U} w\, \Delta_{x} w \, dx
+		\le
+		\left( \int_{U} w^2 \, dx \right)^{1/2}
+		\left( \int_{U} (\Delta_{x} w)^2 \, dx \right)^{1/2},
+	\end{displaymath}
+	donde la última desigualdad es por Cauchy-Schwarz. Combinando los
+	cálculos anteriores deducimos que
+	\begin{displaymath}
+		(\dot{e}(t))^{2} 
+		= 4 \left( \int_{U} \abs{\nabla_{x} w}^2 \, dx \right)^{2}
+		\le 
+		\left( \int_{U} w^2 \, dx \right)^{1/2}
+		\left(4 \int_{U} (\Delta_{x} w)^2 \, dx \right)^{1/2}
+		=
+		e(t) \ddot{e}(t).
+	\end{displaymath}
+	Si \(e(t) = 0\) para todo \(0\le t \le T\) el resultado se
+	sigue de la siguiente manera: tendríamos que \(\nabla w = 0\)
+	y por lo tanto \(w\) es una función constante. Dado que vale cero
+	en la frontera, necesariamente tendría que ser la función
+	constante cero (c.t.p.).
+
+	Supongamos que \(e(t) > 0\) para \(t \in [t_1, t_2) \subset [0,
+	T]\) donde \(t_2\) es tal que \(e(t_2) = 0\) (ie. \(t_2\) podría
+	ser \(T\)). Definamos \(f(t) = \log(e(t))\) sobre \([t_1,t_2)\). 
+	Notemos que \(f\) es convexa en \((t_1, t_2)\), pues
+	\begin{displaymath}
+		\ddot{f(t)} = 
+		\frac{\ddot{e}(t)}{e(t)} - \frac{\dot{e}(t)^2}{e(t)^2}
+		\ge 0.
+	\end{displaymath}
+	Luego, si \(\tau \in (0,1)\) y \(t \in (t_1, t_2)\) tenemos
+	que
+	\begin{displaymath}
+		f((1-\tau) t_1 + \tau t)
+		\le
+		(1-\tau) f(t_1) + \tau f(t).
+	\end{displaymath}
+	Aplicando \(\exp\) nos queda
+	\begin{displaymath}
+		e((1-\tau) t_1 + \tau t)
+		\le
+		e(t_1)^{1-\tau}
+		e(t)^{\tau}.
+	\end{displaymath}
+	Y por lo tanto
+	\begin{displaymath}
+		0 < e((1-\tau) t_1 + \tau t_2) \le
+		e(t_1)^{1-\tau} e(t_2)^{\tau} = 0
+	\end{displaymath}
+	Obteniéndose una
+	contradicción.
+\end{Demostracion}
+
+\end{document}

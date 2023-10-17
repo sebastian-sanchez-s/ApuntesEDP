@@ -1,0 +1,972 @@
+%! tex root = T2.tex
+\input{preamble}
+
+\begin{document}
+
+\header{2}{}
+
+% Problema 1
+\begin{Problema}(Fórmula de Poisson para la bola)
+	Sea \(g\in \mathcal{C}(\partial B(0,r))\) y \(u\) definida por
+	\begin{displaymath}
+		u(x)
+		=
+		\frac{r^2 - \abs{x}^2}{n \alpha(n) r}
+		\int_{\partial B(0,r)}
+			\frac{g(y)}{\abs{x-y}^n} \, dS(y)
+		\qquad
+		x\in B^{\circ}(0,r).
+	\end{displaymath}
+	Demuestre que
+	\begin{enumerate}[leftmargin=.3\textwidth,itemsep=2pt]
+		\item \(u\in \mathcal{C}^{\infty}(B(0,r)^{\circ})\),
+		\item \(\Delta u = 0\) en \(B(0,r)^{\circ}\),
+		\item \(\lim_{x\to x_0} u(x) = g(x_0)\) para todo \(x_0 \in
+			\partial B(0,r)\).
+	\end{enumerate}
+\end{Problema}
+\begin{Solucion}
+	Denotemos por \(B_{r} \coloneqq B(0,r)\).
+	Notando que
+	\begin{displaymath}
+		\partial_{\n(y)} G(x,y)
+		=
+		-\frac{r^2 - \abs{x}^2}{n \alpha(n) r}
+			\frac{1}{\abs{x-y}^n}
+	\end{displaymath}
+	podemos reescribir \(u\) como 
+	\begin{displaymath}
+		u(x) 
+		=
+		- \int_{\partial B_{r}}
+			g(y) \partial_{\n(y)} G(x,y) \, dS(y).
+	\end{displaymath}
+	Dado que la función de Green es simétrica (sim) y \(\mathcal{C}^{\infty}\), 
+	tenemos que (usando TCD para intercambiar límites):
+	\begin{align*}
+		\Delta_{x} u(x)
+		&=
+		\Delta_{x}\left(
+		- \int_{\partial B_{r}}
+			g(y) \partial_{\n(y)} G(x,y), dS(y)
+		\right)
+		\\&\overset{TCD}{=}
+		- \int_{\partial B_{r}}
+			g(y) \partial_{\n(y)} \Delta_{x} G(x,y), dS(y)
+		\\&\overset{\text{sim}}{=}
+		- \int_{\partial B_{r}}
+			g(y) \partial_{\n(y)} 
+			\underbrace{\Delta_{y} G(x,y)}_{=0}, dS(y)
+		= 0.
+	\end{align*}
+	Es decir, la función \(u\) es armónica y por lo tanto
+	\(\mathcal{C}^{\infty}(B_{r}^{\circ})\).
+
+	Falta ver que al acercarse al borde nos acercamos a \(g\).
+	Fijemos \(y_0 \in \partial B_{r}\). Queremos ver que
+	\begin{displaymath}
+		\lim_{B_{r}^{\circ} \ni x \to y_0} \abs{u(x) - g(y_0)} = 0.
+	\end{displaymath}
+
+	Sea \(\epsilon > 0\). Como \(g\) es continua, existe \(\delta >
+	0\) tal que
+	\begin{displaymath}
+		\abs{g(y_0) - g(y)} < \epsilon
+		\quad \forall y \in 
+		\underbrace{
+			B(y_0, \delta)
+		}_{\eqqcolon B_{\delta}} \cap \partial B.
+	\end{displaymath}
+	Usando que
+	\begin{displaymath}\label{af1}
+		\int_{\partial B_{r}} k(x,y) \, dS(y) = 1,
+		\tag{\(\star\)}
+	\end{displaymath}
+	tenemos que 
+	\begin{align*}
+		\abs{ u(x) - g(y_0) }
+		&=
+		\abs{
+		\int_{\partial B_{r}} 
+			k(x,y) ( g(y) - g(y_0) )
+			\, dS(y)
+		}
+		\\&\le
+		\abs{
+		\int_{\partial B_{r} \cap B_{\delta}} 
+			k(x,y) ( g(y) - g(y_0) )
+			\, dS(y)
+		}
+		+ 
+		\abs{
+		\int_{\partial B_{r} \setminus B_{\delta}} 
+			k(x,y) ( g(y) - g(y_0) )
+			\, dS(y)
+		}
+	\end{align*}
+	Llamemos a las integrales \(I_1\) e \(I_2\) respectivamente. Por la
+	continuidad de \(g\) y dado que el kernel integra uno podemos
+	acotar \(I_1\) por \(\epsilon\). En símbolos:
+	\begin{displaymath}
+		\abs{I_1} \le \epsilon \xrightarrow{\epsilon \to 0} 0.
+	\end{displaymath}
+	Para acotar \(I_2\), tomemos \(x\in B_{\delta/2}\). Se sigue que
+	para \(y \in \partial B_{r} \setminus B_{\delta}\),
+	\begin{displaymath}
+		\abs{y - x} \ge \frac{1}{2} \abs{y - y_0}.
+	\end{displaymath}
+	Luego, 
+	\begin{align*}
+		\abs{I_2} 
+		&\le
+		\norm{g}_{\infty} 
+		\int_{\partial B_{r} \setminus B_{\delta}} k(x,y) \, dS(y)
+		\\&=
+		\norm{g}_{\infty} 
+		\int_{\partial B_{r} \setminus B_{\delta}} 
+			\frac{r^2 - \abs{x}^2}{n\alpha(n) r} 
+			\frac{1}{\abs{y-x}^n} 
+			\, dS(y)
+		\\&\le
+		\norm{g}_{\infty} 
+		\int_{\partial B_{r} \setminus B_{\delta}} 
+			\frac{r^2 - \abs{x}^2}{n\alpha(n) r 2^{n}} 
+			\frac{1}{\abs{y_0 - y}^n} 
+			\, dS(y)
+		\\&\le
+		\underbrace{
+		\norm{g}_{\infty} 
+		\frac{1}{n\alpha(n) r 2^{n}} 
+		\int_{\partial B_{r} \setminus B_{\delta}} 
+			\frac{1}{\abs{y_0 - y}^{n}}
+			 \, dS(y)
+		}_{\text{constante en \(x\)}}
+		\,
+		( r^2 - \abs{x}^2 )
+	\end{align*}
+	Tomando \(x\to y_0\) en particular no da que \(\abs{x} \to r\) y
+	por lo tanto \(\abs{I_2} \to 0\). Concluimos entonces que 
+	\begin{displaymath}
+		\lim_{B_{r}^{\circ} \ni x \to y_0} \abs{u(x) - g(y_0)} = 0.
+	\end{displaymath}
+
+	\framebox{Demostración de \(\star\):}
+	Sea \(r > 0\) y denotemos por \(B_{r}\) a la bola centrada en el
+	origen de radio \(r\).
+
+	Llamemos \(\mathcal{K}\) a la integral del kernel de poisson sobre
+	\(\partial B_{r}\). Expadiendo \(\mathcal{K}\) tenemos que
+	\begin{align*}
+		\int_{\partial B_r} k(x,y) \, dS(y)
+		&=
+		-\int_{\partial B_r} 
+		\partial_{\n(y)} G(x,y) \, dS(y)
+		\\&=
+		\int_{\partial B_r} 
+			\frac{r^2 - \abs{x}^2}{n \alpha(n) r}
+			\frac{1}{\abs{x-y}^n}
+		\, dS(y)
+		\\&=
+		\frac{r^2 - \abs{x}^2}{n\alpha(n) r}
+		\int_{\partial B_r} 
+			\frac{1}{\abs{x-y}^n}
+		\, dS(y).
+	\end{align*}
+	Consideremos ahora \(s < r\). Nótese que si \(x\in \partial
+	B_{s}\), entonces el integrando es constante \(\abs{s-r}^{-n}\) y
+	por lo tanto \(\mathcal{K} = 1\) en la frontera de \(B_{r}\).
+	
+	Por otro lado, \(\mathcal{K}\) resuelve el siguiente problema 
+	(usando TCD, la simetría y la suavidad de la función de Green), 
+	\begin{displaymath}
+	\begin{caligned}
+		\Delta_{x} \mathcal{K}(x) &= 0
+		&&, \text{ para } x\in B_{s}
+		\\
+		\mathcal{K}(x) &= \alpha
+		&&, \text{ para } x\in \partial B_{s}
+	\end{caligned}
+	\end{displaymath}
+	donde \(\alpha\) es una constante.
+	Por la unicidad del problema de Poisson se sigue que \(\mathcal{K}
+	= \alpha\) en \(\overline{B_{s}}\). Más aún, \(\mathcal{K}(0) =
+	1\), así que \(\mathcal{K} = 1\) en \(\overline{B_{s}}\). Basta
+	tomar \(s \uparrow r\) y obtenemos el resultado o bien para cada
+	\(x\) repetir el procedimiento tomando \(s = \abs{x}\).
+\end{Solucion}
+
+% Problema 2
+\begin{Problema}
+	Sea \(\Omega = \left\{ (x,y) \in \R^2 \mid x^2 + y^2 < a^2
+	\right\}\). Denotando por \((r,\theta)\) las coordenadas polares
+	en \(\R^2\), consideramos el problema
+	\begin{displaymath}
+	\begin{aligned}
+		u_{xx} + u_{yy} &= 0 &&, (x,y) \in \Omega\\
+		u(x,y) &= h(\theta) &&, (x,y) \in \partial\Omega, 
+	\end{aligned}
+	\end{displaymath}
+	donde \(h\) es una función (suave) definida sobre el círculo de
+	radio \(a\). La idea de esta pregunta es resolver este problema
+	utilizando coordenadas polares. Para ello, proceda de la siguiente
+	forma:
+	\begin{enumerate}[label=(\alph*), topsep=3pt, itemsep=2pt]
+		\item Escriba la ecuación en coordenadas polares. Para ello,
+			escriba \(u = u(r,\theta)\), y muestre que 
+			\begin{displaymath}
+				u_{rr} + \frac{1}{r} u_{r} 
+				+ \frac{1}{r^2} u_{\theta\theta} 
+				= 0.
+			\end{displaymath}
+		\item A continuación debe resolver esta ecuación utilizando
+			separación de variables. Para ello, busque una solución de
+			la forma \(u(r,\theta) = R(r) \Theta(\theta)\), y deduzca
+			las ecuaciones que deben satisfacer \(R\) y \(\Theta\).
+		\item Note que \(\Theta\) satisface las condiciones de borde
+			periódicas para \(r=a\). Usando esto, encuentre las
+			soluciones \((\lambda_n, \Theta_n)\) del problema de
+			auto-valores y auto-funciones asociado a la función
+			\(\Theta\).
+		\item Usando los auto-valores \(\lambda_n\) encontrados en la
+			parte anterior, resuelva la EDO lineal con coeficientes
+			variables satisfecha por \(R = R_{n}\) para cada uno de
+			estos auto-valores.
+		\item Escriba un candidato a solución de la EDP como una
+			combinación lineal infinita (serie), a partir de las
+			soluciones de las EDOs resueltas en las partes anteriores,
+			\textbf{descartando} aquellas que revientan cuando \(r
+			\downarrow 0\) (¿por qué?), y encuentre los coeficientes
+			de la serie en términos de \(h\).
+		\item Usando que
+			\begin{displaymath}
+				\cos(n\phi) \cos(n\theta)
+				+
+				\sin(n\phi) \sin(n\theta)
+				=
+				\cos(n(\theta - \phi)),
+			\end{displaymath}
+			expresando \(\cos(n(\theta - \phi))\) en término de
+			exponenciales complejas, y la convergencia de la serie
+			geométrica, muestre que
+			\begin{displaymath}
+				u(r,\theta)
+				=
+				\frac{1}{2\pi}
+				\int_{0}^{2\pi}
+					h(\phi)
+					\frac
+					{a^2 - r^2}
+					{a^2 - 2 a r \cos(\theta-\phi)+ r^2}
+					\, d\phi.
+			\end{displaymath}
+		\item Finalmente, pasando a coordenadas cartesianas, muestre
+			que la solución encontrada satisface la fórmula de Poisson
+			para un disco.
+	\end{enumerate}
+\end{Problema}
+
+\begin{Solucion}
+\begin{enumerate}[label=(\alph*), topsep=3pt, itemsep=2pt]
+% 2a
+\item El cambio desde coordenadas rectangulares a
+	coordenadas polares viene dado por:
+	\begin{displaymath}
+	\begin{aligned}
+		T \colon \Omega \setminus \left\{ (0,0) \right\} &\to (0, a) \times [0, 2\pi)\\
+		(x,y) &\mapsto 
+		\left( \sqrt{x^2 + y^2}, 
+		\begin{caligned}
+			\arctan(y/x) &&, y \ge 0, x \ne 0\\
+			-\arctan(y/x) &&, y \le 0, x\ne 0 \\
+			\pi/2 &&, x = 0
+		\end{caligned}
+		\right)
+	\end{aligned}.
+	\end{displaymath}
+	Por simetría del disco basta considerar el caso del plano superior, esto es 
+	\(y > 0\) y \(x \ne 0\). Además, para no andar anotando la \(u\)
+	en todas partes trabajaré con los operadores. 
+
+	La derivada de la transformación es
+	\begin{displaymath}
+		DT(x,y)
+		=
+		\begin{pmatrix}
+			\cos(\theta) & -\frac{1}{r} \sin(\theta) \\
+			\sin(\theta) & \frac{1}{r} \cos(\theta)
+		\end{pmatrix}.
+	\end{displaymath}
+	Al aplicar regla de la cadena tenemos
+	\begin{displaymath}
+		D(u\circ T)
+		=
+		Du(T) \cdot DT
+		=
+		\begin{pmatrix}
+			\partial_{r} & \partial_{\theta}
+		\end{pmatrix}
+		\cdot
+		\begin{pmatrix}
+			\cos(\theta) & \sin(\theta)  \\
+			-\frac{1}{r} \sin(\theta) & \frac{1}{r} \cos(\theta)
+		\end{pmatrix},
+	\end{displaymath}
+	y por lo tanto los operadores se leen
+	\begin{align*}
+		\partial_{x} &= 
+		\cos(\theta) \partial_{r} - \frac{1}{r} \sin(\theta) \partial_{\theta}
+		\\
+		\partial_{y} &=
+		\sin(\theta) \partial_{r} + \frac{1}{r} \cos(\theta)
+		\partial_{\theta}.
+	\end{align*}
+	Dado que (aplicando regla del producto)
+	\begin{align*}
+		\partial_{r} \partial_{x}
+		&=
+		\cos(\theta) \partial_{r}^2 
+		- \frac{1}{r^2} \sin(\theta) \partial_{\theta}
+		- \frac{1}{r} \sin(\theta) \partial_{r} \partial_{\theta}
+		\\
+		\partial_{\theta} \partial_{x}
+		&=
+		(-\sin(\theta) \partial_{r}) + (\cos(\theta) \partial_{\theta} \partial{r}) 
+		- \frac{1}{r} \cos(\theta) \partial_{\theta}
+		- \frac{1}{r} \sin(\theta) \partial_{\theta}^2,
+	\end{align*}
+	tenemos que
+	\begin{align*}
+		\partial_{x}^2 
+		&=
+		\cos\theta \left[
+		\cos\theta \partial_{r}^2 
+		- \frac{1}{r^2} \sin\theta \partial_{\theta}
+		- \frac{1}{r} \sin\theta \partial_{r} \partial_{\theta}
+		\right]
+		\\& - \frac{1}{r} \sin\theta
+		\left[
+			- \sin(\theta) \partial_{r} 
+			+ \cos\theta \partial_{\theta} \partial{r}
+			- \frac{1}{r} \cos\theta \partial_{\theta}
+			- \frac{1}{r} \sin\theta \partial_{\theta}^2
+		\right]
+		\\&=
+		\cos^2 \theta \partial_{r}^2 
+		+ \frac{1}{r} \sin^2\theta \partial_{r} 
+		+ \frac{1}{r^2} \sin^2\theta \partial_{\theta}^2.
+	\end{align*}
+	Donde para simplificar usamos la regularidad de la función (que
+	las derivadas parciales cruzadas conmutan). Ahora hacemos lo mismo
+	con \(\partial_{y}\).
+	\begin{align*}
+		\partial_{r} \partial_{y}
+		&=
+		\sin(\theta) \partial_{r}^2
+		-\frac{1}{r^2} \cos\theta \partial_{\theta}
+		+ \frac{1}{r} \cos\theta \partial_{r} \partial_{\theta}
+		\\
+		\partial_{\theta} \partial_{y}
+		&=
+		\cos\theta \partial_{r}
+		+ \sin\theta \partial_{\theta} \partial_{r}
+		- \frac{1}{r} \sin\theta \partial_{\theta}
+		+ \frac{1}{r} \cos\theta \partial_{\theta}^2,
+	\end{align*}
+	y obtenemos que 
+	\begin{align*}
+		\partial_{y}^2 
+		&=
+		\sin(\theta) \left[
+			\sin(\theta) \partial_{r}^2
+			-\frac{1}{r^2} \cos\theta \partial_{\theta}
+			+ \frac{1}{r} \cos\theta \partial_{r} \partial_{\theta}
+		\right]
+		\\&+ \frac{1}{r} \cos\theta \left[
+			\cos\theta \partial_{r}
+			+ \sin\theta \partial_{\theta} \partial_{r}
+			- \frac{1}{r} \sin\theta \partial_{\theta}
+			+ \frac{1}{r} \cos\theta \partial_{\theta}^2
+		\right]
+		\\&=
+		\sin^2\theta \partial_{r}^2 
+		+ \frac{1}{r} \cos^2 \theta \partial_{r}
+		+ \frac{1}{r^2} \cos^2\theta \partial_{\theta}^2.
+	\end{align*}
+	De esta forma, 
+	\begin{align*}
+		\partial_{x}^2 + \partial_{y}^2
+		&=
+		\cos^2 \theta \partial_{r}^2 
+		+ \frac{1}{r} \sin^2\theta \partial_{r} 
+		+ \frac{1}{r^2} \sin^2\theta \partial_{\theta}^2
+		\\&+
+		\sin^2\theta \partial_{r}^2 
+		+ \frac{1}{r} \cos^2 \theta \partial_{r}
+		+ \frac{1}{r^2} \cos^2\theta \partial_{\theta}^2
+		\\&=
+		\partial_{r}^2
+		+ \frac{1}{r} \partial_{r}
+		+ \frac{1}{r^2} \partial_{\theta}^{2}.
+	\end{align*}
+	Aplicando el operador a \(u\) y usando la hipótesis tenemos lo
+	pedido.
+% 2b
+\item Buscamos soluciones de la forma \(u(r,\theta) = R(r)
+	\Theta(\theta)\). Poniéndolas en la ecuación tenemos que
+	\begin{displaymath}
+		\Theta(\theta) \partial_{r}^2 R(r)
+		+ \Theta(\theta) \frac{1}{r} \partial_{r} R(r)
+		+ R(r) \frac{1}{r^2} \partial_{\theta}^{2} \Theta(\theta)
+		= 0.
+	\end{displaymath}
+	Equivalentemente (suponiendo que \(R, \Theta \not\equiv 0\)),
+	\begin{displaymath}
+		\frac
+			{r^2 R''(r)}
+			{R(r)}
+		+
+		\frac
+			{r R'(r)}
+			{R(r)}
+		=
+		-
+		\frac
+			{\Theta''(\theta)}
+			{\Theta(\theta)}.
+	\end{displaymath}
+	Como ambos lados dependen de variables distintas, es necesario que
+	igualen una constante. Denotemos tal constante por \(-\lambda\).
+	Luego, \(R\) y \(\Theta\) deben resolver,
+	\begin{align*}	
+		0 &= r^2 R''(r) + r R'(r) + \lambda R(r) \\
+		0 &= \Theta''(\theta) - \lambda \Theta(\theta).
+	\end{align*}
+% 2c
+\item 
+	Dado que 
+	\begin{displaymath}
+		R(a) \Theta(\theta) = h(\theta).
+	\end{displaymath}
+	tenemos que problema es periódico en el siguiente sentido,
+	\begin{subequations}
+	\begin{align}
+		\label{f}
+		0 &= \Theta''(\theta) - \lambda \Theta(\theta)
+		\\
+		\label{f1}
+		0 &= \Theta(0) - \Theta(2\pi)
+		\\
+		\label{f2}
+		0 &= \Theta'(0) - \Theta'(2\pi)
+	\end{align}.
+	\end{subequations}
+
+	La ecuación característica de la EDO~\eqref{f} es 
+	\begin{displaymath}
+		0 = z^2 - \lambda.
+	\end{displaymath}
+
+	\underline{Si \(\lambda = 0\):} entonces \(\Theta(\theta) = m
+	\theta + n\). Por las condiciones de borde periódicas,
+	\begin{displaymath}
+		\eqref{f1}
+		\implies
+		\Theta(0) = n = 2\pi m + n = \Theta(2\pi)
+		\iff m = 0
+	\end{displaymath}
+	Así que la solución es constante. 
+
+	\underline{Si \(\lambda > 0\):} entonces \(0 = (z -
+	\sqrt{\lambda})(z + \sqrt{\lambda})\). Así, las soluciones son de
+	la forma
+	\begin{displaymath}
+		\Theta(\theta)
+		= 
+		A \exp(\sqrt{\lambda} \theta)) + 
+		B \exp(-\sqrt{\lambda} \theta).
+	\end{displaymath}
+	Por las condiciones de periocidad, 
+	\begin{align*}
+		\eqref{f1} &\implies
+		\Theta(0) = A + B 
+		= 
+		A\, e^{\sqrt{\lambda} 2\pi} +
+		B\, e^{-\sqrt{\lambda} 2\pi}
+		=
+		\Theta(2\pi)
+		\\
+		\eqref{f2} &\implies
+		\Theta'(0) = A\sqrt{\lambda} - B\sqrt{\lambda} 
+		= 
+		A\sqrt{\lambda}\, e^{\sqrt{\lambda} 2\pi} -
+		B\sqrt{\lambda}\, e^{-\sqrt{\lambda} 2\pi}
+		=
+		\Theta'(2\pi).
+	\end{align*}
+	Como \(\lambda > 0\) podemos dividir la segunda ecuación por
+	\(\lambda\). Sumando ambas nos deja que,
+	\begin{displaymath}
+		2A = 2A e^{\sqrt{\lambda} 2\pi}.
+	\end{displaymath}
+	Si \(A \ne 0\), entonces \(\lambda = 0\). Por lo tanto, \(A = 0\).
+	De manera similar concluimos que \(B = 0\). Así, la solución es la
+	nula y por lo tanto no hay valores propios.
+
+	\underline{Si \(\lambda < 0\):} La ecuación característica queda
+	\begin{displaymath}
+		0 = (z - i\sqrt{-\lambda}) (z + i\sqrt{-\lambda})
+	\end{displaymath}
+	Luego, 
+	\begin{displaymath}
+		\Theta(\theta) 
+		=
+		A e^{i\sqrt{-\lambda} \theta} 
+		+
+		B e^{-i\sqrt{-\lambda} \theta}
+		=
+		(A+B) \cos(\sqrt{-\lambda} \theta) 
+		+
+		(A-B) i \sin(\sqrt{-\lambda} \theta).
+	\end{displaymath}
+	Imponiendo las condiciones de periocidad tenemos que,
+	\begin{alignat*}{3}
+		\eqref{f1} &\implies
+		\Theta(0) 
+		= A + B 
+		= 
+		(A+B) \cos(\sqrt{-\lambda} 2\pi) 
+		+ (A-B) i \sin(\sqrt{-\lambda} 2\pi)
+		=
+		\Theta(2\pi)
+		\\
+		\eqref{f2} &\implies
+		\Theta'(0) 
+		= (A-B) i \sqrt{-\lambda} \sin(\sqrt{-\lambda} \theta)
+		\\&= 
+		-(A+B) \sqrt{-\lambda} \sin(\sqrt{-\lambda} 2\pi) 
+		+ (A-B) i \sqrt{-\lambda} \cos(\sqrt{-\lambda} 2\pi)
+		=
+		\Theta'(2\pi).
+	\end{alignat*}
+	En la última ecuación podemos dividir por \(\sqrt{-\lambda}\) y
+	multiplicar por \(i\). Sumando ambas obtenemos (ignorando el
+	argumento de las funciones para ahorrar notación),
+	\begin{align*}
+		2B = 2B \cos - 2B i\sin.
+	\end{align*}
+	Si \(B \ne 0\), entonces \(1 = \cos - i \sin\) lo cual (comparando
+	parte imaginaria y real) solo puede pasar si \(\sqrt{-\lambda}
+	2\pi = 2\pi k\) con \(k \ge 1\); Vale decir, los valores propios
+	son:
+	\begin{displaymath}
+		\lambda_{n} = -n^2.
+	\end{displaymath}
+	Se sigue que las autofunciones vienen dadas por
+	\begin{displaymath}
+		\Theta_{n}(\theta) = A_n e^{\theta n i} + B_n e^{-\theta n i}.
+	\end{displaymath}
+
+	\item
+	Volviendo a la ecuación de \(R\) tenemos que para cada
+	\(\lambda_n\) se debe satisfacer:
+	\begin{displaymath}
+		0 = r^2 R_n''(r) + r R_n'(r) - n^2 R_n(r).
+	\end{displaymath}
+	Tomemos como ansatz \(R_n = r^N\) para algún \(N\). Luego,
+	\begin{align*}
+		0 
+		&= r^2 N(N-1) r^{N-2} + r N r^{N-1} - n^2 r^{N} 
+		\\&= N(N-1) r^{N} + N r^{N} - n^2 r^{N} 
+		\\&= r^N (N^2 - n^2)
+		\\&= r^{N} (N-n)(N+n).
+	\end{align*}
+	y las soluciones son de la forma
+	\begin{displaymath}
+		R_n = A r^{n} + B r^{-n}.
+	\end{displaymath}
+%2e
+	\item 
+	Recordamos que las soluciones desacopladas son de la forma
+	\begin{align*}
+		R_n &= a_n r^n + b_n r^{-n}
+		\intertext{y}
+		\Theta_{n}(\theta) &= c_n e^{\theta n i} + d_n e^{-\theta n
+		i},
+	\end{align*}
+	para cada \(n \ge 0\) (recordar que las constantes también son
+	solución).
+	
+	Queremos aplicar el Ppio de superposición con las soluciones
+	\(u_{n} = R_n \Theta_{n}\). El problema es que la primera relación
+	sobre \(R_n\) no está
+	completamente definida en todo nuestro dominio. Sin embargo, por
+	el mismo Ppio podemos imponer que \(b_n = 0\) y la relación
+	seguirá resolviendo la ecuación.
+	El candidato a solución entonces es de la forma
+	\begin{displaymath}
+		u(r, \theta) 
+		= \sum_{n\ge 0} 
+			r^{n} (x_n\, e^{\theta n i} + y_n\, e^{-\theta n i}).
+	\end{displaymath}
+	De ser solución, por las condiciones de borde se tiene que
+	\begin{displaymath}
+		u(a, \theta) 
+		= \sum_{n\ge 0} 
+			a^{n} (x_n\, e^{\theta n i} + y_n\, e^{-\theta n i})
+		= h(\theta).
+	\end{displaymath}
+	Usando la ortogonalidad de las autofunciones tenemos que al
+	aplicar \(\langle \cdot, \pm e^{\theta n i} \rangle\)
+	nos deja
+	\begin{displaymath}
+		x_n = 
+		\frac{1}{a^n}
+		\frac
+			{\langle h(\theta), e^{in\theta} \rangle}
+			{\langle e^{in\theta}, e^{in\theta} \rangle}
+		=
+		\frac{\langle h(\theta), e^{in\theta} \rangle}{2\pi\, a^n}
+		\hspace{.5cm} \text{y} \hspace{.5cm}
+		y_n = 
+		\frac{1}{a^n}
+		\frac
+			{\langle h(\theta), e^{-in\theta} \rangle}
+			{\langle e^{-in\theta}, e^{-in\theta} \rangle}
+		=
+		\frac{\langle h(\theta), e^{-in\theta} \rangle}{2\pi\, a^n}
+		.
+	\end{displaymath}
+	Denotemos por \(h_n(\theta) = \langle h(\theta), e^{in\theta}
+	\rangle\) y \(\tilde{h}_{n}(\theta) = \langle h(\theta),
+	e^{-in\theta)} \rangle\).
+	De esta forma, el candidato a solución se ve
+	\begin{displaymath}
+		u(r, \theta) 
+		= 
+		\sum_{n\ge 0} 
+			\frac{r^{n}}{2\pi\, a^n} 
+			(h_n e^{\theta n i} + \tilde{h}_n e^{-\theta n i})
+		.
+	\end{displaymath}
+%2f
+	\item
+	Expandiendo el término anterior nos queda
+	\begin{align*}
+		u(r, \theta) 
+		&= 
+		\sum_{n\ge 0} 
+			\frac{r^{n}}{2\pi\, a^n} 
+			(h_n e^{\theta n i} + \tilde{h}_n e^{-\theta n i})
+		\\&=
+		\sum_{n\ge 0} 
+			\frac{r^{n}}{2\pi\, a^n} 
+			\left[
+			\int_{0}^{2\pi}
+				h(\phi)
+				\left(
+				e^{in(\theta - \phi)}
+				+
+				e^{-in(\theta - \phi)}
+				\right)
+			\, d\phi
+			\right].
+	\end{align*}
+	Intercambiando la sumatoria con la integral donde se puede nos
+	deja
+	\begin{displaymath}
+		u(r, \theta) 
+		=
+		\frac{1}{\pi}
+		\int_{0}^{2\pi}
+		h(\phi)
+		\left[
+		\frac{1}{2} +
+		\sum_{n\ge 1} 
+		\frac{r^{n}}{2 a^n} 
+		\left( e^{in(\theta - \phi)} + e^{-in(\theta - \phi)} \right)
+		\right]
+		\, d\phi.
+	\end{displaymath}
+	Dado que,
+	\begin{displaymath}
+		\sum_{n\ge 1} 
+		\frac{r^{n}}{a^n} 
+		\left( e^{in(\theta - \phi)} + e^{-in(\theta - \phi)} \right)
+		=
+		\sum_{n\ge 1} 
+			\frac{r^{n}}{a^n} 
+			e^{in(\theta - \phi)}
+		+
+		\sum_{n\ge 1} 
+			\frac{r^{n}}{a^n} 
+			e^{-in(\theta - \phi)},
+	\end{displaymath}
+	con las últimas series geométricas convergentes (el módulo del
+	argumento de la serie es menor a \(1\)). Se sigue que
+	\begin{displaymath}
+		\sum_{n\ge 1}
+			\frac{r^n}{a^n}
+			e^{in(\theta - \phi)}
+		=
+		\frac
+			{(r/a) e^{i(\theta-\phi)}}
+			{1 - \frac{r}{a} e^{i(\theta-\phi)}}
+		\hspace{.5cm} \text{y} \hspace{.5cm}
+		\sum_{n\ge 1}
+			\frac{r^n}{a^n}
+			e^{-in(\theta - \phi)}
+		=
+		\frac
+			{(r/a) e^{-i(\theta-\phi)}}
+			{1 - \frac{r}{a} e^{-i(\theta-\phi)}}.
+	\end{displaymath}
+	Al volverlas a sumar nos queda,
+	\begin{align*}
+		\sum_{n\ge 1} 
+		\frac{r^{n}}{2 a^n} 
+		\left( e^{in(\theta - \phi)} + e^{-in(\theta - \phi)} \right)
+		&=
+		\frac{1}{2}
+		\frac
+		{(r/a) e^{i(\theta-\phi)} - (r/a)^2 + (r/a)
+		e^{-i(\theta-\phi)} - (r/a)^2}
+		{1 - (r/a) e^{i(\theta-\phi)} - (r/a) e^{-i(\theta-\phi)} + (r/a)^2}
+		\\&=
+		\frac{1}{2}
+		\frac
+		{ar e^{-i(\theta-\phi)} - ar e^{i(\theta-\phi)} - 2r^2}
+		{a^2 - ar e^{-i(\theta-\phi)} - ar e^{i(\theta-\phi)} + r^2}
+		\\&=
+		\frac
+		{ar\cos(\theta-\phi) - r^2}
+		{a^2 - 2ar \cos(\theta- \phi) + r^2}.
+	\end{align*}
+	De esta forma, el integrando queda
+	\begin{displaymath}
+		\frac{1}{2} +
+		\frac
+		{ar\cos(\theta-\phi) - r^2}
+		{a^2 - 2ar \cos(\theta- \phi) + r^2}
+		=
+		\frac
+		{a^2 - r^2}
+		{a^2 - 2ar \cos(\theta- \phi) + r^2}.
+	\end{displaymath}
+	Juntando todo nos da que
+	\begin{displaymath}
+		u(r,\theta)
+		=
+		\frac{1}{2\pi}
+		\int_{0}^{2\pi}
+			h(\phi)
+			\frac
+			{a^2 - r^2}
+			{a^2 - 2 a r \cos(\theta-\phi)+ r^2}
+		\, d\phi.
+	\end{displaymath}
+% 2g
+	\item
+	Haciendo el cambio a coordenadas cartesianas sobre los parámetros
+	de la función
+	\begin{displaymath}
+		x = r\cos\theta \hspace{1cm} y = r\sin\theta,
+	\end{displaymath}
+	nos deja que
+	\begin{displaymath}
+		u(x,y)
+		=
+		\frac{1}{2\pi}
+		\int_{0}^{2\pi}
+			h(\phi)
+			\frac
+			{a^2 - x^2 - y^2}
+			{a^2 - 2 a (x\cos\phi + y\cos\phi)+ x^2 + y^2}
+		\, d\phi.
+	\end{displaymath}
+	Por la simetría basta derivar con respecto a una variable. Dígamos
+	\(x\). Por TCD podemos intercambiar la integral con la derivada y
+	solo enforcanos en la fracción que tiene \(x\).
+	\begin{displaymath}
+		\begin{array}{*1{>{\displaystyle}c}p{5cm}}
+		\partial_{x}
+		\left(
+		\frac
+			{a^2 - x^2 - y^2}
+			{a^2 - 2 a (x\cos\phi + y\cos\phi)+ x^2 + y^2}
+		\right)
+		\\\rotatebox{90}{=}\\
+		\frac
+			{(-2x)\,(a^2 - 2a(x\cos\phi + y\cos\phi) + x^2 + y^2) +
+			(a^2 - x^2 - y^2)\,(-2a\cos\phi + 2x)}
+			{(a^2 - 2 a (x\cos\phi + y\cos\phi)+ x^2 + y^2)^2}
+		\\\rotatebox{90}{=}\\
+		\frac
+			{2a\cos\phi(2x^3 + 2xy - a^2 + x^2 + y^2) - 4x(x^2+y^2)}
+			{(a^2 - 2 a (x\cos\phi + y\cos\phi)+ x^2 + y^2)^2}.
+	\end{array}
+	\end{displaymath}
+	(\textit{Respiro profundo}) Derivando de nuevo
+	\begin{displaymath}
+		\begin{array}{*1{>{\displaystyle}c}p{5cm}}
+		\partial_{x}
+		\left(
+		\frac
+			{2a\cos\phi(2x^3 + 2xy - a^2 + x^2 + y^2) - 4x(x^2+y^2)}
+			{(a^2 - 2 a (x\cos\phi + y\cos\phi)+ x^2 + y^2)^4}
+		\right)
+		\\\rotatebox{90}{=}\\
+		\frac
+			{(2a\cos\phi(6x^2 + 2y + 2x)-4(3x^2+y^2))(\downarrow) 
+			+ 2(\downarrow)(-2a\cos\phi + 2x) }
+			{(a^2 - 2 a (x\cos\phi + y\cos\phi)+ x^2 + y^2)^4}.
+	\end{array}
+	\end{displaymath}
+\end{enumerate}
+\end{Solucion}
+
+% Problema 3
+\begin{Problema}
+	Use la transformada de Fourier para resolver
+	\begin{subequations}
+	\begin{alignat}{2}
+		\label{eq}
+		u_{t} - \kappa u_{xx} &= -u &&, (t,x) \in \R^{+}\times \R
+		\\ 
+		\label{ic}
+		u(0,x) &= \phi(x) &&, x\in \R
+	\end{alignat}
+	\end{subequations}
+\end{Problema}
+\begin{Solucion}
+	Aplicamos la tranformada de Fourier \(\FF\) (en el espacio) a la
+	ecuación~\eqref{eq}. 
+	Esto nos deja,
+	\begin{displaymath}
+		\FF(u_t - \kappa u_{xx})
+		=
+		\FF(u_t - \kappa D^{(0,2)} u)
+		=
+		\widehat{u_t} - \kappa (ix)^2 \widehat{u}
+		=
+		-\widehat{u}
+		= \FF(-u).
+	\end{displaymath}
+	Reordenando (notar que intercambiamos los operadores \(\FF\) y
+	\(\partial_{t}\))
+	\begin{displaymath}
+		\widehat{u}_t = - (1 + \kappa x^2) \widehat{u}.
+	\end{displaymath}
+	Esto es una EDO en tiempo. La solución general es
+	\(
+		\widehat{u}
+		=
+		A e^{-t(1+\kappa x^2)}.
+	\)
+	Aplicando \(\FF\) a las condiciones iniciales~\eqref{ic} nos da
+	que
+	\(
+		\widehat{u} = \widehat{\phi}
+	\)
+	para \(t=0\). Por lo tanto, la solución es
+	\begin{displaymath}
+		\widehat{u} = \widehat{\phi} e^{-t(1+\kappa x^2)}.
+	\end{displaymath}
+	Aplicando la transformada de Fourier inversa tenemos que
+	\begin{displaymath}
+		u = 
+		\frac{\phi\ast \FF^{-1}(e^{-t(1+\kappa x^2)})}{\sqrt{2\pi}}.
+	\end{displaymath}
+	Por lo que solo basta calcular \(\FF^{-1}(e^{-t(1+\kappa x^2)})\).
+	Vamos a ello,
+	\begin{align*}
+		\FF^{-1}(e^{-t(1+\kappa x^2)})(x)
+		&=
+		\frac{1}{\sqrt{2\pi}}
+		\int_{\R} e^{i xy} e^{-t(1+\kappa y^2)} \, dy
+		\\&=
+		\frac{1}{\sqrt{2\pi}^n e^{t}}
+		\int_{\R} e^{i xy - t\kappa y^2} \, dy
+		\\&=
+		\frac{1}{\sqrt{2\pi} e^{t}}
+		\frac{\sqrt{\pi}}{\sqrt{t\kappa}} 
+		\, e^{-\frac{x^2}{4t\kappa}}
+		\\&=
+		\exp\left(-\frac{x^2}{4t\kappa}\right)\,
+		\frac{1}{e^{t} \sqrt{2t\kappa}}.
+	\end{align*}
+	De esta forma, la solución se lee
+	\begin{align*}
+		u(t,x)
+		&=
+		\frac{1}{\sqrt{2\pi}}
+		\phi\ast\FF^{-1}(e^{-t(1+\kappa x^2)})
+		\\&=
+		\frac{1}{\sqrt{4\pi t\kappa} e^{t}}
+		\int_{\R}
+			e^{-\frac{(x-y)^2}{4t\kappa}}
+			\phi(y)
+		\, dy.
+	\end{align*}
+\end{Solucion}
+
+% Problema 4
+\begin{Problema}
+	Sea \(\Omega \subset \R^d\) un abierto acotado con frontera
+	\(\mathcal{C}^{1}\). Demuestre que el problema
+	\begin{displaymath}
+	\begin{caligned}
+		u_{t} - \Delta_{x} u + u &= 0 &&, (t,x) \in \R^{+}\times \Omega\\
+		u &= 0 &&, (t,x) \in \left\{ 0 \right\}\times \Omega \\
+		\partial_{\n} u + a u &= 0 &&, (t,x) \in \R^{+}\times \partial\Omega\\
+	\end{caligned},
+	\end{displaymath}
+	donde \(a \ge 0\) es una constante, posee una única solución.
+
+	\textbf{Sugerencia:} Considere el funcional de energía 
+	\begin{displaymath}
+		E(t) = \int_{\Omega} u^2(t,x) \, dx,
+	\end{displaymath}
+	y estudie el comportamiento de su derivada.
+\end{Problema}
+\begin{Solucion}
+	Supongamos que \(u_1\) y \(u_2\) son dos soluciones. Denotemos por
+	\(u = u_1 - u_2\). Luego, \(u\) satisface el problema
+	\begin{displaymath}
+	\begin{caligned}
+		u_{t} - \Delta_{x} u + u &= 0 &&, (t,x) \in \R^{+}\times \Omega\\
+		u &= 0 &&, (t,x) \in \left\{ 0 \right\}\times \Omega \\
+		\partial_{\n} u + a u &= 0 &&, (t,x) \in \R^{+}\times \partial\Omega\\
+	\end{caligned}.
+	\end{displaymath}
+	Consideremos el funcional de energía dado por la sugerencia. Por
+	TCD tenemos que
+	\begin{align*}
+		\frac{1}{2} E'(t)
+		&=	
+		\int_{\Omega} u\, u_{t} \, dx
+		\\&=
+		\int_{\Omega} u\, (\Delta_{x} u - u) \, dx
+		\\&=
+		\int_{\Omega} u\, \Delta_{x} u - u^2 \, dx
+		\\&=
+		-\int_{\Omega} \abs{\nabla u}^2 \, dx
+		+\int_{\partial \Omega} u \partial_{\n} u\, dx
+		-\int_{\Omega} u^2\, dx
+		\\&=
+		-\int_{\Omega} \abs{\nabla u}^2 \, dx
+		-\int_{\partial \Omega} a u^2\, dS(x)
+		-\int_{\Omega} u^2\, dx.
+	\end{align*}
+	Notando que todos los integrandos son no negativos, concluimos que
+	\begin{displaymath}
+		E'(t) \le 0,\qquad \forall t \ge 0.
+	\end{displaymath}
+	Dado que \(u\) se anula en \(t = 0\), tenemos que
+	\begin{displaymath}
+		0 \le E(t) = E(0) = 0,\qquad \forall t \ge 0
+	\end{displaymath}
+	Así que la solución \(u = u_1 - u_2 = 0\). Con esto concluimos que
+	el problema tiene a lo más una solución.
+\end{Solucion}
+
+\end{document}

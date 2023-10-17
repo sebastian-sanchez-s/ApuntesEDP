@@ -1,0 +1,582 @@
+%! tex root = T3.tex
+\input{preamble}
+
+\begin{document}
+
+\header{3}{}
+
+\begin{Problema}
+	Sea \(T>0\), \(U\subset\R^n\) un abierto y
+	\(u\in\CC^{(1,2)}(U_{T})\) una solución de la ecuación
+	del calor en \(U_{T}\).
+	Pruebe que para todo par de enteros \(k,\ell\) no negativos
+	existen constantes \(C = C(k,\ell,n)\) tales que 
+	\begin{displaymath}
+		\max_{C(x,t;r/2)} \abs{D^{k}_{x} D^{\ell}_{t} u}
+		\le
+		\frac{C}{r^{k+2\ell}} \max_{C(x,t;r)} \abs{u},
+	\end{displaymath}
+	para todos los cilindros \(C(x,t;r/2) \subset C(x,t;r) \subset
+	U_{T}\).
+
+	Deduzca que si \(u\in \CC^{(1,2)}(\R\times\R^n)\) es una solución
+	de la ecuación del calor tal que \(u = \mathcal{O}(\abs{t}^{\ell}
+	+ \abs{x}^{k})\), entonces \(u\) es un polinomio de grado a lo
+	más \(k + 2\ell\).
+\end{Problema}
+\begin{Solucion}
+	Por el teorema de estimación sobre las derivadas tenemos que
+	\begin{displaymath}
+		\max_{C(r/2)} \abs{D^{\alpha}_{x} D^{\ell}_{t} v}
+		\le
+		\frac{C_{k,\ell}}{r^{2\ell + k + n+2}} 
+		\norm{u}_{L^1(C(r))}.
+	\end{displaymath}
+	Dado que \(u\) es continua y \(C(r)\) es compacto, \(u\) alcanza
+	su máximo. Se sigue que
+	\begin{displaymath}
+		\norm{u}_{L^1(C(r))}
+		\le
+		r^{n+2} \alpha(n)
+		\max_{C(r)} \abs{u}.
+	\end{displaymath}
+	donde \(r^{n+2}\alpha(n)\) es el volumen del cilindro \(C(r)\).
+	Juntando ambas desigualdades se sigue el resultado:
+	\begin{displaymath}
+		\max_{C(r/2)} \abs{D^{\alpha}_{x} D^{\ell}_{t} u}
+		\le
+		\frac{C_{k,\ell} \alpha(n)}{r^{2\ell + k}} 
+		\max_{C(r)} \abs{u}
+		=
+		\frac{C_{k,\ell,n}}{r^{2\ell + k}} 
+		\max_{C(r)} \abs{u}.
+	\end{displaymath}
+
+	Supongamos ahora que \(u\in\CC^{(1,2)}(\R_{\ge0}\times\R^n)\).
+\end{Solucion}
+
+\begin{Problema}
+	Sea \(\Omega \subset\R^n\) un abierto acotado con frontera
+	de clase \(\CC^{1}\) y \(u\in H^{1}(\Omega)\).
+	\begin{enumerate}[label=(\alph*)]
+		\item
+		Demuestre que \(\abs{u} \in H^{1}(\Omega)\) y que
+		\begin{displaymath}
+			\nabla \abs{u}(x)
+			=
+			\text{signo}(u(x))\, \nabla u(x)
+			\qquad
+			\text{c.t.p. en } \Omega, 
+		\end{displaymath}
+		donde \(\text{signo}(s) = 1, 0, -1\) si \(s>0, s=0\) o
+		\(s<0\), respectivamente.
+
+		\item
+		Demuestre que \(u^{+}(x) \coloneqq \max \left\{ u(x), 0
+		\right\}\) y \(u^{-}(x) \coloneqq \min \left\{ u(x), 0 \right\}\)
+		pertenecen a \(H^{1}(\Omega)\).
+
+		\textit{Sugerencia: considere la sucesión de funciones
+		\(u_{\epsilon}(x) \coloneqq \sqrt{\epsilon^2 + u(x)^2} -
+		\epsilon\)}.
+		
+		\item
+		Demuestre que \(\nabla u(x) = 0\) para casi todo \(x\in
+		\Omega\) tal que \(u(x) = 0\), y que si \(u\in
+		H^{1}_{0}(\Omega)\) entonces \(\abs{u}, u^{\pm} \in
+		H^{1}_{0}(\Omega)\).
+	\end{enumerate}
+\end{Problema}
+\begin{Solucion}
+\begin{enumerate}[label=(\alph*)]
+	\item
+	Primero notemos que \(u\in H^{1}(\Omega)\) si y solo si
+	\begin{displaymath}
+		\left(
+		\sum_{\abs{\alpha} \le 1} \norm{D^{\alpha} u}_{L^2(\Omega)}^{2}
+		\right)^{1/2}
+		< \infty.
+	\end{displaymath}
+	Dado que \(\alpha = (0,0,\dots,0), (1,0,\dots,0), \dots, (0,
+	\dots, 1)\) son las
+	únicas posibilidades para \(\alpha\), podemos reescribir la
+	condición como
+	\begin{displaymath}
+		\norm{u}_{L^2(\Omega)}^{2} 
+		+ 
+		\norm{\abs{\nabla u}}_{L^2(\Omega)}^{2}
+	   	< \infty.
+	\end{displaymath}
+	De esta forma, solo debemos mostrar que \(\abs{u}\) está
+	controlado por las estimaciones de \(u\). 
+	
+	Probaremos el resultado para \(u\in\CC^{\infty}\cap H^{1}(\Omega)\) y luego usaremos
+	densidad para extenderlo. Sea entonces \(u\in\CC^{\infty}(\Omega)\cap
+	H^{1}(\Omega)\).
+	Tenemos que
+	\begin{align*}
+		\norm{\abs{u}}_{L^2(\Omega)}^{2}
+		=
+		\int_{\Omega} \abs{u}^{2}
+		&=
+		\int_{\Omega} u^{2}
+		=
+		\norm{u}_{L^2(\Omega)}^{2}
+		\intertext{y (tomando la derivada c.t.p.)}
+		\partial_{x_i} \abs{u}
+		=
+		\text{signo}(u) \partial_{x_i} u
+		&\Rightarrow
+		\nabla \abs{u}
+		=
+		\text{signo}(u) \nabla u
+		\\
+		&\Rightarrow
+		\norm{\abs{\nabla \abs{u}}}_{L^{2}(\Omega)}^{2}
+		=
+		\int_{\Omega} \abs{\nabla \abs{u}}^{2}
+		\\&=
+		\int_{\Omega} \abs{\text{signo}(u) \nabla u}^{2}
+		=
+		\int_{\Omega} \abs{\nabla u}^{2}
+		=
+		\norm{\abs{\nabla u}}_{L^2(\Omega)}^{2}.
+	\end{align*}
+	Así que \(\abs{u} \in H^{1}(\Omega)\) para funciones
+	\(u\in \CC^{\infty}(\Omega)\cap H^{1}(\Omega)\). Si \(u\in
+	H^{1}(\Omega)\), existe una sucesión
+	de funciones suaves\footnote{Aproximación global por funciones
+	suaves} \((u_m)_{m\in\N}\) tal que \((u_m) \to u\) en
+	\(H^{1}(\Omega)\). Luego,
+	\begin{displaymath}
+		\norm{\abs{u}}_{L^{2}(\Omega)}^{2}
+		=
+		\norm{\abs{\lim_{m\to\infty} u_m}}_{L^{2}(\Omega)}^{2}
+		=
+		\lim_{m\to \infty} \norm{\abs{u_m}}_{L^{2}(\Omega)}^{2}
+		=
+		\lim_{m\to \infty} \norm{u_m}_{L^{2}(\Omega)}^{2}
+		=
+		\norm{u}_{L^{2}(\Omega)}^{2}.
+	\end{displaymath}
+	De manera análoga concluimos que \(\norm{\abs{\nabla
+	\abs{u}}}_{L^2(\Omega)}^{2} = \norm{\abs{\nabla u}}_{L^{2}(\Omega)}^{2}\).
+
+	\item
+	Debemos probar que \(\norm{u^{\pm}}_{L^{2}(\Omega)}^{2} +
+	\norm{D u^{\pm}}_{L^{2}(\Omega)} < 0\). Para ello necesitamos obtener la
+	derivada débil de \(u^{\pm}\).
+
+	Sea \(\Omega^{+}\) el dominio donde \(u(x) \ge 0\) o
+	equivalentemente \(u^{+} = u\). Un candidato natural a derivada
+	débil es la función
+	\begin{displaymath}
+		v = \begin{cases}
+			D u &, \text{ en }\Omega^{+}\\
+			0 &, \text{ fuera de }\Omega^{+}.
+		\end{cases}
+	\end{displaymath}
+	Y en efecto, se tiene que
+	\begin{displaymath}
+		\int_{\Omega} u^{+} D \psi
+		=
+		\int_{\Omega^{+}} u D \psi
+		=
+		-\int_{\Omega^{+}} D u \psi
+		=
+		-\int_{\Omega} v\psi
+		\quad\forall \psi \in \CC^{\infty}_{C}(\Omega).
+	\end{displaymath}
+	Así que podemos denotar con propiedad \(Du^{+} = v\).
+	De manera análoga definimos \(Du^{-}\). 
+
+	Para finalizar, notemos que
+	\begin{displaymath}
+		\norm{u^{\pm}}_{L^2(\Omega)}^{2} 
+		\le 
+		\norm{u}_{L^{2}(\Omega)}^2 < \infty
+		\quad\text{ y }\quad
+		\norm{Du^{\pm}}_{L^2(\Omega)}^2 
+		\le 
+		\norm{D u}_{L^2(\Omega)}^{2} < \infty.
+	\end{displaymath}
+	Así que \(u^{\pm} \in H^{1}(\Omega)\).
+
+	\item
+	Supongamos que \(u = 0\) c.t.p. en \(\Omega\). Luego,
+	\begin{displaymath}
+		0
+		=
+		\int_{\Omega} u \, D\psi
+		=
+		-\int_{\Omega} Du \, \psi
+		\qquad\forall\psi\in\CC^{\infty}_{C}(\Omega)
+	\end{displaymath}
+	Así deducimos que \(Du = 0\) c.t.p. en \(\Omega\). Por otro
+	lado, si \(u\in H^{1}_{0}(\Omega)\), por los apartados anteriores
+	tenemos que todas las estimaciones sobre \(\abs{u}\) y \(u^{\pm}\)
+	están controladas por \(u\), así que necesariamente obtienen la
+	regularidad de esta.
+\end{enumerate}
+\end{Solucion}
+
+\begin{Problema}
+	Sea \(\Omega\subset\R^n\) un abierto conexo acotado con frontera
+	\(\CC^1\). Demuestre la desigualdad de tipo Poincaré
+	\begin{equation}\label{eq1}
+		\norm{v}_{L^{2}(\Omega)}
+		\le
+		C \left( 
+			\norm{\nabla v}_{L^{2}(\Omega)}
+			+
+			\norm{T(v)}_{L^{2}(\partial\Omega)}
+		\right)
+		\quad\forall v\in H^{1}(\Omega).
+	\end{equation}
+	donde \(T(v)\) denota la traza de \(v\) sobre \(\partial\Omega\).
+
+	\textit{Sugerencia: utilice el argumento de compacidad visto en
+	clases. Puede usar \textbf{sin demostrar} que el operador de traza 
+	\(T\colon H^{1}(\Omega) \to L^{2}(\partial\Omega)\) es compacto.}
+\end{Problema}
+\begin{Solucion}
+	Supongamos que la desigualdad no vale. Entonces para cada
+	\(k\in\N\) existe una función \(u_k\in H^{1}\) tal que
+	\begin{displaymath}\label{star2}
+		\norm{u_{k}}_{L^2(\Omega)}
+		>
+		k
+	   	\left(
+			\norm{\nabla u_{k}}_{L^2(\Omega)}
+			+
+			\norm{T u_{k}}_{L^{2}(\partial\Omega)}
+		\right)
+	\end{displaymath}
+	Consideremos la sucesión \(u'_k =
+	u_k/\norm{u_k}_{L^{2}(\Omega)}\). Se sigue de la desigualdad
+	anterior que
+	\begin{displaymath}\label{star2}
+	   	\left(
+			\norm{\nabla u'_k}_{L^2(\Omega)}
+			+
+			\norm{T u'_k}_{L^{2}(\partial\Omega)}
+		\right)
+		\le \frac{1}{k}.
+		\tag{\(\star\star\)}
+	\end{displaymath}
+	En particular, se tiene que
+	\begin{displaymath}
+		\norm{\nabla u'_k}_{L^2(\Omega)} 
+		\xrightarrow{k\to\infty} 0
+	\end{displaymath}
+	Más aún, dado que la sucesión \((u'_k)_{k\in\N}\) es acotada en
+	\(H^{1}(\Omega)\). Dado que \(H^{1}(\Omega) \subset\subset
+	L^{2}(\Omega)\), existe una subsucesión \((u'_{k_j})_{j\in\N}\)
+	que es convergente a \(u \in L^{2}(\Omega)\). 
+
+	Queremos ver que \(u\in H^{1}(\Omega)\). La
+	fórmula de integración por partes nos dice que para \(\psi\in
+	\CC^{\infty}_{C}(\Omega)\) se tiene que
+	\begin{displaymath}
+		\abs{ \int_{\Omega} u \, D\psi }
+		=
+		\abs{
+		\lim_{k_j\to\infty} 
+		\int_{\Omega} u'_{k_j}\, D\psi
+		}
+		=
+		\abs{
+		\lim_{k_j\to\infty} 
+		\int_{\Omega} Du'_{k_j}\, \psi
+		}
+		\le
+		\lim_{k_j\to\infty} C \frac{1}{k_j^2}
+		\to 0.
+	\end{displaymath}
+	Por lo que \(u\in H^{1}(\Omega)\) con \(Du = 0\) c.t.p. en
+	\(\Omega\). Como \(\Omega\) es conexo, \(u\) debe ser constante.
+	Las funciones constantes son suaves hasta la frontera, así que
+	\(Tu = u\vert_{\partial\Omega}\). Pero entonces
+	\begin{displaymath}
+		\norm{u\vert_{\partial\Omega}}_{L^{2}(\partial\Omega)} 
+		= 
+		\norm{Tu}_{L^2(\partial\Omega)} 
+		= 
+		\lim_{k_j \to\infty} \norm{Tu'_{k}}_{L^{2}(\partial\Omega}
+		= 0.
+	\end{displaymath}
+	Y por lo tanto \(u \equiv 0\) en \(\Omega\). Esto contradice que
+	\(\norm{u}_{L^{2}(\Omega)} = \lim_{k_j \to \infty}
+	\norm{u'_k}_{L^{2}(\Omega)} = 1\), así que la
+	desigualdad~\eqref{eq1} debe ser cierta y con ello 
+	concluimos el resultado.
+\end{Solucion}
+
+\begin{Problema}
+	Sea \(\Omega\subset\R^n\) un abierto conexo acotado con frontera
+	\(\CC^1\) y \(f\in L^{2}(\Omega)\). Considere el problema
+	\begin{equation}\label{eq2}
+	\begin{caligned}
+		-\Delta u &= f &&, \text{ en } \Omega\\
+		\partial_{\n} u + u &= 0 &&, \text{ en } \partial\Omega.
+	\end{caligned}
+	\end{equation}
+	Decimos que \(u\in H^{1}(\Omega)\) es una solución débil del
+	problema si 
+	\begin{displaymath}
+		\int_{\Omega} \nabla u \, \nabla v
+		+
+		\int_{\partial\Omega} T(u)\, T(v)
+		=
+		\int_{\Omega} fv
+		\quad\forall v\in H^{1}(\Omega).
+	\end{displaymath}
+	\begin{enumerate}[label=(\alph*)]
+		\item
+		Demuestre que \(u\in \CC^{2}(\overline\Omega)\) es solución
+		clásica de~\eqref{eq2} si y sólo si \(u\) es solución débil
+		de~\eqref{eq2}.
+
+		\item 
+		Demuestre que~\eqref{eq2} posee una única solución débil en
+		\(H^{1}(\Omega)\).
+
+		\textit{Sugerencia: utilice~\eqref{eq1}.}
+
+		\item
+		Suponga que existe \(w\in H^{2}(\Omega)\) tal que 
+		\begin{displaymath}
+			T(\nabla w) \cdot \n
+			=
+			-T(u),
+		\end{displaymath}
+		donde \(u\) es la única solución débil de~\eqref{eq2} en
+		\(H^{1}(\Omega)\). Muestre que \(h \coloneqq u - w\) es
+		solución débil de
+		\begin{displaymath}
+		\begin{caligned}
+			-\Delta h &= g &&, \text{ en } \Omega\\
+			\partial_{\n} h &= 0 &&, \text{ en } \partial\Omega,
+		\end{caligned}
+		\end{displaymath}
+		donde \(g\) es una función en \(L^{2}(\Omega)\) tal que
+		\(\int_{\Omega} g = 0\).
+	\end{enumerate}
+\end{Problema}
+\begin{Solucion}
+	\begin{enumerate}[label=(\alph*)]
+	\item \framebox{\(\Rightarrow\):} Supongamos que \(u\) es solución
+	clásica. Sea \(v\in C^{\infty}(\overline\Omega)\). Luego,
+	\begin{align*}
+		-\Delta u = f
+		&\Rightarrow
+		-\Delta u \, v = f v
+		\\&\Rightarrow
+		-\int_{\Omega} \Delta u\, v
+		=
+		\int_{\Omega} f\, v
+		\\&\Rightarrow
+		\int_{\Omega} \nabla u\cdot \nabla v
+		-
+		\int_{\partial\Omega} v \partial_{\n} u 
+		=
+		\int_{\Omega} f v
+		\shortintertext{Usamos la condición de borde \(\partial_{\n} u
+		= -u\).}
+		\\&\Rightarrow
+		\int_{\Omega} \nabla u\cdot \nabla v
+		+
+		\int_{\partial\Omega} v u
+		=
+		\int_{\Omega} f v
+	\end{align*}
+	Como \(u\) es continua hasta la frontera,
+	\(u\vert_{\partial\Omega} = Tu\). Lo mismo pasa para \(v\). De
+	esta forma tenemos la formulación buscada para \(v\) suave. Si
+	\(v\in H^{1}(\Omega)\), consideremos una aproximación
+	\((v_n)_{n\in\N}\) por funciones suaves. De esta forma tenemos que
+	\begin{align*}
+		&\lim_{n\to \infty}
+		\left(
+		\int_{\Omega} \nabla u\cdot \nabla v_n
+		+
+		\int_{\partial\Omega} Tv_n\, Tu
+		=
+		\int_{\Omega} f v_n
+		\right)
+		\\&\Rightarrow	
+		\int_{\Omega} \lim_{n\to\infty} \nabla u\cdot \nabla v_n
+		+
+		\int_{\partial\Omega} \lim_{n\to\infty} Tv_n\, Tu
+		=
+		\int_{\Omega} \lim_{n\to\infty} f v_n
+		\\&\Rightarrow	
+		\int_{\Omega} \nabla u\cdot \nabla v
+		+
+		\int_{\partial\Omega} Tv\, Tu
+		=
+		\int_{\Omega} f v.
+	\end{align*}
+	Donde usamos que el operador de traza es continuo.
+
+	\framebox{\(\Leftarrow\):} Supongamos que vale la formulación
+	débil. 
+	\begin{displaymath}
+		\int_{\Omega} \nabla u \nabla v
+		+
+		\int_{\partial\Omega} Tu\, Tv
+		=
+		\int_{\Omega} f\,v
+		\quad\forall v\in H^{1}(\Omega).
+	\end{displaymath}
+	Como \(u\in\CC^{2}(\overline\Omega)\) tenemos que
+	\begin{displaymath}
+		\int_{\Omega} \nabla u \, \nabla v
+		=
+		\int_{\Omega} (-\Delta u)\, v
+		+
+		\int_{\Omega} (\partial_{\n} Tu) \, Tv
+		\quad\forall v\in H^{1}(\Omega).
+	\end{displaymath}
+	Reemplazando esto en la formulación débil nos deja con
+	\begin{displaymath}
+		\int_{\Omega} (-\Delta u)\, v
+		+
+		\int_{\partial\Omega} (\partial_{\n} Tu + Tu)\, Tv
+		=
+		\int_{\Omega} fv
+		\quad\forall v\in H^{1}(\Omega).
+	\end{displaymath}
+	Consideremos
+	\(\Omega_{\epsilon} \coloneqq \left\{ x\in\Omega\colon
+	\textrm{dist}(x,\partial\Omega) > \epsilon \right\}\). Luego,
+	\begin{displaymath}
+		\int_{\Omega_{\epsilon}} (-\Delta u)\, v
+		=
+		\int_{\Omega_{\epsilon}} fv
+		\qquad 
+		\forall v\in \CC^{\infty} \text{ tal que } 
+		\supp(v) \subset \Omega_{\epsilon}.
+	\end{displaymath}
+	Se sigue que \(-\Delta u = f\) c.t.p. en \(\Omega_{\epsilon}\)
+	pues podemos aproximar funciones en \(H^{1}(\Omega_{\epsilon})\) por las 
+	suaves.
+	Dado que \(-\Delta u\) es continua (por hipótesis), 
+	la igualdad se mantiene en 
+	\(\Omega_{\epsilon}\). Tomando \(\epsilon\to 0\) tenemos que la
+	igualdad vale en todo \(\Omega\). En particular se tiene que
+	\begin{displaymath}
+		\int_{\partial\Omega} (\partial_{\n} Tu + Tu)\, Tv
+		=
+		0
+		\quad\forall v\in H^{1}(\Omega).
+	\end{displaymath}
+	De esta forma, \(u\) resuelve el
+	sistema \(-\Delta u = f\) en \(\Omega\) y \(\partial_{\n} u + u =
+	0\) en \(\partial\Omega\).
+
+	\item Sean \(v\) y \(u\) en \(H^{1}\) dos soluciones. Luego,
+	para cualquier \(\psi \in H^{1}\) (restando ambas formulaciones)
+	tenemos que
+	\begin{displaymath}\label{star1}
+		\int_{\Omega} (\nabla v - \nabla u) \nabla \psi
+		+ 
+		\int_{\partial\Omega} (Tv - Tu) T\psi
+		= 0.
+		\tag{\(\star\)}
+	\end{displaymath}
+	Por~\eqref{eq1} tenemos que
+	\begin{displaymath}
+		\norm{v - u}_{L^{2}(\Omega)}
+		\le
+		C
+		\left(
+			\norm{\nabla v - \nabla u}_{L^2(\Omega)}
+			+
+			\norm{Tv - Tu}_{L^2(\partial\Omega)}
+		\right)
+		= 0.
+	\end{displaymath}
+	Donde la última igualdad se obtiene poniendo 
+	\(\psi = u - v \in H^{1}(\Omega)\) en~\eqref{star1}. De esta forma, dado
+	que las funciones y sus derivadas coinciden c.t.p. en \(\Omega\),
+	concluimos que \(u = v\) en \(H^{1}(\Omega)\).
+
+	\item \framebox{No me salió}
+	Debemos probar la igualdad
+	\begin{displaymath}\label{PD}
+		\int_{\Omega} \nabla (u-w)\, \nabla v
+		+
+		\int_{\partial\Omega} T(u-w)\, Tv
+		=
+		\int_{\Omega} g\,v
+		\quad\forall v\in H^{1}(\Omega).
+		\tag{PD}
+	\end{displaymath}
+
+	Sabemos \(u\) es solución débil de~\eqref{eq2}, por lo tanto:
+	\begin{displaymath}\label{dato1}
+		\int_{\Omega} \nabla u\, \nabla v
+		+
+		\int_{\partial\Omega} Tu\, Tv
+		=
+		\int_{\Omega} f\, v
+		\quad\forall v\in H^{1}(\Omega).
+		\tag{\(\dag1\)}
+	\end{displaymath}
+	Además, tenemos que
+	\begin{displaymath}\label{dato2}
+		\int_{\Omega} g = 0
+		\tag{\(\dag2\)}
+	\end{displaymath}
+	y
+	\begin{displaymath}\label{dato3}
+		\partial_{\n} T(\nabla w) = -Tu.
+		\tag{\(\dag3\)}
+	\end{displaymath}
+	Por otro lado, \(w\in H^{2}(\Omega)\), así que
+	\begin{displaymath}\label{dato4}
+		\int_{\Omega} \nabla w\, \nabla v
+		=
+		\int_{\Omega} -\Delta w\, v
+		+
+		\int_{\partial\Omega} \partial_{\n} Tw\, Tv
+		\quad\forall v\in H^{1}(\Omega).
+		\tag{\(\dag4\)}
+	\end{displaymath}
+	Notar que \(w\in H^{1}(\Omega)\), así que poniendo \(v=w\)
+	en~\eqref{dato1} tenemos que
+	\begin{displaymath}\label{dd1}
+		\int_{\Omega} \nabla u\, \nabla w
+		+
+		\int_{\partial\Omega} Tu\, Tw
+		=
+		\int_{\Omega} f\, w
+		\tag{\(\ddag1\)}
+	\end{displaymath}
+	Reemplazando \(v = u\) en~\eqref{dato4} y usando~\eqref{dato2}
+	\begin{displaymath}\label{dd2}
+		\int_{\Omega} \nabla w\, \nabla u
+		=
+		\int_{\Omega} -\Delta w\, u
+		-
+		\int_{\partial\Omega} \abs{Tu}^2
+		\tag{\(\ddag2\)}
+	\end{displaymath}
+	Juntando~\eqref{dd1} y~\eqref{dd2} tenemos que
+	\begin{displaymath}
+		\int_{\Omega}
+			-\Delta w\, u
+		+
+		\int_{\partial\Omega}
+			(Tw - Tu) Tu
+		=
+		\int_{\Omega} f w
+	\end{displaymath}
+
+
+
+	\end{enumerate}
+\end{Solucion}
+
+\end{document}

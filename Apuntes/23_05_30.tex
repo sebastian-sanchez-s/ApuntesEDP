@@ -1,0 +1,256 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 30 de mayo, 2023}
+
+\subsection{Teoremas de Extensión}
+
+\begin{Teorema}
+	Sea \(1\le p \le \infty\). Supongamos que \(\Omega\subset\R^n\) es
+	un abierto acotado con frontera \(\CC^{1}\). Sea \(V\subset\R^n\)
+	un conjunto abierto y acotado tal que \(\Omega\subset\subset V\).
+	Entonces, existe un operador lineal acotado
+	\begin{displaymath}
+		E\colon W^{1,p}(\Omega) \to W^{1,p}(\Omega) 
+	\end{displaymath}
+	tal que \(\forall u\in W^{1,p}(\Omega)\) se cumple que
+	\begin{enumerate}[itemsep=2pt,topsep=3pt,leftmargin=.2\textwidth]
+		\item \(E(u) = u\) c.t.p en \(\Omega\);
+		\item \(\supp E(u) \subset V\) y
+		\item existe una constante \(C\) que sólo depende de
+		\(p,\Omega\) y \(V\) tal que
+		\begin{displaymath}
+			\norm{E(u)}_{W^{1,p}(\R^n)} \le C
+			\norm{u}_{W^{1,p}(\Omega)}.
+		\end{displaymath}
+	\end{enumerate}
+	El operador \(E\) nos da una extensión de \(u\) a \(\R^n\).
+\end{Teorema}
+
+\subsection{Teoremas de Traza}
+
+La noción de traza viene a sustituir la de restringir una función a la
+frontera.
+
+\begin{Teorema}[Traza]
+	Sea \(\Omega\subset\R^n\) abierto y acotado con frontera
+	\(\CC^{1}\) y \(1 \le p < \infty\). Entonces existe un operador
+	lineal acotado 
+	\begin{displaymath}
+		T\colon W^{1,p}(\Omega) \to L^{p}(\partial\Omega)
+	\end{displaymath}
+	tal que
+	\begin{enumerate}[itemsep=2pt,topsep=2pt,leftmargin=.2\textwidth]
+		\item Si \(u\in W^{1,p}(\Omega)\cap\CC(\overline{\Omega})\)
+		entonces \(T(u) = u\mid_{\partial\Omega}\);
+		\item Para toda función \(u\in W^{1,p}(\Omega)\) existe una
+		constante \(C = C(p, \Omega)\) tal que
+		\begin{displaymath}
+			\norm{T(u)}_{L^{p}(\partial\Omega)}
+			\le 
+			C \norm{u}_{W^{1,p}(\Omega)}.
+		\end{displaymath}
+	\end{enumerate}
+\end{Teorema}
+
+\begin{Teorema}[kernel de \(T\)]
+	Sea \(\Omega\subset\R^n\) un abierto acotado con
+	frontera \(\CC^{1}\). Si \(u\in W^{1,p}(\Omega)\), entonces
+	\begin{displaymath}
+		u\in W^{1,p}_{0}(\Omega)
+		\iff
+		T(u) = 0
+		\text{ en } \partial\Omega.
+	\end{displaymath}
+\end{Teorema}
+
+\subsection{Inyecciones de Sobolev}
+
+Nos preguntamos si una función en un espacio de Sobolev
+automáticamente pertenece a otro espacio con mayor regularidad.
+Si analizamos el espacio \(W^{1,p}(\Omega)\) tenemos que la respuesta
+es un sí y depende de los valores de \(p\).
+
+Recordamos que \(\Omega\subset\R^n\) abierto.
+
+\subsubsection{Caso \(1\le p < n\): Desigualdad de Gagliardo-Nirenberg-Sobolev}
+
+Comenzamos analizando el caso \(1\le p < n\). Buscamos una desigualdad
+de la forma:
+\begin{displaymath}
+	\norm{u}_{L^{q}(\R^n)}
+	\le
+	C \norm{Du}_{L^{p}(\R^n)},
+\end{displaymath}
+donde \(1\le q < \infty\) y \(C>0\) no dependen de \(u\).
+Notése que la desigualdad implica de manera
+directa que \(W^{1,p}(\R^n) \subset L^{q}(\R^n)\). En efecto,
+\begin{displaymath}
+	\norm{u}_{L^{q}(\R^n)}^{p}
+	\le
+	C^{p} \norm{Du}_{L^{p}(\R^n)}^{p}
+	\le
+	C^{p} \norm{Du}_{L^{p}(\R^n)}^{p}
+	+
+	C^{p} \norm{u}_{L^{p}(\R^n)}^{p}
+	=
+	C^{p} \norm{u}_{W^{1,p}(\R^n)}^{p}.
+\end{displaymath}
+
+Miremos el caso \(u \in \CC^{\infty}_{C}(\R^n)\) y veamos qué
+condiciones de compatibilidad debe cumplir \(q\). Vale decir, si
+suponemos la desigualdad cierta queremos saber qué debería cumplir
+\(q\). Definamos 
+\begin{displaymath}
+	u_{\lambda}(x) 
+	\coloneqq 
+	u(\lambda x)
+	\qquad x\in\R^{n}, \lambda > 0
+\end{displaymath}
+e insertemoslo en la desigualdad. Esto nos deja con
+\begin{displaymath}
+	\frac{1}{\lambda^{n/q}}
+	\norm{u}_{L^{q}(\R^n)}
+	\le
+	\frac{1}{\lambda^{n/p}}
+	C \norm{Du}_{L^{p}(\R^n)}.
+\end{displaymath}
+De esta forma,
+\begin{displaymath}
+	\norm{u}_{L^{q}(\R^n)}
+	\le
+	\lambda^{1 - n/p - n/q}
+	C \norm{Du}_{L^{p}(\R^n)}.
+\end{displaymath}
+y por lo tanto \(1-n/p-n/q = 0\) o equivalentemente \(q = np/(n-p)\).
+En particular, \(q > p\).
+
+\begin{Definicion}[Exponente Conjugado de Sobolev]
+	Sea \(1 \le p < n\). Definimos el exponente conjugado de Sobolev
+	como 
+	\begin{displaymath}
+		p^{\ast} = \frac{np}{n-p}.
+	\end{displaymath}
+\end{Definicion}
+
+Notar que 
+\begin{displaymath}
+	\frac{1}{p^{\ast}}
+	=
+	\frac{1}{p}
+	-
+	\frac{1}{n}
+	\qquad\text{y}\qquad
+	p^{\ast} > p.
+\end{displaymath}
+
+\begin{Teorema}[Desigualdad de Gagliardo-Nirenberg-Sobolev]
+	Sea \(1\le p < n\). Entonces existe una constante \(C = C(n,p) > 0\), que
+	sólo depende de \(p\) y \(n\) tal que
+	\begin{equation}\label{GNS}
+		\norm{u}_{L^{p^{\ast}}(\R^n)}
+		\le
+		C\norm{Du}_{L^{p}(\R^n)}
+		\qquad \forall u \in \CC^{1}_{C}(\R^n).
+		\tag{GNS}
+	\end{equation}
+\end{Teorema}
+
+\begin{Teorema}[Estimaciones en \(W^{1,p}(\Omega),\, 1 \le p < n\)]
+	Sea \(\Omega \subset\R^n\) abierto y acotado con frontera de clase
+	\(\CC^1\). Sean \(1\le p < n\) y \(u\in W^{1,p}(\Omega)\). 
+	Entonces \(u\in L^{p^{\ast}}(\Omega)\) y
+	\begin{displaymath}
+		\norm{u}_{L^{p^{\ast}}(\Omega)}
+		\le
+		C
+		\norm{u}_{W^{1,p}(\Omega)},
+	\end{displaymath}
+	donde \(C = C(p,\Omega) > 0\). En particular, tenemos que
+	\begin{displaymath}
+		W^{1,p}(\Omega) \subset L^{p^{\ast}}(\Omega).
+	\end{displaymath}
+\end{Teorema}
+\begin{Demostracion}
+	La idea será aplicar~\eqref{GNS} y para ello necesitamos
+	que la función esté definida sobre todo \(\R^n\). Ahora bien, dado
+	que \(\Omega\) tiene frontera de clase \(\CC^{1}\) y es acotado, 
+	el teorema de extensión nos dice que existe un operador lineal
+	acotado \(E\) tal que extiende \(u\) a \(\R^n\). Denotemos a tal 
+	extensión \(\bar{u} = E(u) \in W^{1,p}(\R^n)\). Por el mismo
+	teorema tenemos que
+	\begin{displaymath}
+		\norm{\bar{u}}_{W^{1,p}(\R^n)}
+		\le
+		C \norm{u}_{W^{1,p}(\Omega)}.
+	\end{displaymath}
+	Aplicando el teorema de aproximación interior por funciones suaves
+	tenemos una sucesión de funciones \((u_m)_{m\in\N} \in
+	\CC^{\infty}_{C}(\R^n)\) tal que \(u_m \to \bar{u}\) en norma 
+	\(W^{1,p}(\R^n)\). Aplicando~\eqref{GNS} tenemos que
+	\begin{displaymath}
+		\norm{u_m - u_{\ell}}_{L^{p^{\ast}}(\R^n)}
+		\le
+		C \norm{D(u_m - u_{\ell})}_{L^{p}(\R^n)}.
+	\end{displaymath}
+	Obsérvese que el lado derecho se va a cero, pues
+	\((Du_{m})_{m\in\N}\) es una sucesión de Cauchy en \(L^{p}(\R^n)\).
+	En consecuencia, concluimos que \((u_m)_{m\in\N}\) es una sucesión
+	de Cauchy en \(L^{p^{\ast}}(\R^n)\). A su vez, esto implica que 
+	\(u_{m} \to \bar{u}\) en norma \(L^{p^{\ast}}(\R^n)\), pues vive
+	en un espacio completo. Luego,
+	\begin{displaymath}
+		\norm{u_m}_{L^{p^{\ast}}(\R^n)}
+		\le
+		C \norm{Du_m}_{L^{p}(\R^n)}.
+	\end{displaymath}
+	Dado que tenemos convergencia en ambos espacios, tomando \(m\to
+	\infty\) nos deja con
+	\begin{displaymath}
+		\norm{\bar{u}}_{L^{p^{\ast}}(\R^n)}
+		\le
+		C \norm{D \bar{u}_m}_{L^{p}(\R^n)}
+		\le
+		C \norm{\bar{u}_m}_{W^{1,p}(\R^n)}
+		\le
+		C \norm{\bar{u}_m}_{W^{1,p}(\Omega)}.
+	\end{displaymath}
+	donde segunda desigualdad sale por la definición de la norma de
+	los espacios de Sobolev y la última por el teorema de extensión.
+	Por otro lado,
+	\begin{displaymath}
+		\norm{\bar{u}}_{L^{p^{\ast}}(\R^n)}
+		\ge
+		\norm{\bar{u}}_{L^{p^{\ast}}(\Omega)}
+		\ge
+		\norm{u}_{L^{p^{\ast}}(\Omega)}.
+	\end{displaymath}
+	donde la primera desigualdad es porque estamos integrando en un
+	espacio más pequeño y la última por el teorema de extensión.
+\end{Demostracion}
+
+\begin{Teorema}[Estimaciones en \(W^{1,p}_{0}(\Omega),\, 1\le p < n\)]
+	Sea \(\Omega \subset\R^n\) abierto y acotado. 
+	Sean \(1\le p < n\) y \(u\in W^{1,p}_{0}(\Omega)\). 
+	Entonces
+	\begin{displaymath}
+		\norm{u}_{L^{q}(\Omega)}
+		\le
+		C
+		\norm{D u}_{L^{p}(\Omega)},
+		\quad\forall q\in [1,p^{\ast}]
+	\end{displaymath}
+	donde \(C = C(p,q,\Omega) > 0\). En particular,
+	\begin{displaymath}
+		\norm{u}_{L^{p}(\Omega)}
+		\le
+		C
+		\norm{D u}_{L^{p}(\Omega)},
+		\quad\forall 1 \le p < \infty.
+	\end{displaymath}
+	Esta última se conoce como la \textit{desigualdad de Poincaré}.
+\end{Teorema}
+
+\end{document}

@@ -1,0 +1,54 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 18 de mayo, 2023}
+
+\section{Espacios de Sobolev}
+
+Consideremos el problema
+\begin{displaymath}
+\begin{caligned}
+	-u'' + u &= f, &(a,b)\\
+	u(a) = u(b) &= 0
+\end{caligned}
+\end{displaymath}
+y multipliquemos por una función test \(\phi\in
+\CC^{\infty}_{C}((a,b))\). Al hacer integración por partes nos queda
+\begin{displaymath}
+	\int_{a}^{b} u' \phi'
+	+
+	\int_{a}^{b} u \phi
+	=
+	\int_{a}^{b} f \phi.
+\end{displaymath}
+Esta es la formulación débil del problema y la gracia es que ahora
+solo necesitamos que \(u\) sea continuamente diferenciable. Con
+herramientas de análisis funcional buscaremos revolver el sistema para
+estas funciones menos regulares, y a partir de estas deducir las más
+regulares.
+
+\begin{Definicion}[Derivada débil]	
+	Sean \(u, v\in L^{1}_{\loc}(\Omega)\) con \(\Omega\subset\R^n\)
+	abierto y \(\alpha\) un multiíndice (ie. \(\alpha = (\alpha_1,
+	\dots, \alpha_n)\)). Decimos que \(v\) es la \(\alpha\)-derivada
+	débil de \(u\) si se cumple que
+	\begin{displaymath}
+		\int_{\Omega} u D^{\alpha} \phi
+		=
+		(-1)^{\abs{\alpha}} 
+		\int_{\Omega} v \phi
+		\qquad
+		\forall \phi \in \CC^{\infty}_{C}(\Omega).
+	\end{displaymath}
+	En tal caso denotamos \(v = D^{\alpha} u\).
+\end{Definicion}
+
+\begin{Proposicion}
+	Si existe la \(\alpha\)-derivada débil de una función \(u\in
+	L^{1}_{\loc}(\Omega)\), entonces es única salvo un conjunto de
+	medida nula.
+\end{Proposicion}
+
+\end{document}

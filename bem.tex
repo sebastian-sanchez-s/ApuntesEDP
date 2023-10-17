@@ -1,0 +1,694 @@
+%! tex root = bem.tex
+\input{preamble.tex}
+
+\title{\bfseries
+Apuntes\\
+``Boundary Element Methods"\\[5pt]
+\small Sauter SA, Schwab C}
+\author{Sebastián Sánchez}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Ecuaciones Diferenciales Elípticas}
+
+\subsection{Preliminares: Análisis Funcional}
+
+\subsubsection{Espacios de Banach y Espacios de Hilbert}
+
+\begin{Definicion}[Espacio normado]
+	Sea \(X\) un espacio vectorial sobre un cuerpo \(\mathbb{K}\) (\(\mathbb{R}\) o
+	\(\mathbb{C}\)) y sea \(\norm{\dotp}\colon X\to [0,\infty)\) una función tal
+	que
+	\begin{subequations}
+	\begin{alignat}{3}
+		\forall x \in X &\colon&&{}& \norm{x} &= 0 \implies x = 0
+		\\
+		\forall x \in X, \forall \lambda \in \mathbb{K}
+		&\colon&&{}& \norm{\lambda x} &= \abs{\lambda} \norm{x}
+		\\
+		\forall x, y\in X &\colon&&{}& \norm{x+y} &\le \norm{x} + \norm{y}
+	\end{alignat}
+	\end{subequations}
+	Decimos que \(\norm{\dotp}\) es una norma y la tupla \((X, \norm{\dotp})\)
+	es un espacio normado. Si \(X\) no es claro del contexto, denotamos a la
+	norma \(\norm{\dotp}_{X}\).
+\end{Definicion}
+
+Al definir una norma sobre \(X\), dotamos al espacio de una topología: Un
+conjunto \(A\subset X\) se dice abierto si existe \(\varepsilon >0\) constante
+tal que para todo \(x\in X\) la bola \(\left\{y\colon \norm{x-y} <
+\varepsilon\right\}\) está contenida en \(A\). Más aún, para una sucesión
+\((x_n)_n \subset X\) decimos que \(x_n\to x\) si
+\begin{equation*}
+	x = \lim_{n\to \infty} x_n
+	\iff
+	\lim_{n\to \infty} \norm{x - x_n} = 0
+\end{equation*}
+
+Por otro lado, cualquier norma es continua. En efecto, dado \(\epsilon > 0\) y
+\(x,y\in X\), por la desigualdad triangular inversa
+\begin{equation*}
+	\abs{\norm{x} - \norm{y}} \le \norm{x-y},
+\end{equation*}
+tomando \(\norm{x-y} \le \epsilon\) se concluye la continuidad.
+
+\begin{Definicion}[Operadores]
+Sean \((X,\norm{\dotp}_X), (Y,\norm{\dotp}_Y)\) dos espacios normados, un mapa
+\(T\colon X\to Y\) se dice \textit{operador}. Definimos la norma de un operador
+\(T\) como:
+\begin{equation*}
+	\norm{T}_{Y\leftarrow X}
+	\coloneqq
+	\sup_{0_X\ne x \in X} \frac{\norm{Tx}_{Y}}{\norm{x}_{X}} < \infty.
+\end{equation*}
+Si no hay ambigüedad, usaremos la notación \(\norm{T}\). Al conjunto de todos
+los operadores (de \(X\) a \(Y\)) que son lineales y acotados los denotamos por
+\(L(X,Y)\). Este último con la norma operador es un espacio normado. Si \(X=Y\)
+y definimos \((T_1 T_2) x \coloneqq T_1(T_2x)\) entonces \(L(X)\) es un álgebra.
+\end{Definicion}
+
+\begin{Ejercicio}
+	\begin{enumerate}[topsep=0pt]
+		\item Muestre que para todo \(x\in X\) y \(T\in L(X,Y)\) se tiene que
+		\[
+			\norm{Tx}_Y \le \norm{T} \norm{x}_X
+		.\]
+
+		\begin{Solucion}
+			Supongamos que \(x\ne 0\), entonces
+			\[
+				\norm{Tx}_{Y}
+				=
+				\frac{\norm{Tx}_Y}{\norm{x}_{X}}
+				\norm{x}_{X}
+				\le
+				\norm{T}
+				\norm{x}_{X}
+			.\]
+			Para \(x=0_{X}\), \(Tx = 0_{Y}\) y por lo tanto \(\norm{Tx}_{Y} = 0 \le
+			0 = \norm{T} \norm{x}_{X}\).
+		\end{Solucion}
+
+		\item Muestre que si \(T_1\in L(Y,Z)\) y \(T_2 \in L(X,Y)\) entonces
+		\(T_1 T_2 \in L(X,Z)\) y
+		\[
+			\norm{T_1 T_2}_{Z\leftarrow X}
+			\le
+			\norm{T_1}_{Z\leftarrow Y}
+			\norm{T_2}_{Y\leftarrow X}
+		.\]
+
+		\begin{Solucion}
+			Para lo primero: si \(x\in X\) entonces \(T_2 x \in Y\) y por
+			lo tanto \(T_1 T_2 x = T_1 (T_2x) \in Z\). Para lo segundo,
+			ocuparemos el ejercicio anterior (omitiremos subindices para ahorrar
+			notación).
+			\[
+				\norm{T_1 T_2}
+				=
+				\sup_{0_X\ne x\in X} \frac{\norm{T_1 (T_2 x)}}{\norm{x}}
+				\le
+				\sup_{0_X\ne x\in X} \norm{T_1} \frac{\norm{T_2x}}{\norm{x}}
+				=
+				\norm{T_1} \norm{T_2}
+			.\]
+		\end{Solucion}
+	\end{enumerate}
+\end{Ejercicio}
+
+\begin{Definicion}[Convergencia de operadores]
+	La sucesión \((T_n)_n \subset L(X,Y)\) converge uniformemente a \(T\) si
+	\[
+		T_n \to T
+		\iff
+		\norm{T - T_n}_{Y\leftarrow X} \to 0,
+		\quad n\to \infty
+	.\]
+	Por otro lado, la convergencia es puntual si
+	\[
+		\forall x\in X\colon \norm{Tx - T_n x}_{Y} \to 0, n\to \infty
+	.\]
+\end{Definicion}
+
+\begin{Definicion}[Espacio de Banach]
+	Una sucesión \((x_n)_n\) de un espacio normado \(X\) se dice de Cauchy si
+	\[
+		\sup_{m,n\ge k} \norm{x_n - x_m} \to 0,
+		\quad k\to \infty
+	.\]
+	Obsérvese que esto no implica convergencia en mismo espacio \(X\). De hecho,
+	si todas las sucesiones de Cauchy son convergentes, \(X\) se dice un espacio
+	de Banach.
+\end{Definicion}
+
+\begin{Proposicion}[$L(X,Y)$ es un espacio Banach]\label{prop:L_es_banach}
+	Si \(X\) es un espacio normado cualquiera y \(Y\) es un espacio de Banach,
+	entonces \(L(X,Y)\) es un espacio de Banach
+\end{Proposicion}
+\begin{Demostracion}
+Sea \((T_n)_n\subset L(X,Y)\) una sucesión de Cauchy, es decir,
+\[
+	\sup_{n,m\ge k} \norm{T_n - T_m} \to 0, \quad k\to \infty
+.\]
+Fijando \(x\in X\), la sucesión \((T_n x)_n \subset Y\) es de Cauchy y como
+\(Y\) es un espacio de Banach, la sucesión converge a un \(y_x\coloneqq
+\lim_{n\to \infty} T_n x \in Y\). Definamos \(T\colon X \to Y\) como la
+aplicación \(Tx \coloneqq y_x\), debemos probar que es lineal y acotada.
+
+Para la linealidad: Si \(x=0_X\) entonces \(T_n x = 0_Y\) para todo \(n\in \mathbb{N}\), así
+que \(Tx = 0_Y\). Por otro lado, si \(\alpha,\beta\in \mathbb{K}\) y \(x_1,x_2\in
+X\), entonces
+\[
+	T(\alpha x_1 + \beta x_2)
+	=
+	\lim_{n\to \infty} T_n (\alpha x_1 + \beta x_2)
+	=
+	\lim_{n\to \infty} \alpha T_n x_1 + \beta T_n x_2
+	=
+	\alpha Tx_1 + \beta Tx_2
+,\]
+concluyéndose la linealidad. Para la cota:
+\[
+	\norm{T}
+	=
+	\sup_{0_X\ne x\in X} \frac{\norm{Tx}}{\norm{x}}
+	=
+	\sup_{0_X\ne x\in X} \frac{\norm{\lim_{n\to \infty} T_n x}}{\norm{x}}
+	=
+	\lim_{n\to \infty} \sup_{0\ne x\in X} \frac{\norm{T_n x}}{\norm{x}}
+	< \infty
+,\]
+donde en la última igualdad usamos la continuidad de la norma.
+\end{Demostracion}
+
+\begin{Definicion}[Espacio cociente]
+	Sea \(X\) un espacio de Banach y \(Z\subset X\) un subespacio cerrado.
+	El espacio cociente \(X/Z\) consiste de la clases
+	\[
+		\tilde x
+		\coloneqq
+		\left\{x + z\colon z\in Z\right\}
+		\quad
+		\forall x\in X
+	.\]
+\end{Definicion}
+
+\begin{Proposicion}\label{prop:cociente_es_banach}
+	El espacio cociente \(X/Z\) con la norma
+	\(
+		\norm{\tilde x} \coloneqq \inf_{z\in Z} \norm{x + z}
+	,\)
+	es un espacio de Banach.
+\end{Proposicion}
+\begin{Demostracion}
+Primero veamos que es una norma:
+\begin{itemize}[topsep=0pt,itemsep=0pt]
+	\item Definida positiva:
+	\[
+		\forall x\in X\colon
+		\norm{\tilde x} = 0
+		\iff
+		\inf_{z\in Z} \norm{x + z} = 0
+	.\]
+	Se sigue que \(x + z = 0\) para algún \(z\in Z\), se sigue que \(x\in Z\),
+	es decir, \(\tilde x = \tilde 0\). La positividad es directa porque estamos
+	tomando el ínfimo de una norma.
+
+	\item Homogeneidad absoluta:
+	\[
+		\forall \lambda\in \mathbb{K}, \forall x\in X\colon
+		\norm{\lambda \tilde x}
+		= \inf_{z\in Z} \norm{\lambda (x + z)}
+		= \abs{\lambda} \inf_{z\in Z} \norm{x+z}
+		= \abs{\lambda} \norm{\tilde x}
+	.\]
+
+	\item Desigualdad triangular:
+	\begin{align*}
+		\forall x,y\in X\colon
+		\norm{\tilde x + \tilde y}
+		&\le
+		\inf_{z,w\in Z} \norm{(x + z) + (y + w)}
+		\\&\le
+		\inf_{z,w\in Z} \norm{x + z} + \norm{y + w}
+		\\&\le
+		\inf_{z\in Z} \norm{x + z} + \inf_{w\in Z} \norm{y + w}
+		\\&=
+		\norm{\tilde x} + \norm{\tilde y}
+	.\end{align*}
+\end{itemize}
+Ahora veremos que es completo. Sea \((\tilde x_{n})_{n} \subset X/Z\) una sucesión de Cauchy y
+\(\tilde x\) su límite. Queremos probar que \(\tilde x \in X/Z\), es decir, que
+existe \(x\in X\) tal que \(x + Z = \tilde x\).
+
+Nótese que si para cada \(n\) denotamos por \(x_n\) a un representante de
+\(\tilde x_n\), entonces que la última sea una sucesión de Cauchy no implica
+que la primera lo sea. Sin embargo, dado que \(X\) es un espacio de Banach,
+existe una subsucesión \((x_{n_k})_k\) que es convergente a un \(x\in X\). Se
+sigue que \((\tilde x_{n_{k}})_{k}\) converge a \(\tilde x\). Como la sucesión
+es \((\tilde x_n)_n\) es de Cauchy y tiene una subsucesión convergente,
+concluimos que \(\tilde x_n\) es convergente.
+\end{Demostracion}
+
+Recordamos que un conjunto \(A\subset X\) es \textit{denso} en \(X\) si \(\overline{A} =
+X\). En particular, esto nos dice que para todo elemento \(x\) de \(X\) existe una
+sucesión en \(A\) que converge a \(x\). Un espacio de Banach se dice
+\textit{separable} si contiene un subconjunto contable y denso.
+
+Si \((X,\norm{\dotp}_X)\) no es un espacio de Banach pero \(X\) es denso en
+\(\tilde X\), entonces \((\tilde X, \norm{\dotp}_{\tilde X})\) es un espacio de
+Banach llamado la \textit{completación} de \(X\) donde \(\norm{x}_{\tilde X}
+= \norm{x}_X \forall x \in X\). La completación es única salvo isomorfismo. Más
+aún, los operadores con dominio en \(X\) se extienden de manera única a \(\tilde
+X\). La siguiente proposición entrega más detalles.
+
+\begin{Proposicion}\label{prop:extension_operador}
+	Sea \(X\) un espacio normado y \(X_0\) un subcojunto denso de \(X\). Un
+	operador \(T_0\in L(X_0, Y)\) tiene una única extensión \(T\in L(X,Y)\) y
+	satisface
+	\begin{enumerate}[topsep=0pt,itemsep=0pt]
+		\item \(T|_{X_0} = T_0\);
+		\item Para toda sucesión \((x_n)_n\subset X_0\) tal que \(x_n \to x\in X\)
+		se tiene que \(Tx = \lim_{n\to \infty} T_0\, x_n\);
+		\item \(\norm{T}_{Y\leftarrow X} = \norm{T_0}_{Y\leftarrow X_0}\).
+	\end{enumerate}
+\end{Proposicion}
+\begin{Demostracion}
+Definamos \(Tx = T_0 x\) si \(x\in X_0\) y \(Tx = \lim_{n\to \infty} T_0 x_n\)
+para alguna sucesión \(x_n\to x\). Como \(L(X,Y)\) es Banach y \(x_n\) es de
+Cauchy, el mapa \(T\) está bien definido, pues
+\begin{displaymath}
+	\norm{Tx_n - Tx_m}
+	=
+	\norm{T_0 (x_n - x_m)}
+	\to 0,
+\end{displaymath}
+para \(n,m \to \infty\). Por otro lado, la definición de \(T\) es
+independiente de la sucesión escogida. En efecto, sea \(Sx = \lim_{n \to \infty}
+T_0 y_n\) para \(y_n\to x\) una sucesión distinta de la que toma \(Tx\). Luego,
+\begin{displaymath}
+	\norm{Tx - Sx}
+	=
+	\lim_{n\to \infty} \norm{T_0 (x_n - y_n)}
+	\le
+	\lim_{n\to \infty}\left( \norm{T_0 (x_n - x)} + \norm{T_0 (x - y_n)} \right)
+	\to 0
+	, \quad n\to \infty.
+\end{displaymath}
+Finalmente, vemos la doble desigualdad
+\begin{displaymath}
+	\norm{T_0}_{Y\leftarrow X_0}
+	=
+	\sup_{x\ne 0 \in X_0} \frac{\norm{T_0 x}}{\norm{x}}
+	=
+	\sup_{x\ne 0 \in X_0} \frac{\norm{T x}}{\norm{x}}
+	\le
+	\sup_{x\ne 0 \in X} \frac{\norm{T x}}{\norm{x}}
+	=
+	\norm{T}_{Y\leftarrow X}
+\end{displaymath}
+y
+\begin{displaymath}
+	\norm{T}_{Y\leftarrow X}
+	=
+	\sup_{x\ne 0\in X} \frac{\norm{T x}}{\norm{x}}
+	=
+	\sup_{x_n \to x\ne 0 \subset \in X_0}
+		\lim_{n\to \infty} \frac{\norm{T_0 x_n}}{\norm{x_n}}
+	\le
+	\sup_{x\ne 0\in X_0} \frac{\norm{T_0 x_n}}{\norm{x_n}}
+	=
+	\norm{T_0}_{Y\leftarrow X_0}.
+\end{displaymath}
+\end{Demostracion}
+
+\begin{Teorema}
+	Sean \(X, Y\) espacios de Banach y \(T\in L(X,Y)\). Si \(T\) es
+	biyectiva, entonces su inversa \(T^{-1}\) existe y \(T^{-1}\in L(Y,X)\).
+\end{Teorema}
+\begin{Demostracion}
+Recordar que \(T^{-1}y = \left\{ x\in X\colon Tx = y \right\} \). Como \(T\) es
+biyectiva, \(T^{-1}\) está bien definida sobre todo \(Y\). Además, \(T^{-1}\) es
+lineal. En efecto,
+\begin{itemize}
+	\item \(T^{-1}0 = 0\) pues \(T\) es lineal e inyectiva.
+	\item Sea \(x_1, x_2 \in X\) y \(\alpha \in \mathbb{K}\). Luego, \(\alpha x_1
+	+ x_2 = \alpha T^{-1} y_1 + T^{-1}y_2\) para algún par \(y_1,y_2\in Y\).
+	Aplicando \(T\) y usando su linealidad nos deja
+	\begin{displaymath}
+		T(\alpha x_1 + x_2) = \alpha y_1 + y_2
+	\end{displaymath}
+	Si ahora aplicamos \(T^{-1}\) queda
+	\begin{displaymath}
+		\alpha x_1 + x_2 = T^{-1}(\alpha y_1 + y_2)
+	\end{displaymath}
+	Juntando todas las ecuaciones se obtiene lo buscado
+	\begin{displaymath}
+		T^{-1}(\alpha y_1 + y_2)
+		=
+		\alpha x_1 + x_2
+		=
+		\alpha T^{-1}(y_1) + T^{-1}(y_2).
+	\end{displaymath}
+\end{itemize}
+
+Que \(T^{-1}\) esté acotado es una consecuencia del Teorema del Mapeo Abierto.
+\end{Demostracion}
+
+\begin{Corolario}
+	Si \(X,Y\) son espacios de Banach y \(T\in L(X,Y)\) es inyectiva, las
+	siguientes condiciones son equivalentes
+	\begin{enumerate}[topsep=0pt]
+		\item \(Y_0 \coloneqq \left\{ Tx\colon x\in X \right\}\) con la norma
+		\(\norm{\dotp}_{Y}\) es un subespacio cerrado de \(Y\).
+		\item \(T^{-1}\) existe en \(Y_0\). Más aún, \(T^{-1} \in L(Y_0, X)\).
+	\end{enumerate}
+\end{Corolario}
+\begin{Demostracion}
+Asumiendo 1. tenemos que la imagen de \(T\) es un espacio de Banach y por lo
+tanto aplica el Teorema anterior. Asumiendo 2. y en busca de una contradicción,
+si \(Y_0\) es abierto, tomamos \(y\in \partial Y_0\) y una sucesión
+\((y_{n})_{n} \subset Y_0\) que converge a \(y\). Como \(T\) es biyección,
+existe una sucesión \((x_n)_n \in X\) tal que \(x_n = T^{-1} y_n\). Más aún.
+Dado \(T, T^{-1}\) son lineales, la sucesión \(x_n\) es de Cauchy y por lo tanto
+convergente a \(T^{-1} y\). Luego, \(\lim_{n\to \infty} T x_n = y\not\in Y_0\). Contradicción.
+\end{Demostracion}
+
+\begin{Definicion}[Incrustación]
+	Sean \(X,Y\) espacios de Banach. Si existe \(\iota \in L(X,Y)\) inyectiva,
+	esta se dice \textit{incrustación} o \textit{encaje} de \(X\) en \(Y\). Si
+	\(\iota\) es continua y \(\iota(X)\) es denso en \(Y\), decimos que
+	\(X\) está \textit{continua y densamente incrustado} en \(Y\).
+\end{Definicion}
+
+\begin{Definicion}[Espacio de Hilbert]
+	Sea \(X\) un espacio vectorial y \(\langle \dotp, \dotp \rangle\colon
+	X\times X \to \mathbb{K}\) un producto interno en \(X\), es decir, \(\langle
+	\dotp, \dotp \rangle\) satisface
+	\begin{subequations}
+	\begin{alignat}{3}
+		\forall x\in X\setminus \left\{ 0 \right\} &\colon
+		&&{}& \langle x,x \rangle &> 0,
+		\\
+		\forall x,y,z\in X, \lambda\in \mathbb{K} &\colon
+		&&{}& \langle \lambda x + y, z \rangle
+		&=
+		\lambda \langle x,z \rangle + \langle y,z \rangle,
+		\\
+		\forall x,y\in X &\colon
+		&&{}&\overline{\langle x,y \rangle} &= \langle y,x \rangle.
+	\end{alignat}
+	\end{subequations}
+	Si la norma inducida por \(\langle \dotp,\dotp \rangle \) definida por
+	\(
+		\norm{x} \coloneqq \langle x,x \rangle^{1/2}
+	\)
+	hace a \(X\) un espacio de Banach, decimos que \(X\) es un espacio de Hilbert.
+\end{Definicion}
+
+De la definición anterior se tiene la desigualdad de Cauchy-Schwarz
+\begin{equation}
+	\forall x,y\in X\colon \abs{\langle x,y \rangle} \le \norm{x}\,\,\norm{y}.
+\end{equation}
+
+\begin{Definicion}[Ortogonalidad]
+	Sea \((X,\langle \dotp, \dotp \rangle)\) un espacio de Hilbert. Los vectores \(x,y\in X\)
+	se dicen ortogonales, denotado por \(x\perp y\), si \(\langle x,y \rangle =
+	0\). Extendemos la definición para subespacios \(A\) de \(X\) como
+	\[
+		A^{\perp}
+		\coloneqq
+		\left\{
+			x\in X\colon \forall a\in A ,
+			\, \langle x,a \rangle = 0
+			\,\forall x\in X
+		\right\}
+	.\]
+\end{Definicion}
+
+\begin{Proposicion}\label{prop:Aperp_es_cerrado}
+	Si \(A\subset X\) entonces \(A^{\perp}\) es un subespacio cerrado de \(X\).
+\end{Proposicion}
+\begin{Demostracion}
+Que sea subespacio es directo por la bilinealidad del producto interno, así que
+probaremos que es cerrado. Sea \((x_n)_{n} \subset A^{\perp}\) tal que \(x_n \to
+x\in X\). Queremos ver que \(x\in A^{\perp}\). Dado que
+\begin{displaymath}
+	\forall a \in A\colon
+	\langle x, a \rangle
+	=
+	\langle \lim_{n\to \infty} x_n, a \rangle.
+\end{displaymath}
+Basta probar que el mapa \(\langle \cdotp, a \rangle\) es continuo para todo
+\(a\ne 0 \in A^{\perp}\). Esto es directo de la desigualdad de Cauchy-Schwarz.
+En efecto, sea \(\epsilon >0\) y \(y,z \in X\) tal que \(\norm{y-z} <
+\epsilon/\norm{a}\). Luego
+\begin{displaymath}
+	\abs{\langle y, a \rangle
+	-
+	\langle z, a \rangle}
+	=
+	\abs{\langle y-z, a \rangle}
+	\le
+	\norm{y-z}\,\, \norm{a}
+	<
+	\epsilon.
+\end{displaymath}
+De esta forma tenemos que
+\begin{displaymath}
+	\forall a \in A\colon
+	\langle x, a \rangle
+	=
+	\langle \lim_{n\to \infty} x_n, a \rangle.
+	=
+	\lim_{n\to \infty} \langle x_n, a \rangle
+	=
+	0.
+\end{displaymath}
+\end{Demostracion}
+
+\begin{Proposicion}[Descomposición Ortogonal]%
+\label{prop:descomposicion_ortogonal}
+	Sea \(X\) un espacio de Hilbert y \(U\) un subespacio cerrado de \(X\).
+	Luego, \(X = U \oplus U^{\perp}\).
+\end{Proposicion}
+\begin{Demostracion}
+Sea \(x\in X\). Sea \(u\in U\) y definamos \(\lambda = \langle x,u
+\rangle/\norm{u}\) y \(u^{\perp} = x - \lambda u\). Nótese que
+\begin{displaymath}
+	\langle x - \lambda u, u \rangle = 0.
+\end{displaymath}
+De esta forma, \(x = \lambda u + u^{\perp} \in U\oplus U^{\perp}\).
+\end{Demostracion}
+
+\begin{Definicion}[Base Ortonormal]
+	Una base ortonormal de un espacio de Hilbert \(X\), es una sucesión de
+	vectores \((v_j)_{j\in I}\) tales que la expansión de Fourier en
+	cada punto es convergente, en símbolos:
+	\begin{equation}
+		\forall x\in X\colon
+		x = \sum_{j\in I} \langle x,v_j \rangle v_j
+	\end{equation}
+\end{Definicion}
+
+\begin{Teorema}
+	Todo espacio de Hilbert tiene una base ortonormal
+\end{Teorema}
+\begin{Demostracion}
+\end{Demostracion}
+
+\subsubsection{Espacios Duales}
+
+En esta parte \(X\) denotará un espacio vectorial normado sobre un cuerpo
+\(\mathbb{K} = \mathbb{C}, \mathbb{R}\).
+
+\begin{Definicion}[Espacio Dual]\label{def:espacio_dual}
+	El espacio dual \(X\) se define como el conjunto de los mapas lineales
+	acotados de \(X\) a su campo escalar \(\mathbb{K}\).
+	\begin{equation*}
+		X' = L(X, \mathbb{K}).
+	\end{equation*}
+	Los elementos de \(X'\) son llamados funcionales lineales.
+\end{Definicion}
+
+\begin{Proposicion}\label{prop:espacio_dual_es_banach}
+	\(X'\) es un espacio de Banach con la norma
+	\(
+		\norm{x'}_{X'} \coloneqq \norm{x'}_{\mathbb{K}\leftarrow X}.
+	\)
+\end{Proposicion}
+\begin{Demostracion}
+Una aplicación de Proposición~\ref{prop:L_es_banach}.
+\end{Demostracion}
+
+Nótese que \(x'(x)\) se puede escribir como
+\begin{equation*}
+	x'(x)
+	=
+	\langle x, x' \rangle_{X\times X'}
+	=
+	\langle x', x \rangle_{X'\times X}.
+\end{equation*}
+Estas son llamadas \textit{formas duales} o \textit{pares duales}.
+
+\begin{Proposicion}
+	Si \(X\) está continuamente incrustado en \(Y\), entonces \(Y'\) está
+	continuamente incrustado en \(X'\).
+\end{Proposicion}
+\begin{Demostracion}
+Sea \(\iota\) la incrustación de \(X\) en \(Y\). Definamos \(j\colon Y' \to \iota(X)'\)
+por \(y' = y' \circ \iota\). El mapa está bien definido pues para \(x\in X\),
+\(\iota(x) \in Y\) y por lo tanto \(y'(\iota(x)) \in \K\). El mapa es lineal y
+continuo por ser composición de mapas lineales y continuos.
+\end{Demostracion}
+
+\begin{Definicion}[Espacio Bidual]\label{def:bidual}
+	El espacio bidual de \(X\) está definido como
+	\begin{equation*}
+		X'' = L(X', \mathbb{K})
+	\end{equation*}
+\end{Definicion}
+
+En general \(X \cong X''\). En tales casos \(X\) se dice \textit{reflexivo}.
+
+\begin{Proposicion}\label{prop:hilbert_reflexivo}
+	Todos los espacios de Hilbert son reflexivos.
+\end{Proposicion}
+\begin{Demostracion}
+Para cada \(x' \in X'\) tenemos el mapeo evualuación \(E_x\colon X' \to \K\)
+dado por \(E_x(x') = x'(x)\). Notése que \(E_{x} \in X''\). Debemos ver que el
+mapa \(x\mapsto E_x\) es inyectivo y sobreyectivo.
+
+Para la inyectividad supogangamos que \(x_1 \ne x_2\in X\) y que \(E_{x_1} =
+E_{x_2}\). Luego,
+\begin{displaymath}
+	\forall x'\in X'\colon
+	x'(x_1) = x'(x_2)
+	\implies
+	x'(x_1 - x_2) = 0,
+\end{displaymath}
+es decir, \(x_1 - x_2 \in \ker x'\) para todo \(x'\in X'\). Afirmamos que
+\(X_0 = \bigcap_{x'\in X'} \ker x' = 0\). En efecto, si \(x_0 \ne 0 \in X_0\),
+entonces definamos \(x'_{0}(x) = \langle x, x_0 \rangle\). Dado que \(X\) es un
+espacio de Hilbert, \(x'_0\) es un mapa lineal y continuo, además, \(x'(x_0) >
+0\). Por lo tanto, \(X_0 = 0\).
+
+Para la sobreyectividad, tomemos \(x'' \in X''\). Queremos ver que \(x'' =
+E_{x}\) para algún \(x\in X\).
+\end{Demostracion}
+
+\begin{Teorema}[Hanh-Banach para espacios de Banach]%
+\label{teo:hahn_banach_normado}
+	Sea \(X\) un espacio de Banach y \(M\) un subespacio de \(X\). Si \(f_0\) es
+	un funcional lineal continuo sobre \(M\), entonces existe un funcional
+	lineal continuo \(f\) definido sobre \(X\) tal que
+	\begin{displaymath}
+		\begin{array}{c c c}
+		(1)\,\,f|_{M} = f_0 &
+		\textrm{y} &
+		(2)\,\,\norm{f_{0}}_{\mathbb{C}\leftarrow M} =
+		\norm{f}_{\mathbb{C}\leftarrow X}.
+		\end{array}
+	\end{displaymath}
+\end{Teorema}
+\begin{Demostracion}
+	Momentáneamente supondremos que \(X\) es un espacio normado real.
+
+	En primer lugar, consideremos \(x_1\in X\setminus M\) y el subespacio \(M_1 = \spn
+	\left\{M, x_1\right\}\). Nótese que \(x\in M_1\) se puede escribir de
+	manera única como \(x = x_M + \lambda x_1\) con \(x_M \in M\) y \(\lambda\in
+	\R\). Para que \(f_1\) sea una extensión lineal de \(f_0\) a \(M_1\), es necesario que
+	\begin{displaymath}
+		f_1(x) = f_0(x_M) + \lambda f_1(x_1),
+	\end{displaymath}
+	Por lo que \(f_1(x_1)\) determina al mapa. Más aún, para que sea continuo, es
+	necesario que sea acotado. Como queremos mantener la norma, es necesario que
+	\(\abs{f_1(x)} \le \norm{f_0} \norm{x}\) para todo \(x\in M_1\). La pregunta
+	yace entonces en si existe una asignación \(f_1(x_1)\) que cumpla con lo que
+	queremos.
+
+	Para \(\lambda = 0\) la elección de \(f_1(x_1)\) es indiferente, por lo tanto,
+	supondremos \(\lambda \ne 0\). Para \(\lambda > 0\) tenemos que
+	\begin{displaymath}
+		\abs{f_0(x_M/\lambda) + f_1(x_1)}
+		\le
+		\norm{f_0} \norm{x_M/\lambda + x_1}
+	\end{displaymath}
+	mientras que para \(\lambda < 0\) se tiene
+	\begin{displaymath}
+		\abs{f_0(x_M/(-\lambda)) - f_1(x_1)}
+		\le
+		\norm{f_0} \norm{x_M/(-\lambda) - x_1}
+	\end{displaymath}
+	
+	Como \(M\) es subespacio, las condiciones anteriores para \(f_1(x_1)\) se
+	reducen a cumplir
+	\begin{displaymath}
+		f_0(m_1) - \norm{f_0} \norm{m_1 - x_1}
+		\le
+		f_1(x_1) 
+		\le 
+		\norm{f_0} \norm{m_2 + x_1} - f_0(m_2 x) 
+		\qquad \forall m_1, m_2 \in M.
+	\end{displaymath}
+
+	Luego, es suficiente para \(f_1(x_1)\) cumplir con:   
+	\begin{displaymath}
+		\sup_{m_1 \in M} f_0(m_1) - \norm{f_0} \norm{m - x_1}
+		\le
+		f_1(x_1)
+		\le
+		\inf_{m_2 \in M} \norm{f_0} \norm{m_2 + x_1} - f_0(m_2)
+	\end{displaymath}
+	Tal elección es posible, pues
+	\begin{displaymath}
+		f_0(m_1) + f_0(m_2)
+		=
+		f_0(m_1 + m_2)
+		\le
+		\norm{f_0} \norm{m_1 + m_2}
+		\le
+		\norm{f_0} \left( \norm{m_1 - x_1} + \norm{m_2 + x_1} \right) 
+	\end{displaymath}
+
+	En resumen, hemos probado que existe una extensión de \(f_0\) que es lineal,
+	continua y mantiene la norma.
+
+	Si \(X\) es finito dimensional, basta aplicar
+	inductivamente el procedimiento. El caso infinito dimensional es un poco más
+	trabajoso; Debemos definir un order parcial sobre las extensiones de \(f_0\) y 
+	usar el Lema de Zorn para concluir que el elemento máximal es el espacio
+	\(X\).
+
+	Con lo primero, decimos que \(h\succ g\) si \(h\) es una extensión de \(g\).
+	Luego, por el Lema de Zorn existe un elemento máximal \(f\) que extiende a
+	\(f_0\) y tiene por dominio el espacio \(X\). En efecto, si el dominio no
+	fuera todo \(X\) podemos aplicar el procedimiento de arriba y concluir que
+	hay un elemento \(F\) que extiende a \(f\), lo cual contradice la
+	máximalidad del último.  
+\end{Demostracion}
+
+\begin{Corolario}
+	Sea \(X\) un espacio de Banach y \(x_0\ne 0\in X\). Entonces existe un
+	funcional lineal continuo \(f_0\) sobre \(X\) tal que
+	\begin{displaymath}
+		\begin{array}{c c c}
+			f_0(x_0) = \norm{x_0}_{X}
+			& \textrm{ y } &
+			\norm{f_0}_{X'} = 1.
+		\end{array}
+	\end{displaymath}
+\end{Corolario}
+\begin{Demostracion}
+	Consideremos \(M = \spn(x_0)\). Definamos \(f_0(\alpha x_0) = \alpha \norm{x_0}\) para 
+	\(\alpha\in \C\). Se verifica que \(f_0\) es un funcional lineal continuo y que
+	\(\norm{f_0}_{X'} = 1\). Lo demás es directo por el
+	Teorema~\ref{teo:hahn_banach_normado}.
+\end{Demostracion}
+
+\end{document}

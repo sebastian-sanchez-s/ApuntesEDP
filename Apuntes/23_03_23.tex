@@ -1,0 +1,212 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 23 de Marzo, 2023}
+
+\subsection{Regularidad}
+
+\noindent\textbf{Convolución y Regularización}
+
+Para \(\Omega \subset \R^n\) abierto, definimos el conjunto 
+\begin{displaymath}
+	\Omega_{\epsilon}
+	\coloneqq
+	\left\{
+		x\in \Omega
+		\mid
+		\dist(x, \partial\Omega) > \epsilon
+	\right\}
+	,\quad \epsilon > 0.
+\end{displaymath}
+Además, definimos \(\eta \in \CC^{\infty}_{C}(\R^n)\) como
+\begin{displaymath}
+	\eta(x)
+	\coloneqq
+	\begin{cases}
+		C \exp( \frac{1}{\abs{x}^2 - 1}
+		&, \abs{x} < 1
+		\\
+		0
+		&, \abs{x} \ge 1
+	\end{cases},
+\end{displaymath}
+donde \(C\) es una constante tal que
+\begin{displaymath}
+	\int_{\R^n}
+		\eta(x)
+	= 1.
+\end{displaymath}
+Con esto definimos la \textbf{función regularizante}
+\begin{displaymath}
+	\eta_{\epsilon}(x)
+	\coloneqq
+	\frac{1}{\epsilon^{n}}
+	\eta(\frac{x}{\epsilon})
+	,\quad \epsilon > 0.
+\end{displaymath}
+La gracia de la función regularizante es que \(\supp \eta_{\epsilon} =
+\overline{B(0,\epsilon)}\) y \(\int_{\R^n} \eta_{\epsilon} = 1\).
+
+Para una función \(f\in L^{1}_{\loc}(\Omega)\) y \(x\in\Omega_{\epsilon}\),
+definimos
+\begin{displaymath}
+	f_{\epsilon}(x)
+	=
+	\eta_{\epsilon} 
+	\ast
+	f(x)
+	=
+	\int_{\R^n} \eta_{\epsilon}(x-y) f(y)\, dy.
+\end{displaymath}
+la regularización de \(f\) en \(\Omega_{\epsilon}\). Para la regularización, se
+cumple que
+\begin{enumerate}[itemsep=0pt, topsep=1ex]
+	\item \(f_{\epsilon} \in \CC^{\infty}(\Omega_{\epsilon})\);
+	\item \(f_{\epsilon} \to f\) cuando \(\epsilon \to 0\) ctp;
+	\item Si \(f\in \CC(\Omega)\), \(f_{\epsilon}\) converge uniformemente a
+		\(f\) sobre compactos;
+	\item Si \(f\in L^{p}_{\loc} (\Omega)\) con \(1 \le p \le \infty\), entonces
+		\(f_{\epsilon} \to f\) en \(L^{p}_{\loc}\).
+\end{enumerate}
+
+\begin{Teorema}[Regularidad de funciones armónicas]
+	Si \(u\in \CC(\Omega)\) y satisface la propiedad de la media para toda bola
+	\(\overline{B(x,r)}\subset\Omega\), entonces \(u\) es \(\CC^{\infty}(\Omega)\).
+\end{Teorema}
+\begin{Demostracion}
+	Vamos a probar que \(u = u_{\epsilon}\) en \(\Omega_{\epsilon}\).
+	\begin{align*}
+		u_{\epsilon}(x)
+		&=
+		\int_{\R^n} \eta_{\epsilon} (x-y) u(y) \, dy
+		\\&=
+		\frac{1}{\epsilon^n}
+		\int_{B(x,\epsilon)}
+			\eta\left(\frac{x-y}{\epsilon}\right) u(y) \, dy
+		\\&=
+		\frac{1}{\epsilon^n}
+		\int_{0}^{\epsilon}
+		\int_{\partial B(x, r)}
+			\eta\left(\frac{x-y}{\epsilon}\right) 
+			u(y) \, dS(y)
+		\, dr
+		\\&=
+		\frac{1}{\epsilon^n}
+		\int_{0}^{\epsilon}
+		\eta\left(\frac{r}{\epsilon}\right) 
+		\underbrace{
+		\int_{\partial B(x, r)}
+			u(y) \, dS(y)
+		}_{u(x) \abs{\partial B(x,r)}}
+		\, dr
+		\\&=
+		\frac{u(x)}{\epsilon^n}
+		\int_{0}^{\epsilon}
+			\eta\left(\frac{r}{\epsilon}\right)
+			\abs{\partial B(x,r)}
+		\, dr
+		\\&=
+		\frac{u(x)}{\epsilon^n}
+		\int_{0}^{\epsilon}
+		\int_{\partial B(x,r)}
+			\eta\left(\frac{r}{\epsilon}\right)
+			\, dS(y)
+		\, dr
+		\\&=
+		\frac{u(x)}{\epsilon^n}
+		\int_{B(x,\epsilon)}
+			\eta\left(\frac{x-y}{\epsilon}\right)
+			\, dy
+		\\&=
+		u(x)
+		\underbrace{
+		\int_{\R^n}
+			\eta_{\epsilon} \left(x-y\right)
+			\, dy
+		}_{=1}
+		=
+		u(x).
+	\end{align*}
+	Como \(u_{\epsilon}\) es \(\CC^{\infty}(\Omega_{\epsilon})\), también lo es 
+	\(u\).
+\end{Demostracion}
+
+\begin{Teorema}
+	Las funciones armónicas son analíticas.
+\end{Teorema}
+
+\begin{Teorema}[Desigualdad de Harnack]
+	Sea \(U\subset \R^n\) abierto y \(V\) un dominio compactamente contenido 
+	en \(U\). Si \(u\) es una función armónica no negativa en \(U\), entonces 
+	\begin{displaymath}
+		\sup_{V} u \le C \inf_{V} u.
+	\end{displaymath}
+	donde la constante \(C\) no depende de \(u\). En particular, se tiene que
+	\begin{displaymath}
+		\frac{1}{C} u(y)
+		\le
+		u(x)
+		\le
+		C u(y)
+		\quad \forall x, y\in V.
+	\end{displaymath}
+\end{Teorema}
+\begin{Demostracion}
+	Vamos a probar la última desigualdad. Sea \(r = \dist(V, \partial U)\). 
+	Como
+	\(\overline V\) es compacto si cubrimos con bolas de radio \(r/2\), 
+	existe un cubrimiento \(B_1, \dots, B_N\)
+	finito, tal que \(V \subset B_1 \cup \cdots \cup B_N\). 
+	Además, como \(V\) es conexo,
+	se tiene (renombrando de ser necesario) que \(B_{i-1} \cap B_{i} \ne
+	\varnothing\) para todo \(i=2, \dots, N\). 
+
+	Denotemos por \(x_1, \dots, x_N\) a los centros de \(B_1, \dots, B_N\)
+	respectivamente. Como \(u\) es armónica, vale la propiedad de la media, 
+	así que
+	\begin{displaymath}
+		u(x_i)
+		=
+		\fint_{B(x_i,r)} u(y) \, dy
+		=
+		\frac{1}{\abs{B(x_i,r)}}
+		\int_{B(x_i,r)} u(y) \, dy
+		\quad \forall i=1, \dots, N.
+	\end{displaymath}
+	Ahora, por la elección del cubrimiento, se tiene que
+	\begin{alignat*}{2}
+		u(x_{1})
+		&=
+		\frac{1}{\abs{B(x_1,r)}}
+		\int_{B(x_{1},r)} u(y) \, dy
+		\\&\ge
+		\frac{1}{\abs{B(x_1,r)}}
+		\int_{B(x_2, r/2)} u(y) \, dy
+		=
+		\frac{1}{2^n} 
+		\fint_{B(x_2, r/2)} u(y) \, dy
+		=
+		\frac{1}{2^n} 
+		u(x_2).
+	\end{alignat*}
+	Se sigue que \(u(x_{1}) \ge \frac{1}{2^{n(N-1)}} u(x_N)\). Si \(x, y\in V\),
+	entonces SPG \(x \in B_{i}\) y \(y \in B_{j}\) para algún par \(i \le j\). Bajo el
+	procedimiento anterior en \(x\) tenemos \(u(x) \ge \frac{1}{2^n} u(x_i)\) y
+	aplicando el procedimiento en \(x_j\) da que \(u(x_j) \ge \frac{1}{2^n} u(y)\). 
+	Luego,
+	\begin{displaymath}
+		u(x) 
+		\ge
+		\frac{1}{2^n} u(x_i)
+		\ge
+		\frac{1}{2^{nN}} u(x_j)
+		\ge
+		\frac{1}{2^{n(N+1)}} u(y).
+	\end{displaymath}
+	Las desigualdades en la otra dirección son análogas. Con esto queda
+	demostrado el resultado.
+\end{Demostracion}
+
+\end{document}

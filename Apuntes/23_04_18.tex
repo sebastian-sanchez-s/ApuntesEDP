@@ -1,0 +1,219 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 18 de abril, 2023}
+
+\subsection{Separación de Variables}
+
+Consideremos el problema sobre \(I \times \R^{+}\)
+\begin{displaymath}
+\begin{caligned}
+	u_t &= k u_{xx} &&, x\in I, t > 0\\
+	u(x,0) &= \phi(x)\\
+	&\text{más condiciones de borde}
+\end{caligned}
+\end{displaymath}
+
+Las condiciones de borde más comunes son
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|}
+	\hline
+	Dirichlet & \(u(0,t) = u(\ell,t)\) \\
+	\hline
+	Neumann   & \(u_{x}(0,t) = u_{x}(\ell, t)\) \\
+	\hline
+	Robin	  & \(u_{x}(0,t) - a_0 u(0,t) = 0\) \\
+			  & \(u_{x}(\ell,t) - a_1 u(\ell,t) = 0\) \\
+	\hline
+	Periódicas	& \(u(-\ell, t) = u(\ell, t)\) \\
+				& \(u_{x}(-\ell, t) = u_{x}(\ell,t)\) \\
+	\hline
+\end{tabular}
+\end{table}
+
+Nos enfocaremos en la condiciones de tipo Dirichlet homogéneas (es
+decir, en la frontera ambas valen cero).
+
+En la separación de variables buscamos desacoplar las componentes que
+modelan el problema. En el caso del problema que consideramos, \(u\)
+depende del espacio y del tiempo, así que buscamos soluciones de la
+forma
+\begin{displaymath}
+	u(t,x) = T(t) E(x).
+\end{displaymath}
+
+\textit{
+Nótese que esto no quiere decir que todas las soluciones se vean así,
+estamos buscando un tipo muy particular de solución.}
+
+Si reemplazamos en la ecuación tenemos que
+\begin{displaymath}
+	\frac{T'}{k T}
+	=
+	\frac{E''}{E}
+\end{displaymath}
+Para que la igualdad se mantenga, es necesario que ambos cocientes
+sean una constante (porque dependen de variables distintas). Dígamos
+por conveniencia que la constante es \(-\lambda\). Luego,
+\begin{displaymath}
+	\frac{T'}{k T}
+	=
+	\frac{E''}{E}
+	=
+	-\lambda
+	\implies
+	\begin{cases}
+		E'' = -\lambda E \\
+		T' = -\lambda T
+	\end{cases}.
+\end{displaymath}
+
+Ahora tenemos un par de ecuaciones diferenciales ordinarias, que son
+más fáciles de resolver. Sin embargo, lo importante aquí es encontrar
+\(\lambda\).
+
+Por las condiciones de borde, \(E(0) = E(\ell) = 0\) y tenemos el
+problema de valores y funciones propias:
+\begin{displaymath}
+\begin{caligned}
+	-E''(x) &= \lambda E(x) &&, x\in I\\
+	E(0) &= 0\\
+	E(\ell) &= 0
+\end{caligned}
+\end{displaymath}
+Si \(\lambda\) satisface el problema anterior para \(E\not\equiv 0\)
+diremos que es un valor propio del operador \(-\partial_{x}^2\)
+asociado a las condiciones de borde. De manera homóloga, diremos que
+\(E\) es una función propia.
+
+Tenemos distintos casos dependiendo del signo de \(\lambda\).
+\begin{enumerate}
+	\item \(\lambda > 0\): La solución de la EDO es una combinación
+		lineal de la forma
+		\begin{displaymath}
+			E(x)
+			=
+			a_1 \cos(\sqrt{\lambda} x) 
+			+
+			a_2 \sin(\sqrt{\lambda} x).
+		\end{displaymath}
+		Imponiendo las condiciones de borde tenemos que \(a_1 = 0\) y
+		\(a_2 \sin(\sqrt{\lambda} \ell) = 0\). Se sigue que
+		\(\sqrt{\lambda} \ell = n \pi\) con \(n\) un entero positivo.
+		Esto nos da un valor propio para cada \(n\) y a su vez una
+		función propia por cada \(\lambda_{n}\). Estás son:
+		\begin{displaymath}
+			E_{n}(x)
+			=
+			A_n \sin(\sqrt{\lambda_{n}} x)
+			\qquad
+			n \ge 1,
+			A_n \ne 0.
+		\end{displaymath}
+	\item \(\lambda = 0\): La función es lineal y por las condiciones
+		de borde debe ser la constante nula.
+	\item \(\lambda < 0\): Las soluciones son de la forma
+		\begin{displaymath}
+			E(x)
+			=
+			a_1 \cosh(\sqrt{-\lambda} x)
+			+
+			a_2 \sinh(\sqrt{-\lambda} x).
+		\end{displaymath}
+		Imponiendo las condiciones de borde se concluye que \(E \equiv
+		0\).
+\end{enumerate}
+
+De esta forma, tenemos resuelta la parte espacial del problema y
+obtenido el (los) \(\lambda\) podemos resolver la parte temporal.
+
+Como \(T' = -\lambda_{n} k T\) tiene por solución \(T_{n}(t) = B_{n}
+e^{-k \lambda_{n} t}\) con \(B_n \in \R\). Así, la solución \(u\) con
+los componentes desacoplados se lee
+\begin{displaymath}
+	u_{n}(t,x)
+	=
+	T_{n}(t) E_{n}(x)
+	=
+	C_{n} e^{-k \lambda_{n} t} \sin(\sqrt{\lambda_n} x).
+\end{displaymath}
+Y satisface el problema expuesto al inicio con condiciones de borde de
+dirichlet homogéneas.
+
+Finalmente, nos queda el problema de imponer condiciones iniciales. La
+afirmación es que se pueden escoger coeficientes convenientes tal que
+la serie
+\begin{displaymath}
+	u(t,x)
+	=
+	\sum_{n=1}^{\infty}
+	C_n \sin(\sqrt{\lambda_n} x)
+	= 
+	\phi(x)
+\end{displaymath}
+Es solución del mismo problema anterior, pero además satisface las
+condiciones iniciales. Asumiremos cosas como la convergencia y
+mostraremos que tales coeficientes sí existen.
+
+\textbf{Ortogonalidad de Funciones Propias} Sean \(f,g\in
+L^2(\Omega)\) con \(\Omega\subset\R^n\). Recordamos que el producto
+interno es \(L^2\) es 
+\begin{displaymath}
+	\langle f,g \rangle
+	=
+	\int_{\Omega} f(x) g(x) \, dx,
+\end{displaymath}
+y la norma inducida es \(\norm{f}_{2} = \langle f, f\rangle\). Decimos
+que \(f\) y \(g\) son \textit{ortogonales} si \(\langle f,g \rangle =
+0\).
+
+\textbf{Condiciones de Borde Simétricas} Diremos que las condiciones
+de borde son simétricas si para todo par \(f,g\) que las satisface se
+cumple que:
+\begin{displaymath}
+	\det
+	\begin{pmatrix}
+		f(x) & g(x) \\
+		f'(x) & g'(x)
+	\end{pmatrix}
+	\Bigg|^{x=\ell}_{x=0}
+	= 0.
+\end{displaymath}
+
+\begin{Proposicion}
+	Consideremos el problema de valores propios
+	\begin{displaymath}
+	\begin{caligned}
+		E'' + \lambda E &= 0 &&, x\in I\\
+		E \text{ satisface ciertas condiciones de borde simétricas}.
+	\end{caligned}
+	\end{displaymath}
+	Si \(E_n\) y \(E_m\) son funciones propias asociadas a valores
+	propios distintos, entonces son ortogonales.
+\end{Proposicion}
+\begin{Demostracion}
+\end{Demostracion}
+
+Volviendo a nuestro ejemplo, teníamos que
+\begin{displaymath}
+	\phi(x)
+	=
+	\sum_{n\ge 0} A_n E_n(x)
+\end{displaymath}
+tiene condiciones de borde simétricas (verificar), así que
+\begin{displaymath}
+	\langle \phi(x), E_n \rangle
+	=
+	A_n \langle E_n, E_n \rangle
+	\implies
+	A_n
+	=
+	\frac
+	{\langle E_n, \phi(x) \rangle}
+	{\langle E_n, E_n \rangle}.
+\end{displaymath}
+
+\end{document}

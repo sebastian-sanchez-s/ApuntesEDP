@@ -1,0 +1,598 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+\newpage
+{\scshape \hfill 14 de Marzo, 2023}
+
+\section{Preliminares: Cálculo Multivariable}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\hspace{1cm}
+	\begin{tikzpicture}[scale=4]
+		\draw[->, thin] (-.1,0) -- (1,0) node[right] {\(x'\)};	
+		\draw[->, thin] (0,-.1) -- (0,1) node[above] {\(x_n\)};	
+		\begin{scope}
+			\clip (-0.1,1) rectangle (1,-0.1); 	
+			\draw[-, very thick, pattern=north east lines] 
+				(-1.5,1) .. controls (0.2, 0.2) .. (1.5,1) 
+				node[midway,below] {\(\partial\Omega\)};
+		\end{scope}
+	\end{tikzpicture}
+\end{wrapfigure}
+
+Empezaremos fijando notación. Para \(\Omega \subset \R^n\) abierto decimos que
+\(\partial\Omega\) es de clase \(\CC^{k}\) si para todo 
+\(x_0\in \partial\Omega\) existe un \(r > 0\) y una función
+\(\gamma\colon \R^{n-1} \to \R\) de clase \(\CC^{k}\) tal que 
+\begin{displaymath}
+	\begin{array}{c}
+		\Omega \cap B(x_0, r)
+		\\
+		\rotatebox{90}{\(=\)}
+		\\
+		\left\{ (x', x_n) \in \R^{n-1}\times\R \colon x_n > \gamma(x') \right\} 
+		\cap 
+		B(x_0, r).
+	\end{array}
+\end{displaymath}
+Es decir, \(\Omega\) localmente se ve como la región sobre el grafo de una
+función \(k\)-veces continuamente diferenciable.
+
+Si \(\partial\Omega\) es de clase \(\CC^{1}\) podemos definir su vector normal
+exterior unitario mediante la fórmula:
+\begin{displaymath}
+	\n(x_0) 
+	= 
+	\frac{1}{\sqrt{\abs{\nabla \gamma (x')} + 1}}
+	\begin{pmatrix}
+		\nabla \gamma (x')\\
+		-1
+	\end{pmatrix}.
+\end{displaymath}
+Para funciones \(u \in \CC^{1}(\overline\Omega)\) definimos su derivada normal
+por
+\begin{displaymath}
+	\partial_{\n} u(x)
+	\coloneqq
+	\nabla u(x) \cdot \n(x), \quad x\in \partial\Omega.
+\end{displaymath}
+
+\subsection{Fórmula de Green-Gauss}
+
+Recordaremos algunas fórmulas del cálculo multivariable que usaremos durante el
+curso. En particular a continuación se muestra el Teorema de la divergencia,
+la fórmula de integración por partes y las fórmulas de Green. Todas estas
+integrales relacionan la densidad de flujo de un campo vectorial con la integral
+sobre el contorno de una región.
+
+\noindent \textbf{Teorema de la divergencia}:
+\label{teo:divergencia}
+(1) Si \(u \in \CC^{1}(\overline\Omega)\), entonces 
+\begin{displaymath}
+	\int_{\Omega} \partial_{x_i} u 
+	=
+	\int_{\partial\Omega} u \, \n^{i}.
+\end{displaymath}
+donde \(\n^{i}\) es la iésima coordenada del vector normal.
+
+(2) Si \(F \in \CC^{1}(\overline\Omega, \R^n)\) entonces
+\begin{displaymath}
+	\int_{\Omega} \nabla \cdot F
+	=
+	\int_{\partial\Omega} F\cdot \n.
+\end{displaymath}
+
+Como consecuencia del Teorema de la Divergencia tenemos la fórmula de 
+\textbf{Integración por partes}:
+Si \(u\) y \(v\) son funciones en \(\CC^{1}(\overline\Omega)\), entonces
+\begin{displaymath}
+	\int_{\Omega} \partial_{x_i} u \, v
+	=
+	-\int_{\Omega} u \, \partial_{x_i} v
+	+
+	\int_{\partial \Omega} u\, v\, \n^{i}.
+\end{displaymath}
+
+Para funciones \(u \in \CC^{2}(\overline\Omega)\).
+definimos el Laplaciano como:
+\begin{displaymath}
+	\Delta u
+	=
+	\nabla^2 u
+	=
+	\nabla\cdot \nabla u
+	=
+	\sum_{i=1}^{n} \partial^2_{x_i} u.
+\end{displaymath}
+
+De las fórmulas anteriores obtenemos las \textbf{Fórmulas de Green}:
+Para \(u, v\in \CC^{2}(\overline\Omega)\) se tiene que
+la \textbf{primera fórmula de Green}:
+\begin{displaymath}
+	\int_{\Omega} \nabla^2 u
+	=
+	\int_{\partial\Omega} \partial_{\n} u.
+\end{displaymath}
+Además, la fórmula de integración por partes se cumple con gradientes 
+, esto se conoce como \textbf{segunda fórmula de Green}:
+\begin{displaymath}
+	\int_{\Omega} \nabla u\, \nabla v + u\, \Delta v
+	=
+	\int_{\partial \Omega} u\, \partial_{\n} v.
+\end{displaymath}
+Más aún, tenemos la \textbf{tercera fórmula de Green}.
+\begin{displaymath}
+	\int_{\Omega} u\, \Delta v - v\, \Delta u
+	=
+	\int_{\partial\Omega} u\, \partial_{\n} v - v \partial_{\n} u.
+\end{displaymath}
+
+En coordenadas polares tenemos que, para \(f\colon \R^n \to \R\) una función
+continua y Riemann-integrable se cumple
+\begin{displaymath}
+	\int_{\R^n} f = \int_{0}^{\infty} \int_{\partial B(0,r)} f \d{S}.
+\end{displaymath}
+En particular, 
+\begin{displaymath}
+	\dd{r} \int_{B(x_0, r)} f = \int_{\partial B(x_0, r)} f \d{S}.
+\end{displaymath}
+
+\section{Distribuciones}
+
+Sea \(\Omega\) un abierto en \(\R^n\) y sea \(\mathcal{D}\) la familia de
+funciones suaves con soporte compacto sobre \(\Omega\). En símbolos,
+\begin{displaymath}
+	\mathcal{D}
+	\coloneqq
+	\left\{
+		\varphi\colon \Omega \to \R
+		\mid
+		\varphi \in \mathcal{C}_{C}^{\infty}(\Omega)
+	\right\}.
+\end{displaymath}
+Intuitivamente, estas son las funciones que se hacen cero al infinito. Además,
+definimos las funciones \textbf{localmente integrables} como:
+\begin{displaymath}
+	L^{1}_{\loc}
+	\coloneqq
+	\left\{
+		f\colon \Omega \to \R
+		\mid
+		\forall K\subset \Omega \textrm{ compacto, se tiene que }
+		\int_{K} \abs{f} < \infty
+	\right\}.
+\end{displaymath}
+
+La gracia de las funciones localmente integrables es que nos permitimos trabajar
+con funciones sin mucha regularidad. En este mismo sentido viene la siguiente
+definición.
+
+\begin{Definicion}[Derivada parcial débil]
+	Decimos que \(f\in L^{1}_{\loc}\) tiene una derivada parcial débil 
+	si existe \(g\in L^{1}_{\loc}\) tal que
+	\begin{displaymath}
+		\forall \psi \in \mathcal{D}
+		\textrm{ se tiene que }
+		\int_{\Omega} f \partial_{x_i} \psi
+		=
+		-\int_{\Omega} g \psi.
+	\end{displaymath}
+	Denotamos a \(g\) por \(\partial_{x_{i}} f\).
+\end{Definicion}
+
+Para funciones diferenciables la derivada débil coincide con la derivada usual
+casi en todas partes. Entenderemos de aquí en adelante que cuando hablemos de
+derivadas siempre nos referiremos a las derivadas en el sentido débil.
+
+\begin{Definicion}[Distribución]
+	Una distribución es un funcional lineal \(u\colon \mathcal{D}\to \R\)
+	que es continuo en el sentido siguiente:
+	En todo compacto \(K\) de \(\Omega\) existe un entero no negativo \(j\) y 
+	un real no negativo \(C\) tal que para toda función \(\varphi\) 
+	en \(\mathcal{D}\) con \(\supp(\varphi)\subset K\) se cumple que
+	\begin{displaymath}
+		\abs{u(\varphi)}
+		\le
+		C \sup_{\abs{\alpha} < j} \abs{\partial^{\alpha} \varphi(x)}
+	\end{displaymath}
+	donde \(\alpha = (\alpha_1, \dots, \alpha_{n}) \in \Z_{\ge 0}^{n}\) 
+	es un multi-índice con \(\abs{\alpha} = \alpha_1 + \dots + \alpha_n\) 
+	y 
+	\begin{displaymath}
+		\partial^{\alpha} 
+		= 
+		\partial_{x_1}^{\alpha_1} 
+		\partial_{x_2}^{\alpha_2}
+		\cdots
+		\partial_{x_n}^{\alpha_{n}}
+	\end{displaymath}
+
+	\noindent Anotamos \(u(\varphi) = \langle u, \varphi \rangle \). Además,
+	decimos que \(j\) es el orden de la distribución.
+\end{Definicion}
+
+\begin{Ejemplo}[Algunas distribuciones]
+\begin{enumerate}
+	\item Toda función \(f\) localmente integrable define una distribución
+		\(u_{f}\) definida por:
+		\begin{displaymath}
+			u_{f}(\psi)
+			=
+			\langle u_f, \psi \rangle 
+			=
+			\int_{\Omega} f\psi.
+		\end{displaymath}
+		En efecto, para \(K\) un compacto en \(\Omega\) que contiene al soporte
+		de una función \(\psi \in \mathcal{D}\) se tiene que
+		\begin{displaymath}
+			\abs{\langle u_f, \psi \rangle}
+			\le
+			\int_{\Omega} \abs{f\psi}
+			\le
+			\underbrace{\int_{K} \abs{f}}_{C}
+			\sup_{K} \abs{\psi}.
+		\end{displaymath}
+		Notando que \(\psi = \partial^{0} \psi\) tenemos la fórmula de la
+		definición. Además, vemos que esta distribución tiene orden cero.
+
+		Cada función \(u\in L^{1}_{\loc}\) define un única distribución (única
+		en el sentido de medida, es decir, ctp). Así que por abuso del lenguaje
+		a veces se hablamos de \(u\) refiriéndonos a la distribución que induce.
+	
+	\item Para un punto \(a\) de \(\Omega\) definimos
+		el funcional lineal \(\delta_{a}\) como la evaluación. En símbolos:
+		\begin{displaymath}
+			\delta_{a} (\psi)
+			=
+			\langle \delta_{a}, \psi \rangle 
+			=
+			\psi(a)
+			\quad\forall{\psi\in \mathcal{D}}.
+		\end{displaymath}
+		La distribución \(\delta_{a}\) se conoce como \textbf{delta de
+		dirac}. Para ver que es distribución, notemos que si \(K\) es un compacto
+		en \(\Omega\) que contiene al soporte de \(\psi\in \mathcal{D}\)
+		entonces
+		\begin{displaymath}
+			\abs{ \langle \delta_{a}, \psi \rangle} 
+			\le 
+			\sup_{K} \abs{\psi}.
+		\end{displaymath}
+		Esta distribución también es de orden cero.
+	
+	\item Similar al anterior, definimos \(\partial_{x_{i}} \delta_{a}\) como
+		(menos) la evaluación de la derivada en el punto \(a\). En símbolos:
+		\begin{displaymath}
+			\partial_{x_{i}} \delta_{a} (\psi)
+			=
+			\langle \partial_{x_{i}} \delta_{a}, \psi \rangle 
+			=
+			- \langle \delta_{a}, \partial_{x_{i}} \delta_{a} \rangle 
+			=
+			- \partial_{x_{i}} \psi.
+		\end{displaymath}
+		El menos sale porque en la igualdad de enmedio usamos integración por
+		partes. Para ver que es distribución, sea \(K\) un compacto en
+		\(\Omega\) que contenga al soporte de \(\psi\in \mathcal{D}\). Luego,
+		\begin{displaymath}
+			\abs{ \langle \partial_{x_{i}} \delta_{a}, \psi \rangle}
+			\leq
+			\sup_{K} \abs{ \partial_{x_{i}} \psi}.
+		\end{displaymath}
+		Vemos que esta distribución es de orden uno.
+\end{enumerate}
+\end{Ejemplo}
+
+Definimos el \textbf{espacio de distribuciones} \(\mathcal{D}'\) en \(\Omega\) 
+como la colección de funcionales lineales continuos sobre \(\mathcal{D}\) i.e. El espacio
+dual de \(\mathcal{D}\). 
+
+\begin{Proposicion}
+	Si \(u\) es una distribución en \(\Omega\), entonces \(\partial_{x_{i}} u\)
+	también lo es, donde \(\partial_{x_{i}} u\) se define como
+	\begin{displaymath}
+		\langle \partial_{x_{i}} u, \psi \rangle 
+		\coloneqq
+		- \langle u, \partial_{x_{i}} \psi \rangle 
+		\quad\forall \varphi \in \mathcal{D}.
+	\end{displaymath}
+	Y en general, se tiene que \(\partial^{\alpha} u\in \mathcal{D}'\) con
+	\begin{displaymath}
+		\langle \partial^{\alpha} u, \psi \rangle 
+		\coloneqq
+		(-1)^{\abs{\alpha}} \langle u, \partial^{\alpha} \psi \rangle 
+		\quad\forall \varphi \in \mathcal{D}.
+	\end{displaymath}
+\end{Proposicion}
+
+\section{Ecuación de Laplace}
+
+En esta sección estudiaremos la \textit{ecuación de Laplace},
+\begin{equation}\label{eq:laplace}
+	\Delta u = 0.
+\end{equation}
+donde \(u \in \CC(\overline\Omega)\) con \(\Omega\) un abierto en \(\R^n\). Esta
+ecuación es un caso particular de la \textit{ecuación de Poisson}
+\begin{displaymath}
+	-\Delta u = f.
+\end{displaymath}
+
+Las soluciones a la ecuación de Laplace se conocen como funciones armónicas.
+Notése que el gradiente de \(u\) define un campo vectorial
+donde a cada punto del espacio se le asocia un vector que apunta en la dirección
+de máximo cambio. Ahora, que este campo tenga divergencia nula en todo
+punto nos dice que el campo \(u\) en cada punto tiene un valor muy parecido 
+al promedio de los valores de los puntos cercanos.
+
+\subsection{Solución Fundamental}
+
+Primero analizaremos la estructura de las soluciones, dígase, si \(u\) es
+solución de \eqref{eq:laplace} entonces ¿qué podemos decir de \(u\)?
+
+\noindent\textbf{Simetrías}
+Con simetrías nos referimos a aquellos invariantes bajo
+cambios en el dominio. Por ejemplo, tenemos que \(u\) es invariante bajo
+dilataciones/contracciones (siempre y cuando sigan en el dominio):
+\begin{displaymath}
+	\Delta u (\lambda x)
+	=
+	\lambda^2 \partial_{x_1}^{2} u(\lambda x)
+	+
+	\lambda^2 \partial_{x_2}^{2} u(\lambda x)
+	=
+	0,
+	\quad x\in \Omega.
+\end{displaymath}
+Más especificamente, si \(A\) es una transformación lineal ortogonal de 
+\(\Omega\) en \(\Omega\) tendremos que
+\begin{displaymath}
+	\Delta u (\lambda A x)
+	=
+	\lambda^2 A^2 \partial_{x_1}^{2} u(\lambda A x)
+	+
+	\lambda^2 A^2 \partial_{x_2}^{2} u(\lambda A x)
+	=
+	0,
+	\quad x\in \Omega.
+\end{displaymath}
+
+Con esta idea en mente buscaremos soluciones radiales, es decir,
+supondremos que \(u\) es de la forma:
+\begin{displaymath}
+	u(x) = v( \norm{x} ) = v(r),
+\end{displaymath}
+para alguna función \(v\) de una variable. 
+Ahora necesitamos expresar la ecuación de Laplace en
+términos de la nueva función. Por la regla de la cadena,
+\begin{displaymath}
+	\partial_{x_i} v(\norm{x})
+	=
+	\partial_{x_i} r\, \partial_{r} v(r).
+\end{displaymath}
+Como \(r = \sqrt{x_1^2 + \cdots + x_n^2}\) tenemos que \(\partial_{x_i} r =
+x_i/r\). Derivando de nuevo,
+\begin{displaymath}
+	\partial_{x_i}^2 v(\norm{x})
+	=
+	\partial_{x_i} \left( \frac{x_i}{r} \partial_{r} v \right) 
+	=
+	\frac{1}{r} v' - \frac{x_i^2}{r^3} v' + \frac{x_i^2}{r^2} v''.
+\end{displaymath}
+Así que la ecuación de Laplace se lee,
+\begin{displaymath}
+	\Delta u(x)
+	=
+	0
+	\iff
+	\sum_{i=1}^{n}
+	\frac{1}{r} v' - \frac{x_i^2}{r^3} v' + \frac{x_i^2}{r^2} v''   
+	=
+	0
+	\iff
+	(n-1) \frac{v'}{r} + v''
+	=
+	0.
+\end{displaymath}
+La EDO es separable así que nos queda,
+\begin{displaymath}
+	\frac{v''}{v'} = \frac{1-n}{r}
+	\implies
+	v' = c_0\, r^{1-n}
+	\implies
+	v =
+	\begin{cases}
+		c_1 \log r + c_2 &, n=2\\
+		\frac{c_1}{(n-2) r^{n-2}} + c_2 &, n\ge 3 
+	\end{cases}.
+\end{displaymath}
+A modo de resumen, tenemos que para cualquier elección de constantes \(c_1,
+c_2\) la función \(v(r)\) satisface \(\Delta v(r) = 0\).
+
+\begin{Proposicion}
+	Podemos elegir las constantes tal que \(- \Delta v = \delta_{0}\).
+\end{Proposicion}
+\begin{Demostracion}
+\noindent Notése que el lado derecho y el lado izquierdo son objetos distintos,
+por lo que esta igualdad la entenderemos en el sentido de distribuciones. Este
+es el abuso de notación que mencionamos antes.
+
+Para facilitar los cálculos, primero ``normalizamos" \(v\),
+\begin{displaymath}
+	\Phi(r) = 
+	\begin{cases}
+		- \frac{1}{2\pi} \log r &, n=2\\
+		\frac{1}{n\alpha(n) (n-2) r^{n-2}} &, n\ge 3 
+	\end{cases},
+\end{displaymath}
+donde \(\alpha(n)\) es el volumen de la bola unitaria en \(\R^n\).
+
+La afirmación es equivalente a probar que \(- \Delta_{x} \Phi = \delta_{0}\).
+Primero probaremos que \(\Phi\) está en \(L^{1}_{\loc}\) y luego mostraremos
+que la distribución inducida se comporta como \(\delta_{0}\).
+
+\underline{\(\Phi \in L^{1}_{\loc}\)}: Primero veamos el caso \(n \ge 3\). 
+La función \(\Phi\) se va a cero en el infinito y de hecho está bien acotada
+para \(r \ge 1\), por lo que el posible problema
+está cerca del origen. Así que acotando eso estamos listos.
+\begin{alignat*}{3}
+	\int_{B(0,1)} \Phi(\abs{x}) \d{x}
+	&=
+	\int_{0}^{1} \int_{\partial B(0,r)} \Phi(r) \d{S} \d{r}
+	\\&=
+	n \alpha(n) \int_{0}^{1} \Phi(r) r^{n-1} \d{r}
+	\\&=
+	\frac{1}{(n-2)} \int_{0}^{1} \frac{1}{r} \d{r}
+	< \infty
+\end{alignat*}
+Puesto que \(f(x) = 1/\abs{x}^{\alpha}\) es convergente en la bola unitaria si y
+solo si \(\alpha < n\).
+
+Para \(n=2\): Si \(r \ge 1\) estamos lidiando con una función continua así que
+es localmente integrable. Por lo tanto, el problema está cerca del cero.
+\begin{alignat*}{3}
+	\abs{\int_{B(0,1)} \Phi(\abs{x}) \d{x}}
+	&=
+	\abs{\int_{0}^{1} \int_{\partial B(0,1)} \Phi(r) \d{S} \d{r}}
+	\\&=
+	\abs{2 \pi \int_{0}^{1} \Phi(r) r \d{r}}
+	\\&=
+	\abs{- \int_{0}^{1} \log(r) r \d{r}}
+	< \infty
+\end{alignat*}
+
+\underline{\(-\Delta u_{\Phi} = \delta_{0}\)}: Ya que \(\Phi\) es localmente
+integrable induce una distribución \(u_{\Phi}\) dada por:
+\begin{displaymath}
+	\langle u_{\Phi}, \psi \rangle
+	=
+	\int_{\R} \Phi\, \psi
+	\qquad
+	\forall \psi \in \mathcal{D}.
+\end{displaymath}
+En particular tenemos que \(\Delta_{x} u_{\Phi}\) es una distribución actuando
+de la siguiente forma:
+\begin{displaymath}
+	\langle - \Delta u_{\Phi}, \psi \rangle 
+	=
+	- \langle u_{\Phi}, \Delta \psi \rangle
+	=
+	\int_{\R^n} \Phi \Delta \psi
+	\qquad
+	\forall \psi \in \mathcal{D}.
+\end{displaymath}
+Notemos que
+\begin{alignat*}{2}
+	- \Delta_{x} \Phi = \delta_{0}
+	&\iff
+	\langle -\Delta u_{\Phi}, \psi \rangle
+	=
+	\langle \delta_{0}, \psi \rangle 
+	\\&\iff
+	- \int_{\R^n} \Phi \Delta \psi
+	=
+	\psi(0).
+\end{alignat*}
+Por lo tanto, debemos probar esto último. De nuevo tenemos que separar los casos
+entre \(n=2\) y \(n \ge 3\).
+
+\framebox{Para \(n=2\):} Como cero es un punto problemático, 
+separaremos la integral entre
+la bola de radio \(\varepsilon\) y el resto. Es decir,
+\begin{displaymath}
+	\int_{\R^n} \Phi \Delta \psi
+	=
+	\underbrace{\int_{B} \Phi \Delta \psi}_{I_1}
+	+
+	\underbrace{\int_{\R^n \setminus B} \Phi \Delta \psi}_{I_2},
+\end{displaymath}
+donde \(B\) es la bola centrada en el origen de radio \(\varepsilon\).
+Para \(I_1\) tenemos que
+\begin{align*}
+	\abs{I_1}
+	&\le
+	\norm{\Delta \psi}_{\infty}
+	\abs{\int_{B} u}
+	\\&\le
+	\norm{\Delta \psi}_{\infty}
+	\abs{\int_{0}^{\varepsilon} \log(r) r\, dr}
+	\\&\le
+	\norm{\Delta \psi}_{\infty}
+	\varepsilon^2 \abs{\log \varepsilon}
+	\xrightarrow{\epsilon \to 0} 0.
+\end{align*}
+Para \(I_2\): Consideremos \(R \gg 1\) tal que \(\supp(\Delta \psi) \subset
+B(0,R) \eqqcolon B_{R}\). Luego,
+\begin{displaymath}
+	I_2 
+	=
+	\int_{B_{R}\setminus B_{\varepsilon}} 
+		\Phi \Delta\psi
+	=
+	\int_{B_{R}\setminus B_{\varepsilon}}
+		(\Delta \Phi) \psi
+	+
+	\int_{\partial B_{R}\setminus B_{\varepsilon}}
+	\left(
+		\Phi \partial_{\n} \psi
+		-
+		\psi \partial_{\n} \Phi
+	\right).
+\end{displaymath}
+Como \(\Phi\) es armónica lejos de cero nos queda
+\begin{displaymath}
+	I_2 
+	=
+	\underbrace{
+	-\int_{\partial B_{R}\setminus B_{\varepsilon}}
+		\psi \partial_{\n} \Phi
+	}_{J_1}
+	+
+	\underbrace{
+	\int_{\partial B_{R}\setminus B_{\varepsilon}}
+		\Phi \partial_{\n} \psi
+	}_{J_2}.
+\end{displaymath}
+
+Para \(J_2\): Notemos que
+\begin{displaymath}
+	\abs{J_2}
+	\le
+	\norm{\partial_{\n} \psi}_{\infty}
+	\abs{
+		\int_{\partial B_{\varepsilon}}
+		\Phi
+	}
+	\le
+	\norm{\partial_{\n} \psi}_{\infty}
+	\begin{cases}
+		\abs{\log \epsilon} \epsilon &, n=2\\
+		\epsilon &, n\ge 3
+	\end{cases}.
+\end{displaymath}
+
+Para \(J_1\): Notemos que \(\n(x) = -x/\abs{x}\) y por lo tanto
+\begin{displaymath}
+	\partial_{\n} \Phi
+	=
+	\nabla \Phi \cdot \n
+	=
+	\frac{1}{n\alpha(n) \abs{x}^{n-1}}.
+\end{displaymath}
+Luego,
+\begin{displaymath}
+	J_1
+	=
+	- \frac{1}{n\alpha(n) \abs{x}^{n-1}}
+	\int_{\partial B_{\varepsilon}}
+		\psi
+	=
+	- \fint_{\partial B_{\varepsilon}} \psi
+	\xrightarrow{\varepsilon \to 0} -\psi(0).
+\end{displaymath}
+
+Con esto probamos que \(\Delta_{x} \Phi = \delta_0\) en el sentido de las
+distribuciones.
+\end{Demostracion}
+\end{document}

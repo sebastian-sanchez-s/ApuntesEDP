@@ -1,0 +1,173 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 04 de abril, 2023}
+
+\subsection{Función de Green para una bola}
+
+Consideremos la bola unitaria en \(B(0,1) \subset \R^n\) con \(n\ge 3\). 
+Buscamos resolver el problema corrector
+\begin{displaymath}
+\begin{cases}
+\begin{aligned}
+	\Delta \varphi^{x} &= 0 &&,\text{ en } B(0,1)\\
+	\varphi^{x} &= \Phi(\cdot -x) &&,\text{ en } \partial B(0,1)
+\end{aligned}
+\end{cases}.
+\end{displaymath}
+Nótese que si \(x = 0\), entonces \(\varphi^{0}(y) = \Phi(1)\) para \(y\in
+\partial B(0,1)\) y el problema se satisface. 
+Consideremos entonces \(x\ne 0\); 
+Denotamos por \(\tilde{x} \coloneqq
+\frac{x}{\abs{x}^2}\) a su \textbf{punto dual} o inverso de \(x\) con respecto a 
+\(\partial B(0,1)\). Fijando \(x\), tenemos que el mapa 
+\( y \to \Phi(y-\tilde{x}) \) es armónico para \(y\ne \tilde{x}\). Más aún, el
+mapa \(y \to \frac{1}{\abs{x}^{n-2}} \Phi(y-\tilde{x})\) es armónico para \(y\ne
+\tilde{x}\). Definimos entonces,
+\begin{displaymath}
+	\varphi^{x}(y) \coloneqq \Phi(\abs{x} (y-\tilde{x})).
+\end{displaymath}
+Este mapa es armónico si \(y\ne \tilde{x}\). En efecto,
+\begin{displaymath}
+	\partial^{2}_{y_i} \varphi^{x}(y)
+	=
+	\partial_{y_i}
+	(
+	\partial_{y_i} 
+	\Phi(\abs{x}(y-\tilde{x})
+	\abs{x}
+	)
+	= ...
+\end{displaymath}
+
+Nótese que si \(y\in \partial B(0,1)\) entonces,
+\begin{align*}
+	\abs{x-y}^2 
+	&=
+	\abs{x}^2 - 2 y\cdot x + \abs{y}^2
+	\\&=
+	\abs{x}^2 
+	\left(
+	1 - 2y\cdot \frac{x}{\abs{x}^2} + \frac{1}{\abs{x}^2}
+	\right)
+	\\&=
+	\abs{x}^2 
+	\left(
+	\abs{y}^2 - 2y\cdot \tilde{x} + \abs{\tilde{x}}^2
+	\right)
+	\\&=
+	\abs{x}^2 \abs{y-\tilde{x}}^2,
+\end{align*}
+y tenemos que \(\abs{x-y} = \abs{x} \abs{y-\tilde{x}}\). Se sigue que
+\begin{displaymath}
+	\varphi^{x}(y)
+	=
+	\Phi(\abs{x} (y-\tilde{x}))
+	=
+	\Phi(y-x)
+\end{displaymath}
+pues \(\Phi\) es radial. La función de Green para la bola se lee
+\begin{displaymath}
+	G(x,y)
+	=
+	\begin{cases}
+	\begin{aligned}
+		\Phi(y-x) - \Phi(\abs{x} (y-\tilde{x}))
+		&\quad, x\ne y\in \overline{B(0,1)}, x\ne 0
+		\\
+		\Phi(y) - \Phi(1) 
+		&\quad, y\in \overline{B(0,1)}\setminus \left\{ 0 \right\} x\ne 0 
+	\end{aligned}.
+	\end{cases}
+\end{displaymath}
+
+Luego, si \(u\in \CC^{2}(\Omega)\cap\CC(\overline{\Omega})\) es
+solución del problema
+\begin{displaymath}
+\begin{cases}
+\begin{aligned}
+	\Delta u &= 0 &&, \text{ en } \Omega
+	\\
+	u &= g &&,\text{ en } \partial\Omega
+\end{aligned}
+\end{cases},
+\end{displaymath}
+por la fórmula de representación, 
+\begin{displaymath}
+	u(x) 
+	=
+	-\int_{\partial B(0,1)}
+		g(y) 
+		\partial_{\n} G(x,y) 
+	\, dS(y)
+\end{displaymath}
+
+Identifiquemos a \(\partial_{\n} G(x,y)\), 
+\begin{displaymath}
+	\partial_{\n} G(x,y)
+	=
+	\sum_{i=1}^{n} y_i \partial_{y_i} G(x,y)
+\end{displaymath}
+Primero calculemos cada sumando,
+\begin{align*}
+	\partial_{\n} G(x,y) 
+	&=
+	\partial_{y_i} \Phi(y-x)
+	-
+	\partial_{y_i} \Phi(\abs{x} (y - \tilde{x}))
+	\\&=
+	\frac{1}{n \alpha(n)} \frac{x_i - y_i}{\abs{x-y}^n}
+	-
+	\frac{1}{n \alpha(n)} \frac{y_i \abs{x}^2 - x_i}{(\abs{x}
+	\abs{y-\tilde{x}}^{n}}
+	\\&=
+	\frac{1}{n \alpha(n)} \frac{x_i - y_i}{\abs{x-y}^n}
+	-
+	\frac{y_i \abs{x}^2 - x_i}{\abs{x-y}^n}.
+\end{align*}
+Se sigue que
+\begin{displaymath}
+	\partial_{\n} G(x,y)
+	=
+	-\frac{1}{n\alpha(n)} (1-\abs{x}^2) \frac{1}{\abs{x-y}^n}.
+\end{displaymath}
+ Definimos el \textbf{kernel de Poisson} para la bola como 
+ \begin{displaymath}
+	 k(x,y)
+	 \coloneqq
+	 -\partial_{\n} G(x,y)
+	 =
+	 \frac{1}{n\alpha(n)} \frac{1-\abs{x}^2}{\abs{x-y}^n}
+ \end{displaymath}
+
+ Haciendo un cambio de variables la tenemos la fórmula para cualquier
+ bola de radio \(R\). Esta se lee
+ \begin{displaymath}\label{representacion:bola}
+	 u(x)
+	 =
+	 \int_{\partial B(0,R)} g(y) k(x,y) \, dS(y),
+	 \tag{FRB}
+ \end{displaymath}
+ con el kernel de Poisson 
+ \begin{displaymath}\label{KPB}
+	 k(x,y) \coloneqq
+	 \frac{1}{n\alpha(n)} \frac{R^2-\abs{x}^2}{\abs{x-y}^n R}
+	 \tag{KPB}
+ \end{displaymath}
+
+\begin{Teorema}
+	Si \(g\in \CC(\partial B(0,R))\), entonces la fórmula de
+	representación~\eqref{FRB} satisface:
+	\begin{enumerate}
+		\item \(u \in \CC^{\infty}(B(0,R))\);
+		\item \(\Delta u = 0\) en \(B(0,R)\);
+		\item \(\lim_{x\to x_0} u(x) = g(x_0)\) donde \(x_0\in
+		\partial B(0,R)\) y \(x\in B(0,R)\).
+	\end{enumerate}
+\end{Teorema}
+\begin{Demostracion}
+\end{Demostracion}
+
+\end{document}

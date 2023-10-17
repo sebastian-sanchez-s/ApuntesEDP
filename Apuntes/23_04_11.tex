@@ -1,0 +1,144 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 11 de abril, 2023}
+
+\subsection{Principio de Dirichlet o Método de energía}
+
+Buscamos resolver el problema de Poisson
+\begin{displaymath}\label{poisson:110423}
+\begin{cases}
+\begin{aligned}
+	-\Delta u &= f &&, \text{ en } \Omega &&, f\in \CC(\Omega)\\
+	u &= g &&, \text{ en } \partial\Omega &&, g\in \CC(\partial\Omega)
+\end{aligned}
+\end{cases}.
+\tag{\(\star\)}
+\end{displaymath}
+
+\begin{Teorema}
+	Si \(\Omega\) es acotado y \(\partial\Omega\in \CC^{1}\), el
+	problema tiene a lo más una solución de clase
+	\(\CC^{2}(\Omega)\cap \CC(\overline{\Omega})\).
+\end{Teorema}
+\begin{Demostracion}
+\end{Demostracion}
+
+\noindent\textbf{Principio de Dirichlet} Definimos el funcional de energía
+\begin{displaymath}
+	\II w 
+	\coloneqq 
+	\int_{\Omega}
+		(\frac{1}{2} \abs{\nabla u}^{2} - w f)
+\end{displaymath}
+con dominio \(\mathcal{A} \coloneqq \left\{ w\in \CC^{2}(\Omega) \mid
+w = g \text{ sobre } \partial\Omega \right\}\).
+
+\begin{Teorema}
+	Si \(u\in\CC^{2}(\Omega)\cap\CC(\overline{\Omega})\) es solución
+	del problema~\eqref{poisson:110423} entonces 
+	\begin{displaymath}
+		\II u = \min_{w \in \mathcal{A}} \II w.
+	\end{displaymath}
+	Más aún, si \(u\in \mathcal{A}\) cumple la ecuación anterior, 
+	entonces \(u\) es solución de~\eqref{poisson:110423}.
+\end{Teorema}
+\begin{Demostracion}
+\end{Demostracion}
+
+\section{Estrategias para resolver EDP's}
+
+\subsection{La Transformada de Fourier}
+
+\begin{Definicion}[Transformada de Fourier]
+	Sea \(u\in L^{1}(\R^n)\). Definimos su transformada de Fourier,
+	\(\FF(u) = u^{\wedge}\) como
+	\begin{displaymath}
+		u^{\wedge}(y)
+		\coloneqq
+		\frac{1}{\sqrt{2\pi}^n}
+		\int_{\R^n}
+			e^{-i x\cdot y}
+			u(x)
+		\, dx
+	\end{displaymath}
+	donde \(y\in \R^n\). Su inversa \(\FF^{-1}(u) = u^{\vee}\)
+	como 
+	\begin{displaymath}
+		u^{\vee}(y)
+		\coloneqq
+		\frac{1}{\sqrt{2\pi}^n}
+		\int_{\R^n}
+			e^{i x\cdot y}
+			u(x)
+		\, dx
+	\end{displaymath}
+\end{Definicion}
+
+Notar que la transformada y la transformada inversa están acotadas
+(pues \(u\) es integrable). Más aún, si pedimos que \(u\) sea cuadrado
+integrable, entonces las transformadas serán cuadrado integrables.
+Esto se muestra en el siguiente teorema.
+
+\begin{Teorema}[Plancherel]
+	Si \(u\in L^{1}(\R^n) \cap L^{2}(\R^n)\) es integrable y cuadrado
+	integrable sobre \(\R^n\), entonces sus transformada de Fourier (e
+	inversa) son cuadrado integrables. Más aún,
+	\begin{displaymath}
+		\norm{u^{\wedge}}_{L^{2}}
+		=
+		\norm{u^{\vee}}_{L^{2}}
+		=
+		\norm{u}_{L^{2}}.
+	\end{displaymath}
+\end{Teorema}
+\begin{Demostracion}
+\end{Demostracion}
+
+La gracia de plancerel es que podemos definir la transformada de
+Fourier para funciones \(u\) que solo son cuadrado integrables. Esto lo
+haremos mendiante aproximaciones por funciones \(\left\{ u_k
+\right\}_k \subset L^{1} \cap L^{2}\) que convergen a \(u\). En
+efecto, por Plancherel tenemos que
+\begin{displaymath}
+	\norm{u^{\wedge}_{k} - u^{\wedge}_{j}}
+	=
+	\norm{\left(u_k - u_j\right)^{\wedge}}
+	=
+	\norm{u_k - u_j}.
+\end{displaymath} 
+Así que la sucesión \(\left\{ u^{\wedge}_k \right\}_k\) es de Cauchy
+en \(L^2\). Como \(L^2\) es completo, tenemos que es convergente; Y de
+hecho converge a \(u^{\wedge}\).
+
+\begin{Teorema}[Propiedades de la Transformada de Fourier]
+	Si \(u, v \in L^2(\R^n)\) son cuadrado integrables, entonces
+	\begin{enumerate}[itemsep=2pt,topsep=3pt]
+		\item 
+		\begin{displaymath}
+			\int_{\R^n} u \overline{v} \, dx
+			=
+			\int_{\R^n} u^{\wedge} \overline{v}^{wedge} \, dx.
+		\end{displaymath}
+
+		\item Sea \(\alpha = (\alpha_1, \dots, \alpha_n)\) un
+		multi-índice. Entonces 
+		\begin{displaymath}
+			\left(D^{\alpha} u\right)^{\wedge}
+			=
+			(iy)^{\alpha} u^{\wedge},
+		\end{displaymath}
+		donde \(y^{\alpha} = y_1^{\alpha_1} y_2^{\alpha_2} \cdots
+		y_n^{\alpha_n}\) y \(D^{\alpha} u \in L^{2}\).
+
+		\item \((u\ast v)^{\wedge} = (\sqrt{2\pi})^n\, u^{\wedge}
+		v^{\wedge}\).
+
+		\item \(u = \FF^{-1} \, \FF\, u\).
+	\end{enumerate}
+	
+\end{Teorema}
+
+\end{document}

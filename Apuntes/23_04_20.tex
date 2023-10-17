@@ -1,0 +1,96 @@
+%! Tex Root = edp.tex
+\documentclass[../edp.tex]{subfiles}
+
+\begin{document}
+
+{\scshape \hfill 20 de abril, 2023}
+
+\section{Ecuación del Calor}
+ 
+Trabajamos en el problema
+\begin{equation}\label{eq:calor}
+\begin{caligned}
+	u_{t} - \Delta_{x} u &= f && (t,x) \in \R^{+}\times \Omega
+\end{caligned}
+\end{equation}
+donde \(\Omega\subset\R^n\) abierto y \(f\colon \R^{+}\times\Omega\to
+\R\) es una función dada. Si \(f\equiv 0\) diremos que el problema es
+homogéneo.
+
+\subsection{Solución fundamental}
+
+\textbf{Simetrías} Considerando el problema homogéneo, notamos que es
+invariante bajo traslaciones y rotaciones en el espacio. Más aún, es
+invariante bajo traslaciones de la forma 
+\begin{displaymath}
+	(t,x) \mapsto (\lambda^2 t, \lambda x)
+	\qquad
+	\lambda \in \R.
+\end{displaymath}
+Por esto último, vamos a buscar soluciones de la forma
+\begin{equation}\label{separable:calor}
+	u(t,x) = t^{-\alpha} v(x t^{-\beta})
+	\qquad
+	\alpha, \beta \in \R.
+\end{equation}
+
+Poniendo \(y = xt^{-\beta}\) y reemplazando en la ecuación
+~\eqref{eq:calor} se tiene que
+\begin{displaymath}
+	\alpha t^{-(\alpha+1)} v(y)
+	+
+	\beta t^{-(\alpha+1)} y \cdot \nabla v(y)
+	+
+	t^{-(\alpha + 2\beta)} \Delta v(y)
+	=
+	0.
+\end{displaymath}
+Tomando \(\beta = 1/2\) nos queda
+\begin{displaymath}
+	\alpha v(y)
+	+ 
+	\frac{1}{2} y\cdot \nabla v(y)
+	+
+	\Delta v(y)
+	= 0.
+\end{displaymath}
+Ahora la ecuación ``solo tiene derivadas en \(y\)", así que es
+razonable (por lo discutido en la ecuación de Laplace) buscar
+soluciones de la forma \(v(y) = w(\abs{y})\). De esta forma obtenemos,
+\begin{displaymath}
+	\alpha w 
+	+ 
+	\frac{1}{2} r w'
+	+
+	w''
+	+
+	\frac{n-1}{r} w
+	= 0.
+\end{displaymath}
+Multiplicando por \(r^{n-1}\) vemos que la forma se asemeja a la regla
+del producto. De hecho, poniendo \(\alpha = n/2\) nos da que
+\begin{displaymath}
+	\left( \frac{r^n}{2} w \right)'
+	+
+	\left( w' r^{n-1} \right)'
+	= 0
+	\overset{\int}{\implies}
+	r^{n-1} w' + \frac{1}{2} r^n w = C
+\end{displaymath}
+donde \(C\) es una constante. Vamos a suponer que \(w\) decae de forma
+brutal en infinito. Específicamente,
+\begin{displaymath}
+	\lim_{r\to \infty} r^{n-1} w' 
+	=
+	0
+	=
+	\lim_{r\to \infty} r^{n} w',
+\end{displaymath}
+de esta forma \(A = 0\) (¿por qué?) y podemos resolver la ecuación.
+Dándonos que \(w(r) = B e^{-\frac{1}{4} r^{2}}\) con \(B\in \R\)
+constante. Así, la ecuación~\eqref{separable:calor} nos queda
+\begin{displaymath}
+	u(t,x) = \frac{B}{t^{n/2}} e^{-\frac{\abs{x}^{2}}{4t}}.
+\end{displaymath}
+
+\end{document}

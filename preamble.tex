@@ -1,0 +1,222 @@
+\documentclass[legalpaper,12pt]{article}
+
+% Page set up
+\usepackage[margin=1in]{geometry}
+
+% Document font and symbols
+\usepackage{mathptmx} % Times New Roman
+\usepackage{amsmath}
+\usepackage{amsfonts,amsthm,amssymb}
+\usepackage{esint}
+
+% Language formatting
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-noshorthands]{babel}
+
+% Graph and Drawings
+\usepackage{tikz,tikz-cd,float}
+\usepackage{wrapfig}
+\usetikzlibrary{babel}
+\usetikzlibrary{patterns}
+\usepackage{pgfplots}
+\usepackage[framemethod=default]{mdframed}
+\usepackage{framed}
+
+% Tools
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{etoolbox,mathtools}
+\usepackage[shortlabels]{enumitem}
+
+% Mdframed template
+\mdfsetup{innertopmargin=5pt,%
+	frametitlealignment=\raggedright,%
+	frametitlefont=\texttt,%
+	linewidth=2pt,%
+	topline=false,rightline=false, bottomline=false,%
+	frametitleaboveskip=\dimexpr-1\ht\strutbox\relax,}
+
+%
+% Color
+%
+% -- Frame (print color aside)
+\definecolor{TheoremFrameColor}{HTML}{FFD6fA}
+\definecolor{PropositionFrameColor}{HTML}{FFE047}
+\definecolor{CorollaryFrameColor}{HTML}{F5CC00}
+\definecolor{DefinitionFrameColor}{HTML}{B8C0FF}
+
+\colorlet{ProofFrameColor}{black}
+
+\definecolor{ExampleColor}{HTML}{FFE3A9}
+\colorlet{ExerciseColor}{black}
+\colorlet{SolutionColor}{black!60}
+
+% -- Text
+\definecolor{TheoremFontColor}{HTML}{000000}
+\definecolor{PropositionFontColor}{HTML}{000000}
+\definecolor{CorollaryFontColor}{HTML}{000000}
+\definecolor{DefinitionFontColor}{HTML}{000000}
+
+% -- Background
+\definecolor{TheoremBgColor}{HTML}{FFFFFF}
+\definecolor{PropositionBgColor}{HTML}{FFFFFF}
+\definecolor{CorollaryBgColor}{HTML}{FFFFFF}
+\definecolor{DefinitionBgColor}{HTML}{FFFFFF}
+
+%
+% Environment
+%
+
+% -- Theorem Env
+\newcounter{TheoremCounter}
+\newenvironment{Teorema}[1][]{%
+	\refstepcounter{TheoremCounter}%
+	\mdfsetup{%
+		frametitle={%
+		\tikz[baseline=(current bounding box.center),outer sep=0pt]
+		\node[rectangle,color=TheoremFontColor,fill=TheoremFrameColor]
+		{Teorema~\theTheoremCounter\ifstrempty{#1}{.}{:~#1}};},%
+		linecolor=TheoremFrameColor,%
+		backgroundcolor=TheoremBgColor,
+	}%
+	\begin{mdframed}[]\relax%
+	}{\end{mdframed}}
+
+% -- Proposition Env
+\newcounter{PropositionCounter}
+\newenvironment{Proposicion}[1][]{%
+	\refstepcounter{PropositionCounter}%
+	\mdfsetup{%
+		frametitle={%
+		\tikz[baseline=(current bounding box.center),outer sep=0pt]
+		\node[rectangle,color=PropositionFontColor,fill=PropositionFrameColor]
+		{Proposición~\thePropositionCounter\ifstrempty{#1}{.}{:~#1}};},%
+		linecolor=PropositionFrameColor,%
+		backgroundcolor=PropositionBgColor,
+	}%
+	\begin{mdframed}[]\relax%
+	}{\end{mdframed}}
+
+% -- Corollary Env
+\newcounter{CorollaryCounter}
+\newenvironment{Corolario}[1][]{%
+	\refstepcounter{CorollaryCounter}%
+	\mdfsetup{%
+		frametitle={%
+		\tikz[baseline=(current bounding box.center),outer sep=0pt]
+		\node[rectangle,color=CorollaryFontColor,fill=CorollaryFrameColor]
+		{Corolario~\theCorollaryCounter.\ifstrempty{#1}{}{:~(#1)}};},%
+		linecolor=CorollaryFrameColor,%
+		backgroundcolor=CorollaryBgColor,
+	}%
+	\begin{mdframed}[]\relax%
+	}{\end{mdframed}}
+
+% -- Definition Env
+\newcounter{DefinitionCounter}
+\newenvironment{Definicion}[1][]{%
+	\refstepcounter{DefinitionCounter}%
+	\mdfsetup{%
+		frametitle={%
+		\tikz[baseline=(current bounding box.center),outer sep=0pt]
+		\node[rectangle,color=DefinitionFontColor,fill=DefinitionFrameColor]
+		{Definición~\theDefinitionCounter:~#1};},%
+		linecolor=DefinitionFrameColor,%
+		backgroundcolor=DefinitionBgColor,
+	}%
+	\begin{mdframed}[]\relax%
+	}{\end{mdframed}}
+
+% -- Proof Env
+\newenvironment{Demostracion}[1][]
+{%
+	{\noindent\ttfamily DEMOSTRACIÓN\ifstrempty{#1}{}{ DE #1}~}
+	\fontfamily{cmr}\selectfont
+}%
+{%
+	\hfill\break
+	\vspace{.5ex}
+	\hfill\(\blacksquare\)
+	\textcolor{ProofFrameColor}{\hrule height .5pt}
+	\vspace{1ex}
+}
+
+% -- Solution Env
+\newenvironment{Solucion}[1][]
+{%
+	{\noindent\ttfamily SOLUCIÓN~}\small
+}%
+{%
+}
+
+% Example Env
+\newcounter{ExampleCounter}
+\newenvironment{Ejemplo}[1][]%
+{
+	\refstepcounter{ExampleCounter}%
+	\mdfsetup{%
+		frametitle={%
+		\tikz[baseline=(current bounding box.center),outer sep=0pt]
+		\node[rectangle,fill=white]
+		{EJEMPLO \theExampleCounter\ifstrempty{#1}{}{:~#1}};},%
+		linecolor=ExampleColor,%
+		backgroundcolor=white,
+	}%
+	\begin{mdframed}[]\relax%
+	\label{example:\theExampleCounter}
+	}{\end{mdframed}}
+
+% -- Exercise Env
+\newenvironment{Ejercicio}[1][]%
+	{%
+		\vspace{1ex}
+		\textcolor{ExerciseColor}{\hrule height 1pt}
+		\vspace{5pt}
+		{\noindent\texttt{EJERCICIOS}~}\\[1ex]
+	}%
+	{%
+		\vspace{5pt}
+		\textcolor{ExerciseColor}{\hrule height 1pt}
+		\vspace{1ex}
+	}%
+
+% -- Aligned Cases
+\newenvironment{caligned}
+	{\begin{cases} \begin{aligned}}
+	{\end{aligned} \end{cases}}
+
+\def\dotp{\boldsymbol{\cdot}}
+
+\def\K{\mathbb{K}}
+\def\Z{\mathbb{Z}}
+\def\C{\mathbb{C}}
+\def\R{\mathbb{R}}
+\def\N{\mathbb{N}}
+
+\def\BB{\mathcal{B}}
+\def\KK{\mathcal{K}}
+\def\CC{\mathcal{C}}
+\def\RR{\mathcal{R}}
+\def\II{\mathcal{I}}
+\def\FF{\mathcal{F}}
+
+\def\d{\textrm{ d}}
+\def\dist{\textrm{dist}}
+\newcommand{\dd}[1]{\frac{\d}{\d{#1}}}
+\def\n{\hat{\textbf{n}}}
+
+\def\loc{\textrm{loc}}
+\def\esssup{\textrm{esssup}}
+
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\supp}{supp}
+
+% Resize abs and norm
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\|}{\|}
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother
